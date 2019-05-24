@@ -1,0 +1,5 @@
+requests
+paho-mqtt
+influxdb
+configparser
+ruuvitag_sensor
