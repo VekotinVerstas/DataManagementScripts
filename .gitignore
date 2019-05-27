@@ -1,5 +1,7 @@
 .idea/
 *.ini
+.DS_Store
+logs/
 #
 # Byte-compiled / optimized / DLL files
 __pycache__/
