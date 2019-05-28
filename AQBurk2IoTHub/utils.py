@@ -89,7 +89,7 @@ def get_data(start_time, end_time, measurements, mapping, args):
             WHERE time >= '{}' AND time < '{}' 
             GROUP BY "dev-id"
         '''.format(m, start_time.isoformat(), end_time.isoformat())
-        # print(query.replace('\n', ' '))
+        logging.debug(query.replace('\n', ' '))
         result = iclient.query(query, epoch='ms')
         for p in result.items():
             devid = sanitize_devid(p[0][1]['dev-id'])
@@ -97,7 +97,7 @@ def get_data(start_time, end_time, measurements, mapping, args):
             if devid not in devs:
                 devs[devid] = {}
             for k in data.keys():
-                if k in mapping.keys():  # Map names from database to target format
+                if k in mapping.keys() and data[k] is not None:  # Map names from database to target format
                     new_key = mapping[k]
                     devs[devid][new_key] = round(data[k], 1)  # Use just one decimal
     return devs
