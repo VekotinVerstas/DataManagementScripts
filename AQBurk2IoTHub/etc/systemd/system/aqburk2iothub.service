@@ -1,0 +1,23 @@
+[Unit]
+Description=quasimodo.fvh.io aqburk2iothub
+After=network.target
+
+[Service]
+PIDFile=/var/run/aqburk2iothub.pid
+User=user
+Group=group
+WorkingDirectory=/opt/DataManagementScripts/AQBurk2IoTHub
+
+Environment=IOTHUB_CONNECTION_STRING='HostName=xxx.azure-devices.net;DeviceId=test-device;SharedAccessKey=ABCDEFG123456789012345678901234567890ABCDEFG'
+ExecStart=/opt/virtualenv/quasimodo/bin/python /opt/DataManagementScripts/AQBurk2IoTHub/aqburk2iothub.py -db quasimodo -tl 5 --devid /opt/DataManagementScripts/AQBurk2IoTHub/devids.txt -l INFO
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+PrivateTmp=true
+StandardOutput=file:/opt/DataManagementScripts/AQBurk2IoTHub/logs/systemd_stdout.log
+StandardError=file:/opt/DataManagementScripts/AQBurk2IoTHub/logs/systemd_stderr.log
+SyslogIdentifier=quasimodo.fvh.io_aqburk2iothub
+Restart=on-failure
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target
