@@ -110,8 +110,8 @@ def on_log(mqttc, obj, level, string):
 
 def get_mqtt_client(args):
     mqttc = mqtt.Client(args.mqtt_clientid)  # , clean_session=not args.disable_clean_session)
-    if args.username or args.password:
-        mqttc.username_pw_set(args.username, args.password)
+    if args.mqtt_username or args.mqtt_password:
+        mqttc.username_pw_set(args.mqtt_username, args.mqtt_password)
     mqttc.on_message = on_message
     mqttc.on_connect = on_connect
     mqttc.on_disconnect = on_disconnect
@@ -132,10 +132,7 @@ def send_aqburk_data_to_muv():
     mac_pubid_map = {}
     if os.path.isfile(args.devid):
         with open(args.devid, 'rt') as f:
-            for line in f:
-                apartment, inout, mac = line.strip().split()
-                devid = sanitize_devid(mac)
-                mac_pubid_map[devid] = f'{apartment}_{inout}'
+            devids = [x.strip().lower() for x in f.readlines()]
     else:
         print(f'File {args.devid} does not exist!')
         exit(1)
@@ -143,8 +140,8 @@ def send_aqburk_data_to_muv():
         'mean_humi': 'h',
         'mean_temp': 't',
         'mean_pres': 'p',
-        'mean_pm25': 'p25',
-        'mean_pm10': 'p10',
+        'mean_pm25avg': 'p25',
+        'mean_pm10avg': 'p10',
     }
     if args.dryrun is False:
         logging.info('connecting to broker')
@@ -176,11 +173,10 @@ def send_aqburk_data_to_muv():
                 if mqtt_reconnect_sleep > 100:
                     logging.critical(f'Failed to reconnect MQTT broker {args.mqtt_host}')
                     exit(1)
-
-            for devid in mac_pubid_map.keys():
+            for devid in devids:
                 if devid not in devs:
                     continue
-                message_data = create_message(start_time, mac_pubid_map[devid], devs[devid])
+                message_data = create_message(start_time, devid, devs[devid])
                 message_json = json.dumps(message_data)
                 # Send the message.
                 if args.dryrun is True:
