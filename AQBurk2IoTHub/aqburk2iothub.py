@@ -171,12 +171,14 @@ def send_aqburk_data_to_iothub():
     time_period = args.timelength
     msg_cnt = 0
     mac_pubid_map = {}
+    mac_type_map = {}
     if os.path.isfile(args.devid):
         with open(args.devid, 'rt') as f:
             for line in f:
                 apartment, inout, mac = line.strip().split()
                 devid = sanitize_devid(mac)
                 mac_pubid_map[devid] = f'{apartment}_{inout}'
+                mac_type_map[devid] = 'indoor' if inout == 'in' else 'outdoor'
     else:
         print(f'File {args.devid} does not exist!')
         exit(1)
@@ -199,7 +201,7 @@ def send_aqburk_data_to_iothub():
             for devid in mac_pubid_map.keys():
                 if devid not in devs:
                     continue
-                message_data = create_message(start_time, mac_pubid_map[devid], 'AQBurk', devs[devid])
+                message_data = create_message(start_time, mac_pubid_map[devid], mac_type_map[devid], devs[devid])
                 message_json = json.dumps(message_data)
                 message = IoTHubMessage(message_json)
                 # Send the message.
