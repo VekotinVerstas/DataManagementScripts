@@ -17,15 +17,15 @@ def get_args():
     parser.add_argument("-l", "--log", dest="log", choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
                         default='ERROR', help="Set the logging level")
     parser.add_argument('-q', '--quiet', action='store_true', help='Never print a char (except on crash)')
-    parser.add_argument("-db", "--database", help="Database name", required=True)
+    parser.add_argument("-db", "--database", help="Database name", required=False)
     parser.add_argument("-ip", "--hostname", help="Database address (ip/url)", default="localhost", nargs='?')
     parser.add_argument("-p", "--port", help="Database port", default="8086", nargs='?')
     parser.add_argument('-f', '--format', required=True, choices=['jsonsensor', 'ruuvi'], help='MQTT message format')
     parser.add_argument("--config", help="Configuration file", default="config.ini", nargs='?')
-    parser.add_argument("-m", "--measurement", help="Measurement to save", required=True)
+    parser.add_argument("-m", "--measurement", help="Measurement to save", required=False)
     parser.add_argument("-u", "--username", help="DB user name", nargs='?')
     parser.add_argument("-P", "--password", help="DB password", nargs='?')
-    parser.add_argument('-t', '--topic', required=True, help='MQTT topic – if not set, config.ini setting is used')
+    parser.add_argument('-t', '--topic', required=True, nargs='+', help='MQTT topics')
     parser.add_argument("--mqtt_username", help="MQTT user name", nargs='?')
     parser.add_argument("--mqtt_password", help="MQTT password", nargs='?')
     parser.add_argument("--mqtt_host", help="MQTT host", nargs='?')
@@ -67,8 +67,9 @@ def on_connect(client, userdata, flags, rc):
     logging.info("Connected with result code {}".format(rc))
     # Subscribing in on_connect() means that if we lose the connection and
     # reconnect then subscriptions will be renewed.
-    logging.info(f'Subscribe to {client.args.topic}')
-    client.subscribe(client.args.topic)
+    for t in client.args.topic:
+        logging.info(f'Subscribe to {t}')
+        client.subscribe(t)
 
 
 # The callback for when a PUBLISH message is received from the server.
@@ -103,9 +104,17 @@ def on_message(client, userdata, msg):
 
 def handle_jsonsensor(client, userdata, msg, payload):
     data = json.loads(payload)
-    idata = create_influxdb_obj(data['mac'], data['sensor'], data['data'])
+    if 'sn' in data:
+        extratags = {'sn': data['sn']}
+    else:
+        extratags = {}
+    if client.args.database:
+        dbname = client.args.database
+    else:
+        dbname = msg.topic.split('/')[1]
+    idata = create_influxdb_obj(data['mac'], data['sensor'], data['data'], extratags=extratags)
     logging.debug(json.dumps(idata, indent=2))
-    iclient = get_influxdb_client(database=client.args.database)
+    iclient = get_influxdb_client(database=dbname)
     iclient.write_points([idata])
 
 
@@ -172,9 +181,11 @@ def main():
     mqtt_pass = get_setting(args, 'mqtt_password', config, 'mqtt', 'password', 'MQTT_PASSWORD', default='')
     mqtt_host = get_setting(args, 'mqtt_host', config, 'mqtt', 'host', 'MQTT_HOST', default='127.0.0.1')
     mqtt_port = get_setting(args, 'mqtt_port', config, 'mqtt', 'port', 'MQTT_PORT', default='1883')
-    mqtt_topic = get_setting(args, 'mqtt_topic', config, 'mqtt', 'topic', 'MQTT_TOPIC', default='')
-    print(mqtt_user, mqtt_pass)
+    # mqtt_topic = get_setting(args, 'mqtt_topic', config, 'mqtt', 'topic', 'MQTT_TOPIC', default='')
 
+    if (args.format == 'ruuvi' and (args.database is None or args.measurement is None)):
+        print('If format is "ruuvi", both --database and --measurement must be defined')
+        exit(1)
     # Blocking call that processes network traffic, dispatches callbacks and
     # handles reconnecting.
     # Other loop*() functions are available that give a threaded interface and a
@@ -189,7 +200,7 @@ def main():
     mclient.on_message = on_message
     logging.debug(f'Connecting to {mqtt_host}:{mqtt_port}')
     mclient.connect(mqtt_host, int(mqtt_port), 60)
-    logging.info(f'Start listening topic {args.topic}')
+    logging.info('Start listening topic(s): {}'.format(', '.join(args.topic)))
     try:
         mclient.loop_forever()
     except KeyboardInterrupt:
