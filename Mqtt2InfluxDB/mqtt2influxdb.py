@@ -4,12 +4,16 @@ import datetime
 import json
 import logging
 import os
+import time
 from io import StringIO
 
 import influxdb
 import paho.mqtt.client as mqtt
 import pytz
 from ruuvitag_sensor.decoder import Df3Decoder, Df5Decoder
+
+INFLUX_BUFFER = []
+LAST_SAVE_TIME = 0
 
 
 def get_args():
@@ -63,6 +67,16 @@ def create_influxdb_obj(dev_id, measurement_name, fields, timestamp=None, extrat
     return measurement
 
 
+def save_buffer(client):
+    global LAST_SAVE_TIME, INFLUX_BUFFER
+    LAST_SAVE_TIME = time.time()
+    buf_data = INFLUX_BUFFER.copy()
+    INFLUX_BUFFER = []
+    iclient = get_influxdb_client(database=client.args.database)
+    logging.info('Saving total {} points of data'.format(len(buf_data)))
+    iclient.write_points(buf_data)
+
+
 def on_connect(client, userdata, flags, rc):
     logging.info("Connected with result code {}".format(rc))
     # Subscribing in on_connect() means that if we lose the connection and
@@ -78,7 +92,7 @@ def on_message(client, userdata, msg):
     if msg.retain == 1:
         logging.info("Do not handle retain message {}".format(payload))
         return
-    logging.info("Got message '{}'".format(payload))
+    logging.debug("Got message '{}'".format(payload))
     try:
         if client.args.format == 'ruuvi':
             handle_ruuvitag(client, userdata, msg, payload)
@@ -119,6 +133,7 @@ def handle_jsonsensor(client, userdata, msg, payload):
 
 
 def handle_ruuvitag(client, userdata, msg, payload):
+    global INFLUX_BUFFER, LAST_SAVE_TIME
     if payload.find(':') < 0:
         logging.info("Payload in wrong format: {}".format(payload))
         return
@@ -154,8 +169,9 @@ def handle_ruuvitag(client, userdata, msg, payload):
         devid = ruuvi_mac.replace(':', '')
         extratags = {'gw-id': gw_mac.replace(':', '')}
         idata = create_influxdb_obj(devid, client.args.measurement, data, timestamp=timestamp, extratags=extratags)
-        iclient = get_influxdb_client(database=client.args.database)
-        iclient.write_points([idata])
+        INFLUX_BUFFER.append(idata)
+        if (LAST_SAVE_TIME + 5) < time.time():
+            save_buffer(client)
 
 
 def get_setting(args, arg, config, section, key, envname, default=None):
@@ -173,6 +189,8 @@ def get_setting(args, arg, config, section, key, envname, default=None):
 
 
 def main():
+    global LAST_SAVE_TIME
+    LAST_SAVE_TIME = time.time()
     args = get_args()
     config = configparser.ConfigParser()
     dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -198,7 +216,7 @@ def main():
         logging.debug(f'Using MQTT username and password')
     mclient.on_connect = on_connect
     mclient.on_message = on_message
-    logging.debug(f'Connecting to {mqtt_host}:{mqtt_port}')
+    logging.info(f'Connecting to {mqtt_host}:{mqtt_port}')
     mclient.connect(mqtt_host, int(mqtt_port), 60)
     logging.info('Start listening topic(s): {}'.format(', '.join(args.topic)))
     try:

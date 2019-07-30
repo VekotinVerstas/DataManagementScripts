@@ -6,11 +6,15 @@ and stores the data into InfluxDB database.
 
 # Gettings started
 
-Copy `config.ini.example` --> `config.ini`. Check and fix mqtt configuration.
+Copy `config.ini.example` --> `config.ini`. Check and fix MQTT configuration.
 
 Install `requirements.txt`, then run:
 
 `python mqtt2influxdb.py --help`
+
+MQTT hostname, port, username and password (MQTT_USERNAME, MQTT_PASSWORD, MQTT_HOST, MQTT_PORT)) 
+can be configured also via environment variables.
+ 
 
 ## Example
 
@@ -21,7 +25,7 @@ python mqtt2influxdb.py  -db ruuvigw -m ruuvitag -t 'ruuvigw/+/RuuviTag/#' \
 
 # Supported message formats
 
-Mqtt2InfluxDB supports currenlty 2 message formats: custom JSON format and RuuviTag RAW format.
+Mqtt2InfluxDB supports currently 2 message formats: custom JSON format and RuuviTag RAW format.
 Add `-f {jsonsensor,ruuvi}` switch to choose which format is processed.
 
 ## Custom JSON
