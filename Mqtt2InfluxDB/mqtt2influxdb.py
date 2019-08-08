@@ -14,6 +14,7 @@ from ruuvitag_sensor.decoder import Df3Decoder, Df5Decoder
 
 INFLUX_BUFFER = []
 LAST_SAVE_TIME = 0
+SN = {}  # SensorNode global data object
 
 
 def get_args():
@@ -24,7 +25,8 @@ def get_args():
     parser.add_argument("-db", "--database", help="Database name", required=False)
     parser.add_argument("-ip", "--hostname", help="Database address (ip/url)", default="localhost", nargs='?')
     parser.add_argument("-p", "--port", help="Database port", default="8086", nargs='?')
-    parser.add_argument('-f', '--format', required=True, choices=['jsonsensor', 'ruuvi'], help='MQTT message format')
+    parser.add_argument('-f', '--format', required=True, choices=['jsonsensor', 'ruuvi', 'sensornode'],
+                        help='MQTT message format')
     parser.add_argument("--config", help="Configuration file", default="config.ini", nargs='?')
     parser.add_argument("-m", "--measurement", help="Measurement to save", required=False)
     parser.add_argument("-u", "--username", help="DB user name", nargs='?')
@@ -67,12 +69,14 @@ def create_influxdb_obj(dev_id, measurement_name, fields, timestamp=None, extrat
     return measurement
 
 
-def save_buffer(client):
+def save_buffer(client, database=None):
     global LAST_SAVE_TIME, INFLUX_BUFFER
     LAST_SAVE_TIME = time.time()
     buf_data = INFLUX_BUFFER.copy()
     INFLUX_BUFFER = []
-    iclient = get_influxdb_client(database=client.args.database)
+    if database is None:
+        database = client.args.database
+    iclient = get_influxdb_client(database=database)
     logging.info('Saving total {} points of data'.format(len(buf_data)))
     iclient.write_points(buf_data)
 
@@ -98,6 +102,8 @@ def on_message(client, userdata, msg):
             handle_ruuvitag(client, userdata, msg, payload)
         elif client.args.format == 'jsonsensor':
             handle_jsonsensor(client, userdata, msg, payload)
+        elif client.args.format == 'sensornode':
+            handle_sensornode(client, userdata, msg, payload)
     except Exception as err:
         import traceback
         import sys
@@ -172,6 +178,38 @@ def handle_ruuvitag(client, userdata, msg, payload):
         INFLUX_BUFFER.append(idata)
         if (LAST_SAVE_TIME + 5) < time.time():
             save_buffer(client)
+
+
+def add_value(devid, _type, subtype, value):
+    global SN
+    val = None, None
+    if devid not in SN:
+        SN[devid] = {}
+    if _type not in SN[devid]:
+        SN[devid][_type] = {}
+    # print(devid, _type, subtype, value)
+    if _type in ['Accelerometer', 'Magnetometer', 'Gyroscope']:
+        SN[devid][_type][subtype] = float(value)
+        if all(k in SN[devid][_type] for k in ['x', 'y', 'z']):
+            val = _type, SN[devid][_type]
+            del SN[devid][_type]
+    return val
+
+
+def handle_sensornode(client, userdata, msg, payload):
+    global INFLUX_BUFFER, LAST_SAVE_TIME
+    topic = msg.topic.split('/')
+    devid = topic[1]
+    _type = topic[2]
+    subtype = topic[3]
+    val = add_value(devid, _type, subtype, payload)
+    if val[0] is not None:
+        idata = create_influxdb_obj(devid, val[0], val[1], extratags={})
+        INFLUX_BUFFER.append(idata)
+        if (LAST_SAVE_TIME + 1) < time.time():
+            save_buffer(client, database='sensornode')
+        # print(idata)
+        # logging.debug(json.dumps(idata, indent=2))
 
 
 def get_setting(args, arg, config, section, key, envname, default=None):
