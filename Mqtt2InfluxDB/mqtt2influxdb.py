@@ -188,7 +188,8 @@ def add_value(devid, _type, subtype, value):
     if _type not in SN[devid]:
         SN[devid][_type] = {}
     # print(devid, _type, subtype, value)
-    if _type in ['Accelerometer', 'Magnetometer', 'Gyroscope']:
+    if _type in ['Accelerometer', 'Magnetometer', 'Gyroscope', 'Gravity', 'Proximity', 'LinearAcceleration',
+                 'RotationVector', 'LightIntensity']:
         SN[devid][_type][subtype] = float(value)
         if all(k in SN[devid][_type] for k in ['x', 'y', 'z']):
             val = _type, SN[devid][_type]
@@ -196,6 +197,16 @@ def add_value(devid, _type, subtype, value):
     if _type in ['gps', ]:
         SN[devid][_type][subtype] = float(value)
         if all(k in SN[devid][_type] for k in ['latitude', 'longitude']):
+            val = _type, SN[devid][_type]
+            del SN[devid][_type]
+    if _type in ['noise', ]:
+        SN[devid][_type][subtype] = float(value)
+        if all(k in SN[devid][_type] for k in ['decibels',]):
+            val = _type, SN[devid][_type]
+            del SN[devid][_type]
+    if _type in ['battery', ]:
+        SN[devid][_type][subtype] = float(value)
+        if all(k in SN[devid][_type] for k in ['temperature', 'percentage', ]):
             val = _type, SN[devid][_type]
             del SN[devid][_type]
     return val
