@@ -96,7 +96,7 @@ def on_message(client, userdata, msg):
     if msg.retain == 1:
         logging.info("Do not handle retain message {}".format(payload))
         return
-    logging.debug("Got message '{}'".format(payload))
+    logging.debug("{} '{}'".format(msg.topic, payload))
     try:
         if client.args.format == 'ruuvi':
             handle_ruuvitag(client, userdata, msg, payload)
@@ -191,6 +191,11 @@ def add_value(devid, _type, subtype, value):
     if _type in ['Accelerometer', 'Magnetometer', 'Gyroscope']:
         SN[devid][_type][subtype] = float(value)
         if all(k in SN[devid][_type] for k in ['x', 'y', 'z']):
+            val = _type, SN[devid][_type]
+            del SN[devid][_type]
+    if _type in ['gps', ]:
+        SN[devid][_type][subtype] = float(value)
+        if all(k in SN[devid][_type] for k in ['latitude', 'longitude']):
             val = _type, SN[devid][_type]
             del SN[devid][_type]
     return val
