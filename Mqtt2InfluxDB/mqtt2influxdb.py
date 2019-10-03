@@ -124,10 +124,11 @@ def on_message(client, userdata, msg):
 
 def handle_jsonsensor(client, userdata, msg, payload):
     data = json.loads(payload)
+    extratags = {}
     if 'sn' in data:
-        extratags = {'sn': data['sn']}
-    else:
-        extratags = {}
+        extratags['sn'] = data['sn']
+    if 'id' in data:
+        extratags['id'] = data['id']
     if client.args.database:
         dbname = client.args.database
     else:
