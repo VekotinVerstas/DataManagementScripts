@@ -1,4 +1,6 @@
+influxdb
 pandas
 numpy
 matplotlib
 scipy
+dateutils

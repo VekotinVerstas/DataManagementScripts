@@ -44,6 +44,7 @@ def get_args():
                         default='ERROR', help="Set the logging level")
     parser.add_argument('--dryrun', action='store_true', help='Do not really send, just do everything else')
     parser.add_argument("-f", "--filename", help="CSV filename", required=True)
+    parser.add_argument("--outpath", help="Directory where to save all files (default current directory", default='.')
     parser.add_argument("-c", "--columns", help="Comma separated list of data column names to visualise",
                         required=False)
     parser.add_argument("-s", "--separator", help="CSV field separator", default=',', required=False)
@@ -51,6 +52,8 @@ def get_args():
     parser.add_argument("-d", "--devid", help="Comma separated list of device ids", required=False)
     parser.add_argument("-tl", "--timelength", help="Length of time for dump in minutes",
                         choices=[1, 2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60], default=5, type=int, nargs='?')
+    parser.add_argument("--ylabel", help="Y-axis label", default="")
+    parser.add_argument("--ylim", help="Y-axis min and max values", default="0,100")
     parser.add_argument("--usage", action='store_true', help='Print usage text and exit')
     args = parser.parse_args()
     if args.usage:
@@ -101,14 +104,18 @@ def generate_pdf(args):
             coldata = _df[col]
             ax.plot(_df.index, coldata, color=colors.pop(0), linewidth=0.5, label=label)
         if _df.size > 0:
-            export_csv = _df.to_csv(f'{fbname}-{devid.replace(":", "")}.csv', header=True)
+            full_path = os.path.join(args.outpath, f'{fbname}-{devid.replace(":", "")}.csv')
+            export_csv = _df.to_csv(full_path, header=True)
     ax.xaxis.set_major_formatter(time_fmt)
     ax.xaxis.set_minor_locator(hours)
     ax.grid(True)
     fig.autofmt_xdate()
     plt.legend(loc='upper right')
-    plt.ylabel('ug/m3')
-    plt.savefig(pdfname)
+    plt.ylabel(args.ylabel)
+    ylim = [int(x) for x in args.ylim.split(',')]
+    plt.ylim(ylim)
+    full_path = os.path.join(args.outpath, pdfname)
+    plt.savefig(full_path)
     # _df = df.loc[df['dev-id'].isin(devids)]
     # export_csv = _df.to_csv(fbname, header=True)
 
@@ -121,6 +128,8 @@ def csv2email():
     if args.devid is None:
         show_available_devids(args)
         exit(1)
+    if args.outpath != '.' and not os.path.isdir(args.outpath):
+        os.makedirs(args.outpath)
     generate_pdf(args)
 
 
