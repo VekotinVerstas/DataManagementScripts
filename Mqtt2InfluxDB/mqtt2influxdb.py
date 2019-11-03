@@ -3,6 +3,7 @@ import configparser
 import datetime
 import json
 import logging
+import math
 import os
 import time
 from io import StringIO
@@ -25,7 +26,8 @@ def get_args():
     parser.add_argument("-db", "--database", help="Database name", required=False)
     parser.add_argument("-ip", "--hostname", help="Database address (ip/url)", default="localhost", nargs='?')
     parser.add_argument("-p", "--port", help="Database port", default="8086", nargs='?')
-    parser.add_argument('-f', '--format', required=True, choices=['jsonsensor', 'ruuvi', 'sensornode'],
+    parser.add_argument('-f', '--format', required=True,
+                        choices=['jsonsensor', 'ruuvi', 'ruuvitag_collector', 'sensornode'],
                         help='MQTT message format')
     parser.add_argument("--config", help="Configuration file", default="config.ini", nargs='?')
     parser.add_argument("-m", "--measurement", help="Measurement to save", required=False)
@@ -100,6 +102,8 @@ def on_message(client, userdata, msg):
     try:
         if client.args.format == 'ruuvi':
             handle_ruuvitag(client, userdata, msg, payload)
+        elif client.args.format == 'ruuvitag_collector':
+            handle_ruuvitag_collector(client, userdata, msg, payload)
         elif client.args.format == 'jsonsensor':
             handle_jsonsensor(client, userdata, msg, payload)
         elif client.args.format == 'sensornode':
@@ -181,6 +185,50 @@ def handle_ruuvitag(client, userdata, msg, payload):
             save_buffer(client)
 
 
+def handle_ruuvitag_collector(client, userdata, msg, payload):
+    """
+    Topic: ruuviesp32/F09D67E9709B/state
+    Payload: temperature=22.26,pressure=999.65,humidity=42.155,accelX=960,accelY=-360,accelZ=20,battery=2947,epoch=1572691324,txdbm=4,move=0,sequence=53804
+    :param client:
+    :param userdata:
+    :param msg:
+    :param payload:
+    :return:
+    """
+    topic = msg.topic
+    topic_levels = topic.split('/')
+    topic_levels.pop(0)
+    if len(topic_levels) != 2:
+        logging.info("Topic levels don't match 3: {}".format(topic))
+        return
+    ruuvi_mac, msg_type = topic_levels
+    data = dict([x.split('=') for x in payload.split(',')])
+    # Calculate total acceleration
+    if data.keys() >= {'acceleration_x', 'acceleration_y', 'acceleration_z'}:
+        data['acceleration'] = math.sqrt(
+            sum([float(data[x]) ** 2 for x in ['acceleration_x', 'acceleration_y', 'acceleration_z']]))
+    epoch = data.pop('epoch')
+    logging.info(topic, payload)
+    try:
+        timestamp = datetime.datetime.utcfromtimestamp(int(epoch))
+        timestamp = pytz.UTC.localize(timestamp)
+    except Exception as err:
+        logging.info(err)
+        return
+    # Delete obsolete keys from data
+    for key in ['tx_power']:
+         data.pop(key, None)
+    # Convert mac address to : format (F09D67E9709B --> F0:9D:67:E9:70:9B) for backwards compatibility
+    line = ruuvi_mac.upper()
+    n = 2
+    devid = ':'.join([line[i:i + n] for i in range(0, len(line), n)])
+    extratags = {}
+    idata = create_influxdb_obj(devid, client.args.measurement, data, timestamp=timestamp, extratags=extratags)
+    database = client.args.database
+    iclient = get_influxdb_client(database=database)
+    iclient.write_points([idata])
+
+
 def add_value(devid, _type, subtype, value):
     global SN
     val = None, None
@@ -202,7 +250,7 @@ def add_value(devid, _type, subtype, value):
             del SN[devid][_type]
     if _type in ['noise', ]:
         SN[devid][_type][subtype] = float(value)
-        if all(k in SN[devid][_type] for k in ['decibels',]):
+        if all(k in SN[devid][_type] for k in ['decibels', ]):
             val = _type, SN[devid][_type]
             del SN[devid][_type]
     if _type in ['battery', ]:
