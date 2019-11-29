@@ -6,6 +6,7 @@ import logging
 import os
 import shutil
 import sys
+import pandas as pd
 
 import dateutil.parser
 import pytz
@@ -67,6 +68,8 @@ def parse_args():
     parser.add_argument("-pw", "--password", help="DB password", default="root", nargs='?')
     parser.add_argument("-tl", "--timelength", help="Length of time for dump [e.g. 500s, 10m, 6h, 5d, 4w]",
                         default="1d")
+    parser.add_argument("--splitfiles", help="Split data into separate files, all having"
+                                             " defined time period of data [e.g. 15min, 6H, 3D, MS, 4W, 3M]")
     parser.add_argument("-st", "--starttime", help="Start time for dump including timezone")
     parser.add_argument("-et", "--endtime", help="End time for dump including timezone")
     parser.add_argument("-f", "--filter", help="List of columns to filter", default='', nargs='?')
@@ -84,6 +87,36 @@ def get_result(client, start_time, end_time, measure_name, extracondition=''):
     # https://docs.influxdata.com/influxdb/v0.13/guides/querying_data/
     result = client.query(query, epoch='ms')
     return result
+
+
+def write_data(client, names, measure_name, start_time, end_time, args):
+    fname = '{}-{}-{}.csv'.format(measure_name,
+                                  start_time.isoformat().replace(':', '').replace('-', '').replace('+0000', 'Z'),
+                                  end_time.isoformat().replace(':', '').replace('-', '').replace('+0000', 'Z')
+                                  )
+    if args.path is None:
+        filename = None
+        f = sys.stdout
+    else:
+        filename = os.path.join(args.path, fname)
+        os.makedirs(os.path.dirname(filename), exist_ok=True)
+        f = open(filename, 'w')
+    # finally, request all data for all measurements in given timeframe and dump them as CSV rows to files
+    # with open(filename, 'w') as f:
+    writer = csv.DictWriter(f, names, delimiter=',', lineterminator='\n', extrasaction='ignore')
+    writer.writeheader()
+    logging.info(f'Writing to {filename}')
+    result = get_result(client, start_time, end_time, measure_name, args.extracondition)
+    for point in result:
+        for item in point:
+            ms = item['time'] / 1000
+            d = datetime.datetime.utcfromtimestamp(ms)
+            item['readable_time'] = d.isoformat('T') + 'Z'
+            writer.writerow(item)
+    if args.path is not None:
+        with open(filename, 'rb') as f_in:
+            with gzip.open(filename + '.gz', 'wb') as f_out:
+                shutil.copyfileobj(f_in, f_out)
 
 
 def main():
@@ -129,37 +162,20 @@ def main():
             for field in fields_result:
                 for pair in field:
                     name = pair['fieldKey']
-                    if name in filtered: continue
+                    if name in filtered:
+                        continue
                     names.append(name)
             names.append('dev-id')
             logging.debug(names)
-            # filename = "report_csv/"+measure_name+'.csv'
-            fname = '{}-{}-{}.csv'.format(measure_name,
-                                          start_time.isoformat().replace(':', '').replace('-', ''),
-                                          end_time.isoformat().replace(':', '').replace('-', '')
-                                          )
-            if args.path is None:
-                filename = None
-                f = sys.stdout
+            # Write data into multiple files if --splitfiles was given
+            if args.splitfiles is None:
+                write_data(client, names, measure_name, start_time, end_time, args)
             else:
-                filename = os.path.join(args.path, fname)
-                os.makedirs(os.path.dirname(filename), exist_ok=True)
-                f = open(filename, 'w')
-            # finally, request all data for all measurements in given timeframe and dump them as CSV rows to files
-            # with open(filename, 'w') as f:
-            writer = csv.DictWriter(f, names, delimiter=',', lineterminator='\n', extrasaction='ignore')
-            writer.writeheader()
-            result = get_result(client, start_time, end_time, measure_name, args.extracondition)
-            for point in result:
-                for item in point:
-                    ms = item['time'] / 1000
-                    d = datetime.datetime.utcfromtimestamp(ms)
-                    item['readable_time'] = d.isoformat('T') + 'Z'
-                    writer.writerow(item)
-            if args.path is not None:
-                with open(filename, 'rb') as f_in:
-                    with gzip.open(filename + '.gz', 'wb') as f_out:
-                        shutil.copyfileobj(f_in, f_out)
+                dates = pd.date_range(start_time, end_time, freq=args.splitfiles).tolist()
+                for dt in range(len(dates) - 1):
+                    start_time = dates[dt]
+                    end_time = dates[dt + 1]
+                    write_data(client, names, measure_name, start_time, end_time, args)
 
 
 if __name__ == '__main__':
