@@ -24,7 +24,7 @@ Get data for lates 2 weeks
 Get data of 3 days, once in a day:
 
 ```
-42 7 * * *
+42 7 * * *  cd /opt/DataManagementScripts/HelenAPI && /site/virtualenv/datamanagement/bin/python helenapi.py -db helenapi -tl 3d
 ```
 
 # Notes
