@@ -90,14 +90,14 @@ def get_helen_data(starttime, endtime, database):
         params['code'] = f'{kp}_E'  # E for Energy (kWh)
         res = requests.get(API_URL, params=params, headers=headers)
         data = res.json()
-        import json
-        print(json.dumps(data, indent=2))
-        exit()
         for hour in data[0]['TimeSeriesDatas']:
-            if hour['Status'] == 'Calculated':  # Latest values are usually Void
-                fields = {'kWh': hour['Value']}
-                io = create_influxdb_obj(str(kp), 'helen', fields, timestamp=hour['Time'], extratags=None)
-                idata.append(io)
+            # Latest values are usually Void, older Calculated and oldest Validated
+            # if hour['Status'] in ['Calculated', 'Validated', 'Measured']:  
+            # Just save all data. but tag with Status
+            fields = {'kWh': hour['Value']}
+            extratags = {'status': hour['Status'][:2] }
+            io = create_influxdb_obj(str(kp), 'helen', fields, timestamp=hour['Time'], extratags=extratags)
+            idata.append(io)
     iclient = get_influxdb_client(database=database)
     iclient.write_points(idata)
 
