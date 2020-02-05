@@ -187,7 +187,7 @@ def handle_ruuvitag(client, userdata, msg, payload):
 
 def handle_ruuvitag_collector(client, userdata, msg, payload):
     """
-    Topic: ruuviesp32/F09D67E9709B/state
+    Topic: ruuviesp32/E09E67E3709B/state
     Payload: temperature=22.26,pressure=999.65,humidity=42.155,accelX=960,accelY=-360,accelZ=20,battery=2947,epoch=1572691324,txdbm=4,move=0,sequence=53804
     :param client:
     :param userdata:
@@ -210,7 +210,11 @@ def handle_ruuvitag_collector(client, userdata, msg, payload):
     epoch = data.pop('epoch')
     logging.info(topic, payload)
     try:
-        timestamp = datetime.datetime.utcfromtimestamp(int(epoch))
+        if (time.time() - 365*24*60*60) < int(epoch) < (time.time() + 1*24*60*60):
+            timestamp = datetime.datetime.utcfromtimestamp(int(epoch))
+        else:
+            timestamp = time.time()
+            logging.warning(f'Got invalid epoch Ruuvitag collector: {epoch}. Using {timestamp} instead.')
         timestamp = pytz.UTC.localize(timestamp)
     except Exception as err:
         logging.info(err)
