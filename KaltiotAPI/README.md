@@ -24,6 +24,10 @@ python kaltiot.py \
     -m motion_detected -l INFO
 ``` 
 
+If you give `--outfile filename.csv` argument, the DataFrame
+will be saved into a CSV file. 
+If extension is .xlsx the file format will be excel.
+
 ## Result
 
 Result DataFrame contains all requested tag data,

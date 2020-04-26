@@ -133,7 +133,7 @@ def parse_data(args, taglist, data):
             col = tagdict[tag['id']]
             df = pd.DataFrame(data=values, index=index, columns=[col])
             df.index.name = 'time'
-            # TODO: Note that resampling e.g. temperature with sum() is usually very useful
+            # TODO: Note that resampling e.g. temperature with sum() is usually not very useful
             # This works well with motion_detected though
             df = df.resample(args.resample).sum()
             df = df.dropna()
