@@ -92,8 +92,8 @@ def parse_args():
 
 
 def get_data(args, taglist, start_time, end_time):
-    if args.names:
-        ids = ','.join([x[0] for x in taglist if x[1] in args.names.split(',')])
+    if args['names']:
+        ids = ','.join([x[0] for x in taglist if x[1] in args['names'].split(',')])
     else:
         ids = ','.join([x[0] for x in taglist])
     params = {
@@ -102,10 +102,10 @@ def get_data(args, taglist, start_time, end_time):
         'to': int(end_time.timestamp() * 1000),
     }
     headers = {
-        'ApiKey': args.apikey,
+        'ApiKey': args['apikey'],
         'User-Agent': USER_AGENT,
     }
-    url = f'{BASE_URL}{args.measurement}'
+    url = f'{BASE_URL}{args["measurement"]}'
     res = requests.get(url, headers=headers, params=params)
 
     try:
@@ -115,10 +115,11 @@ def get_data(args, taglist, start_time, end_time):
         logging.error(f'JSON error: {err}')
         logging.info(f'Request URL ({res.status_code}): {res.url}')
         logging.info(f'Response text: "{res.text}"')
+        logging.info(f'Response headers: "{res.headers}"')
         exit(1)
 
 
-def parse_data(args, taglist, data):
+def data_to_dataframe(args, taglist, data):
     dfs = []  # All tag DataFrames go here
     for tag in data:  # Loop all tags
         index = []
@@ -135,29 +136,29 @@ def parse_data(args, taglist, data):
             df.index.name = 'time'
             # TODO: Note that resampling e.g. temperature with sum() is usually not very useful
             # This works well with motion_detected though
-            df = df.resample(args.resample).sum()
+            df = df.resample(args['resample']).sum()
             df = df.dropna()
             dfs.append(df)
     all = pd.concat(dfs, axis=1, sort=False)
-    if args.outfile:
-        base, ext = os.path.splitext(args.outfile)
+    if args['outfile']:
+        base, ext = os.path.splitext(args['outfile'])
         if ext == '.xlsx':
             xall = all.copy()
             xall['datetime'] = xall.index.to_series().dt.tz_localize(None)
             xall = xall.reset_index(drop=True)
-            xall.to_excel(args.outfile)
+            xall.to_excel(args['outfile'])
         else:
-            all.to_csv(args.outfile)
+            all.to_csv(args['outfile'])
     return all
 
 
 def parse_times(args):
     # Parse time period's start time
-    if args.starttime:
-        start_time = args.starttime
+    if args['starttime']:
+        start_time = args['starttime']
     else:
-        start_time = args.endtime - datetime.timedelta(seconds=args.timelength)
-    return start_time, args.endtime, args.timelength
+        start_time = args['endtime'] - datetime.timedelta(seconds=args['timelength'])
+    return start_time, args['endtime'], args['timelength']
 
 
 def parse_tagfile(fname: str) -> list:
@@ -172,10 +173,11 @@ def parse_tagfile(fname: str) -> list:
 
 def main():
     args = parse_args()
-    taglist = parse_tagfile(args.tagfile)
+    args = vars(args)
+    taglist = parse_tagfile(args['tagfile'])
     start_time, end_time, time_length = parse_times(args)
     data = get_data(args, taglist, start_time, end_time)
-    df = parse_data(args, taglist, data)
+    df = data_to_dataframe(args, taglist, data)
     # Perhaps you'd like to do some data analysis here instead of printing the result?
     print(df)
 
