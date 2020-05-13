@@ -28,6 +28,15 @@ If you give `--outfile filename.csv` argument, the DataFrame
 will be saved into a CSV file. 
 If extension is .xlsx the file format will be excel.
 
+## Crontab
+
+Automated daily data retrieval (at 08:00) 
+could be handled by using cron, e.g.
+
+```
+0 8 * * *   /path/to/bin/python /path/to/DataManagementScripts/SmartvattenAPI/smartvatten.py --timelength 7d -A "01234567-abcd-de89-0123-456789abcdef" -B https://api.example.com/data/ -idb fiksuvesi -im consumption
+```
+
 ## Result
 
 Result DataFrame contains all requested tag data,
