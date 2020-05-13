@@ -17,8 +17,7 @@ from influxdb import DataFrameClient
 
 UNITS = {"s": 1, "m": 60, "h": 3600, "d": 86400, "w": 604800}
 USER_AGENT = 'https://github.com/VekotinVerstas/DataManagementScripts/tree/master/SmartvattenAPI ' \
-             'smartvatten-client/0.0.1 Python/{}'.format(
-    '.'.join([str(x) for x in list(sys.version_info)[:3]]))
+             'smartvatten-client/0.0.1 Python/{}'.format('.'.join([str(x) for x in list(sys.version_info)[:3]]))
 
 
 def datetime_type(value: str) -> datetime.datetime:
@@ -111,6 +110,17 @@ def convert_to_timestring(dt: datetime.datetime) -> str:
 
 
 def get_data(args: dict, start_time: datetime.datetime, end_time: datetime.datetime) -> object:
+    """
+    Do the actual request to the API and return response data in an object.
+    """
+    # End time must be at least 2 hours before current time, otherwise API complains:
+    # Bad request (400): End-date should be at least 2 hour before current time
+    two_hours_ago = pytz.UTC.localize(datetime.datetime.utcnow()) - datetime.timedelta(hours=2)
+    if end_time > two_hours_ago:
+        end_time = two_hours_ago
+    fourteen_days_ago = pytz.UTC.localize(datetime.datetime.utcnow()) - datetime.timedelta(days=13, hours=23)
+    if start_time < fourteen_days_ago:
+        start_time = fourteen_days_ago
     params = {
         'query[start]': convert_to_timestring(start_time),
         'query[end]': convert_to_timestring(end_time),
