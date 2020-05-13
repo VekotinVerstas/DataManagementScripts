@@ -1,0 +1,6 @@
+argcomplete
+influxdb
+pandas
+python-dateutil
+pytz
+requests
