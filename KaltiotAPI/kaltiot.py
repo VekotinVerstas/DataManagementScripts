@@ -203,7 +203,8 @@ def get_multi_data(args: dict, measurement: str, ruuvitaglist: list,
     df_list = []
     for key in sorted(df_times.keys()):
         df_list.append(df_times[key])
-    df_all = pd.concat(df_list, sort=True)
+    df_all = pd.concat(df_list)
+    df_all = df_all.sort_index()
     # Reorder columns (name and dev-id to the beginning)
     cols = list(df_all.columns)
     cols_to_move = ['name', 'dev-id']
