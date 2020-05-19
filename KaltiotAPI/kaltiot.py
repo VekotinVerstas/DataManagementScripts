@@ -38,7 +38,6 @@ def parse_kaltiot_args() -> argparse.Namespace:
     :return: result of argparse.parse_args() (argparse.Namespace)
     """
     parser = get_default_argumentparser()
-    parser.add_argument('-r', '--resample', help='Pandas resample rule string [e.g. 5min, 1H]', default='5min')
     parser.add_argument('-n', '--names', help='Get only tags with these names [e.g. 04,05,06]')
     parser.add_argument('-t', '--tagfile', required=True, help='File containing list of tag id,name pairs')
     parser.add_argument('-A', '--apikey', required=True, help='Kaltiot API key')
