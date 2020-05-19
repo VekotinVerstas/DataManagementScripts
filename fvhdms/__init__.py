@@ -5,6 +5,7 @@ import datetime
 import logging
 import os
 import sys
+import time
 
 import argcomplete
 import dateutil.parser
@@ -140,7 +141,9 @@ def parse_args(parser) -> argparse.Namespace:
     argcomplete.autocomplete(parser)
     args = parser.parse_args()
     if args.log:
-        logging.basicConfig(level=getattr(logging, args.log))
+        logging.basicConfig(level=getattr(logging, args.log), datefmt='%Y-%m-%dT%H:%M:%S',
+                            format="%(asctime)s.%(msecs)03dZ %(levelname)s %(message)s")
+        logging.Formatter.converter = time.gmtime  # Timestamps in UTC time
     return args
 
 
