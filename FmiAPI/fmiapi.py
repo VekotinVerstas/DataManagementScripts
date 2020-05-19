@@ -19,15 +19,17 @@ from fvhdms import (
     parse_times
 )
 
-USER_AGENT = user_agent('0.0.1', subdir='FmiAPI')
+USER_AGENT = user_agent('0.0.2', subdir='FmiAPI')
 TIME_FMT = '%Y-%m-%dT%H:%MZ'
-STATIONS_URL = 'https://opendata.fmi.fi/wfs/fin?service=WFS&version=2.0.0&request=GetFeature&storedquery_id=fmi::ef::stations&networkid=121&'
+STATIONS_URL = 'https://opendata.fmi.fi/wfs/fin?service=WFS&version=2.0.0&request=GetFeature&storedquery_id=fmi::ef::stations&networkid='
 
 """
 # Example request URL
 https://opendata.fmi.fi/wfs?request=getFeature&storedquery_id=urban::observations::airquality::hourly::multipointcoverage&geoId=-106948
 
-python fmiapi.py -st 20200510T08:00:00Z -et 20200510T12:00:00Z --storedquery fmi::observations::weather::multipointcoverage -i fmisid --stationids 100971 --stationids 101004  --timestep 10 --outfile test.csv --list hels
+# List available weathern stations
+
+python fmiapi.py -st 20200510T08:00:00Z -et 20200510T20:00:00Z --storedquery fmi::observations::weather::multipointcoverage -i fmisid --stationids 100971 101004 --list hels
 
                                    name  fmisid               latlon                         type    region
 17                     Helsinki Harmaja  100996  60.105120,24.975390       Automaattinen sääasema  Helsinki
@@ -40,30 +42,20 @@ python fmiapi.py -st 20200510T08:00:00Z -et 20200510T12:00:00Z --storedquery fmi
 24             Helsinki Vuosaari satama  151028  60.208670,25.195900       Automaattinen sääasema  Helsinki
 177  Vantaa Helsinki-Vantaan lentoasema  100968  60.326700,24.956750              Aut,Sää,Aur,Tes    Vantaa
 
-105406 100662 101004 106948 100742 106422 100762 106950 100803 104058 100691 100723 106949 105405 104056 101001 104048 106423 105417 100763 106951
 
-# Example measuring stations
-Helsinki Eteläsatama             105406
-Helsinki Kallio 2                100662
-Helsinki Kumpula                 101004
-Helsinki Länsisatama 4           106948
-Helsinki Mannerheimint.          100742
-Helsinki Mechelininkatu          106422
-Helsinki Mäkelänkatu             100762  
-Helsinki Pirkkola                106950  
-Helsinki Vartiokylä Huivipolku   100803
-Hyvinkää                         104058
-Espoo Leppävaara Läkkisepänkuja  100691
-Espoo Luukki                     100723
-Espoo Länsiväylä Friisilä        106949    
-Kauniainen Kauniaistentie        105405
-Vantaa Itä-Hakkila               104056
-Vantaa Kaivoksela                101001
-Vantaa Lentoasema                104048
-Vantaa Rekola                    106423        
-Vantaa Rekola etelä              105417    
-Vantaa Tikkurila Neilikkatie     100763    
-Vantaa Tikkurila Talvikkitie     106951    
+# List available air quality stations (networkid=151)
+
+python fmiapi.py -st 20200510T08:00:00Z -et 20200510T20:00:00Z --storedquery fmi::observations::weather::multipointcoverage -i fmisid --stationids 100971 101004 --list hels --stationtype 151
+
+                              name  fmisid               latlon                                           type     region
+7                Helsinki Kallio 2  100662  60.187390,24.950600  Kolmannen osapuolen ilmanlaadun havaintoasema   Helsinki
+8           Helsinki Länsisatama 4  106948  60.155210,24.921780  Kolmannen osapuolen ilmanlaadun havaintoasema   Helsinki
+9         Helsinki Mannerheimintie  100742  60.169640,24.939240  Kolmannen osapuolen ilmanlaadun havaintoasema   Helsinki
+10            Helsinki Mäkelänkatu  100762  60.196440,24.951980  Kolmannen osapuolen ilmanlaadun havaintoasema   Helsinki
+11              Helsinki Paloheinä  107165  60.250040,24.939420  Kolmannen osapuolen ilmanlaadun havaintoasema   Helsinki
+12               Helsinki Pirkkola  106950  60.234220,24.922320  Kolmannen osapuolen ilmanlaadun havaintoasema   Helsinki
+13  Helsinki Vartiokylä Huivipolku  100803  60.223930,25.102440  Kolmannen osapuolen ilmanlaadun havaintoasema   Helsinki
+27          Järvenpää Helsingintie  103154  60.471320,25.089670  Kolmannen osapuolen ilmanlaadun havaintoasema  Järvenpää
 
 All stations:
 https://ilmatieteenlaitos.fi/havaintoasemat
@@ -71,8 +63,6 @@ https://ilmatieteenlaitos.fi/havaintoasemat
 Example request for weather observations:
 http://opendata.fmi.fi/wfs?request=GetFeature&storedquery_id=fmi::observations::weather::multipointcoverage&fmisid=100971&timestep=10
 http://opendata.fmi.fi/wfs?request=GetFeature&storedquery_id=fmi::observations::weather::multipointcoverage&geoid=-16000150&timestep=10
-
-
 """
 
 
@@ -94,6 +84,8 @@ def parse_fmi_args() -> argparse.Namespace:
     parser.add_argument('-n', '--nocache', action='store_true', help='Do not use cached xml data')
     parser.add_argument('--list', nargs='?', const='',
                         help='List available stations with optional regex')
+    parser.add_argument('--stationtype', default='121', choices=['121', '151'],
+                        help='Weather station (121) or airquality station (151')
     args = parse_args(parser)
     return args
 
@@ -266,13 +258,15 @@ def get_multi_fmi_data(args: dict, start_time: datetime.datetime, end_time: date
 
 def list_fmi_stations(args: dict):
     search_re = args.get('list')
-    res = requests.get(STATIONS_URL)
+    url = STATIONS_URL + args['stationtype']
+    res = requests.get(url)
     data = xmltodict.parse(res.text)
     s_list = data['wfs:FeatureCollection']['wfs:member']
     cols = {
         'fmisid': [],
         'latlon': [],
         'type': [],
+        'wmo': [],
     }
     gml_names = {'name', 'geoid', 'wmo', 'region', 'country'}
     for l in s_list:
