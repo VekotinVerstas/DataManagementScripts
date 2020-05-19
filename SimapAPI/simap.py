@@ -73,8 +73,8 @@ def parse_args():
     parser.add_argument('-tl', '--timelength', type=time_type,
                         help='Length of time for dump [e.g. 500s, 10m, 6h, 5d, 4w]',
                         default='1d')
-    parser.add_argument('-A', '--apikey', required=True, help='Kaltiot API key')
-    parser.add_argument('-B', '--baseurl', required=True, help='Kaltiot API base URL')
+    parser.add_argument('-A', '--apikey', required=True, help='SiMAP API key')
+    parser.add_argument('-B', '--baseurl', required=True, help='SiMAP API base URL')
     parser.add_argument('-O', '--outfile', help='Output filename (.xlsx extension creates excel file, others CSV')
     argcomplete.autocomplete(parser)
     args = parser.parse_args()
