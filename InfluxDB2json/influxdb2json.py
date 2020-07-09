@@ -158,6 +158,7 @@ def parse_args():
     parser.add_argument("-et", "--endtime", help="End time for dump including timezone")
     parser.add_argument("-f", "--filter", help="List of columns to filter", default='', nargs='?')
     parser.add_argument("-P", "--path", help="Directory to save the file")
+    parser.add_argument("--singles", action='store_true',  help="Save every sensor in separate file too")
     args = parser.parse_args()
     if args.log:
         logging.basicConfig(level=getattr(logging, args.log))
@@ -197,6 +198,7 @@ def write_data(client, names, measure_name, start_time, end_time, args):
         'sensors': {}
     }
     logging.info(f'Writing to {filename}')
+    now = datetime.datetime.now().astimezone(FI_TZ).isoformat()
     result = get_result(client, start_time, end_time, measure_name, args.extracondition)
     for point in result:
         for item in point:
@@ -212,6 +214,7 @@ def write_data(client, names, measure_name, start_time, end_time, args):
             if item['dev-id'] not in data['sensors']:
                 data['sensors'][devid] = {}
                 data['sensors'][devid]['meta'] = META[devid]
+                data['sensors'][devid]['meta']['file_created'] = now
                 data['sensors'][devid]['data'] = []
             data['sensors'][devid]['data'].append(datarow)
     devids = sorted(list(data['sensors'].keys()))
@@ -220,6 +223,13 @@ def write_data(client, names, measure_name, start_time, end_time, args):
         ordered_sensors[devid] = data['sensors'][devid]
     data['sensors'] = ordered_sensors
     f.write(json.dumps(data, indent=1))
+    f.close()
+    if args.singles:
+        for devid in ordered_sensors.keys():
+            fname = f'{devid}.json'
+            filename = os.path.join(args.path, fname)
+            with open(filename, 'wt') as f:
+                f.write(json.dumps(ordered_sensors[devid], indent=1))
 
 
 def main():
