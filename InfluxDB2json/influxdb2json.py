@@ -211,6 +211,10 @@ def write_data(client, names, measure_name, start_time, end_time, args):
             datarow['time'] = d.astimezone(FI_TZ).isoformat()
             datarow['temp_water'] = item['temp_out1']
             datarow['temp_air'] = item['temp_in']
+            if item['temprh_rh'] is not None:
+                datarow['air_rh'] = item['temprh_rh']
+            if item['temprh_temp'] is not None:
+                datarow['air_temp'] = item['temprh_temp']
             if item['dev-id'] not in data['sensors']:
                 data['sensors'][devid] = {}
                 data['sensors'][devid]['meta'] = META[devid]
@@ -226,7 +230,7 @@ def write_data(client, names, measure_name, start_time, end_time, args):
     f.close()
     if args.singles:
         for devid in ordered_sensors.keys():
-            fname = f'{devid}.json'
+            fname = f'{devid}_v1.json'
             filename = os.path.join(args.path, fname)
             with open(filename, 'wt') as f:
                 f.write(json.dumps(ordered_sensors[devid], indent=1))
