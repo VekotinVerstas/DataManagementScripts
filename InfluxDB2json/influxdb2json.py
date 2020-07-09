@@ -24,24 +24,77 @@ META = {
         'lat': 60.227704,
         'lon': 24.983821,
         'servicemap_url': 'https://palvelukartta.hel.fi/unit/41960',
+        'site_url': '',
     },
     '70B3D57050001BBE': {
         'name': 'Rastilan uimaranta',
         'lat': 60.207977,
         'lon': 25.114849,
         'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/40157',
+        'site_url': '',
+    },
+    '70B3D57050004D86': {
+        'name': 'Pihlajasaari',
+        'lat': 60.140588,
+        'lon': 24.9157002,
+        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/45606',
+        'site_url': '',
     },
     '70B3D57050004FB9': {
         'name': 'Hietaniemi (Ourit)',
         'lat': 60.207977,
         'lon': 25.114849,
-        'servicemap_url': '',
+        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/41717',
+        'site_url': 'http://www.tuk.fi',
     },
     '70B3D57050004C07': {
         'name': 'Sompasauna',
         'lat': 60.175742,
         'lon': 24.975318,
         'servicemap_url': '',
+        'site_url': 'https://www.sompasauna.fi',
+    },
+    '70B3D57050004DF8': {
+        'name': 'Vasikkasaari',
+        'lat': 60.1523297,
+        'lon': 25.0158648,
+        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/50903',
+        'site_url': 'https://www.vasikkasaari.org',
+    },
+    '70B3D57050004FE1': {
+        'name': 'Herttoniemi (Tuorinniemen uimalaituri)',
+        'lat': 60.180109,
+        'lon': 25.068600,
+        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/41791',
+        'site_url': 'https://www.vartiosaari.fi',
+    },
+    '70B3D57050004FE6': {
+        'name': 'Vartiosaari (Reposalmen laituri)',
+        'lat': 60.180109,
+        'lon': 25.068600,
+        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/57156',
+        'site_url': 'https://www.vartiosaari.fi',
+    },
+    '70B3D57050004E0E': {
+        'name': 'Marjaniemen uimaranta',
+        'lat': 60.198449,
+        'lon': 25.076416,
+        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/40386',
+        'site_url': '',
+    },
+    '70B3D5705000504F': {
+        'name': 'Hanikan uimaranta (Espoo)',
+        'lat': 60.127797,
+        'lon': 24.691871,
+        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/39583',
+        'site_url': '',
+    },
+    '70B3D57050001BA6': {
+        'name': 'Vetokannas (Vantaa)',
+        'lat': 60.27026,
+        'lon': 24.88056,
+        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/56455',
+        'site_url': '',
     },
 }
 
@@ -131,7 +184,10 @@ def write_data(client, names, measure_name, start_time, end_time, args):
         f = sys.stdout
     else:
         filename = os.path.join(args.path, fname)
+        metafile = os.path.join(args.path, 'uiras-meta.json')
         os.makedirs(os.path.dirname(filename), exist_ok=True)
+        with open(metafile, 'w') as f:
+            f.write(json.dumps(META, indent=2))
         f = open(filename, 'w')
     # finally, request all data for all measurements in given timeframe and dump them as CSV rows to files
     # with open(filename, 'w') as f:
@@ -158,6 +214,11 @@ def write_data(client, names, measure_name, start_time, end_time, args):
                 data['sensors'][devid]['meta'] = META[devid]
                 data['sensors'][devid]['data'] = []
             data['sensors'][devid]['data'].append(datarow)
+    devids = sorted(list(data['sensors'].keys()))
+    ordered_sensors = {}
+    for devid in devids:
+        ordered_sensors[devid] = data['sensors'][devid]
+    data['sensors'] = ordered_sensors
     f.write(json.dumps(data, indent=1))
 
 
