@@ -96,7 +96,7 @@ META = {
         'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/56455',
         'site_url': '',
     },
-    '70B3D57050001BA4': {
+    '70B3D57050005054': {
         'name': 'Eiranranta (Löyly)',
         'lat': 60.15230,
         'lon': 24.93100,
