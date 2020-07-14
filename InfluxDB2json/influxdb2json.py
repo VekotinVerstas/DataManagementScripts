@@ -103,6 +103,13 @@ META = {
         'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/48896',
         'site_url': 'https://www.loylyhelsinki.fi/',
     },
+    '70B3D57050001AF1': {
+        'name': 'Lauttasaari (Vaskiniemi)',
+        'lat': 60.16050,
+        'lon': 24.85241,
+        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/48896',
+        'site_url': 'https://www.sauna.fi/',
+    },
 }
 
 
