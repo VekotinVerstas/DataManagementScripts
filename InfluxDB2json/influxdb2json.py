@@ -95,6 +95,11 @@ META = {
         'lon': 24.88056,
         'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/56455',
         'site_url': '',
+        'fieldmap': {
+            'temp_water': 'temp_out1',
+            'air_rh': 'temprh_rh',
+            'air_temp': 'temprh_temp',
+        },
     },
     '70B3D57050005054': {
         'name': 'Eiranranta (Löyly)',
@@ -230,17 +235,12 @@ def write_data(client, names, measure_name, start_time, end_time, args):
             fm = META[devid].get('fieldmap')
             datarow['temp_air'] = item['temp_in']
             if fm is not None:
-                # always present
-                datarow['temp_water'] = item[fm['temp_water']]
-                # conditionally present
-                if fm.get('air_temp') is not None:
-                    datarow['air_temp'] = item[fm['air_temp']]
+                # If fieldmap is present, convert InfluxDB field names to "public" ones
+                for k in fm.keys():
+                    datarow[k] = item[fm[k]]
             else:
+                # If fieldmap is not present, assume water temperature is temp_out1 (most common case)
                 datarow['temp_water'] = item['temp_out1']
-            if item['temprh_rh'] is not None:
-                datarow['air_rh'] = item['temprh_rh']
-            if item['temprh_temp'] is not None:
-                datarow['air_temp'] = item['temprh_temp']
             if item['dev-id'] not in data['sensors']:
                 data['sensors'][devid] = {}
                 data['sensors'][devid]['meta'] = META[devid]
