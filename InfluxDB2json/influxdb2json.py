@@ -109,6 +109,10 @@ META = {
         'lon': 24.85241,
         'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/48896',
         'site_url': 'https://www.sauna.fi/',
+        'fieldmap': {
+            'temp_water': 'temp_out2',
+            'air_temp': 'temp_out1',
+        },
     },
 }
 
@@ -223,8 +227,16 @@ def write_data(client, names, measure_name, start_time, end_time, args):
             ms = item['time'] / 1000
             d = pytz.UTC.localize(datetime.datetime.utcfromtimestamp(ms))
             datarow['time'] = d.astimezone(FI_TZ).isoformat()
-            datarow['temp_water'] = item['temp_out1']
+            fm = META[devid].get('fieldmap')
             datarow['temp_air'] = item['temp_in']
+            if fm is not None:
+                # always present
+                datarow['temp_water'] = item[fm['temp_water']]
+                # conditionally present
+                if fm.get('air_temp') is not None:
+                    datarow['air_temp'] = item[fm['air_temp']]
+            else:
+                datarow['temp_water'] = item['temp_out1']
             if item['temprh_rh'] is not None:
                 datarow['air_rh'] = item['temprh_rh']
             if item['temprh_temp'] is not None:
