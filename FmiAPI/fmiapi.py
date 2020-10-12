@@ -326,6 +326,12 @@ def main():
     df = get_multi_fmi_data(args, start_time, end_time)
     print(df)
     save_df(args, df)  # Save to a file if --outfile argument is present
+    df_id = df['dev-id']
+
+    df = df.drop(columns=['dev-id']).dropna(how='all')
+    df = df.join(df_id)
+    print(df)
+
     dataframe_into_influxdb(args, df, tag_columns=['dev-id'])
 
 
