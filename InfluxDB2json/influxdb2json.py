@@ -11,7 +11,7 @@ import pytz
 from influxdb import InfluxDBClient
 from influxdb.exceptions import InfluxDBClientError
 
-from .uirasmeta import META
+from uirasmeta import META
 
 FI_TZ = pytz.timezone('Europe/Helsinki')
 
