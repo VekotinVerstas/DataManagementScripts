@@ -3,3 +3,4 @@ paho-mqtt
 influxdb
 configparser
 ruuvitag_sensor
+python-telegram-bot
