@@ -81,7 +81,7 @@ META = {
             'air_temp': 'temprh_temp',
         },
     },
-    '70B3D57050005054': {
+    '70B3D57050005037': {
         'name': 'Eiranranta (Löyly)',
         'lat': 60.15230,
         'lon': 24.93100,
@@ -104,6 +104,16 @@ META = {
         'fieldmap': {
             'temp_water': 'temp_out2',
             'air_temp': 'temp_out1',
+        },
+    },
+    '003C62A8': {
+        'name': 'Uunisaari',
+        'lat': 60.15294,
+        'lon': 24.94991,
+        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/40356',
+        'site_url': 'https://www.uunisaari.fi/',
+        'fieldmap': {
+            'temp_water': 'temp_out2',
         },
     },
 }
