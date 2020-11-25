@@ -219,6 +219,7 @@ def handle_ruuvigateway(client, userdata, msg, payload):
         logging.warning(f"Not supported: {raw}")
         # TODO: add support
         return
+    data['rssi'] = msgdata['rssi']
     # Calculate total acceleration
     if data.keys() >= {'acceleration_x', 'acceleration_y', 'acceleration_z'}:
         data['acceleration'] = math.sqrt(
@@ -237,7 +238,6 @@ def handle_ruuvigateway(client, userdata, msg, payload):
     # Delete obsolete keys from data
     for key in ['tx_power', 'mac']:
         data.pop(key, None)
-    # Convert mac address to : format (F09D67E9709B --> F0:9D:67:E9:70:9B) for backwards compatibility
     devid = ruuvi_mac.upper()
     extratags = {'gw-id': gw_mac.upper()}
     idata = create_influxdb_obj(devid, client.args.measurement, data, timestamp=timestamp, extratags=extratags)
