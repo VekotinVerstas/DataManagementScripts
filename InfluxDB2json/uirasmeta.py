@@ -31,7 +31,7 @@ META = {
         'name': 'Sompasauna',
         'lat': 60.175742,
         'lon': 24.975318,
-        'servicemap_url': '',
+        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/54929',
         'site_url': 'https://www.sompasauna.fi',
     },
     '70B3D57050004DF8': {
@@ -46,7 +46,7 @@ META = {
         'lat': 60.18554,
         'lon': 25.04012,
         'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/41791',
-        'site_url': 'https://www.vartiosaari.fi',
+        'site_url': '',
     },
     '70B3D57050004FE6': {
         'name': 'Vartiosaari (Reposalmen laituri)',
@@ -92,14 +92,14 @@ META = {
         'name': 'Kattilajärvi (Espoo)',
         'lat': 60.29904,
         'lon': 24.61975,
-        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/48896',
+        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/39368',
         'site_url': '',
     },
     '70B3D57050001AF1': {
         'name': 'Lauttasaari (Vaskiniemi)',
         'lat': 60.16050,
         'lon': 24.85241,
-        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/48896',
+        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/42212',
         'site_url': 'https://www.sauna.fi/',
         'fieldmap': {
             'temp_water': 'temp_out2',
@@ -117,4 +117,3 @@ META = {
         },
     },
 }
-
