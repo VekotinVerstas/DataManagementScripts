@@ -106,6 +106,13 @@ META = {
             'air_temp': 'temp_out1',
         },
     },
+    '70B3D57050004FC2': {
+        'name': 'Lauttasaari (Ryssänkärki)',
+        'lat': 60.14682,
+        'lon': 24.89070,
+        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/40701',
+        'site_url': '',
+    },
     '003C62A8': {
         'name': 'Uunisaari',
         'lat': 60.15294,
