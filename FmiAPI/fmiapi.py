@@ -259,6 +259,8 @@ def get_multi_fmi_data(args: dict, start_time: datetime.datetime, end_time: date
 def list_fmi_stations(args: dict):
     search_re = args.get('list')
     url = STATIONS_URL + args['stationtype']
+    print(url)
+    exit()
     res = requests.get(url)
     data = xmltodict.parse(res.text)
     s_list = data['wfs:FeatureCollection']['wfs:member']
@@ -326,11 +328,11 @@ def main():
     df = get_multi_fmi_data(args, start_time, end_time)
     print(df)
     save_df(args, df)  # Save to a file if --outfile argument is present
-    df_id = df['dev-id']
-
-    df = df.drop(columns=['dev-id']).dropna(how='all')
-    df = df.join(df_id)
-    print(df)
+    # FIXME: This doesn't work (trying to drop all rows where all cols are nan but dev-id
+    # df_id = df['dev-id']
+    # df = df.drop(columns=['dev-id']).dropna(how='all')
+    # df = df.join(df_id)
+    # print(df)
 
     dataframe_into_influxdb(args, df, tag_columns=['dev-id'])
 
