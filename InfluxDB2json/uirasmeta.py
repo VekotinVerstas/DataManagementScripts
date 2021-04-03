@@ -81,6 +81,18 @@ META = {
             'air_temp': 'temprh_temp',
         },
     },
+    '70B3D57050001ADA': {
+        'name': 'Kuusijärvi (Vantaa)',
+        'lat': 60.313343,
+        'lon': 25.113967,
+        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/44546',
+        'site_url': 'https://www.vantaa.fi/vapaa-aika/luonto_ja_ulkoilu/retkeily/kuusijarven_ulkoilualue',
+        'fieldmap': {
+            'temp_water': 'temp_out1',
+            'air_rh': 'temprh_rh',
+            'air_temp': 'temprh_temp',
+        },
+    },
     '70B3D57050005037': {
         'name': 'Eiranranta (Löyly)',
         'lat': 60.15230,
