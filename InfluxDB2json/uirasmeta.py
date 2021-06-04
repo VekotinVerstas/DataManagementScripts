@@ -125,6 +125,13 @@ META = {
         'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/40701',
         'site_url': '',
     },
+    '70B3D5705000E703': {
+        'name': 'Munkkiniemi',
+        'lat': 60.2004257,
+        'lon': 24.8554928,
+        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/41601',
+        'site_url': '',
+    },
     '003C62A8': {
         'name': 'Uunisaari',
         'lat': 60.15294,
