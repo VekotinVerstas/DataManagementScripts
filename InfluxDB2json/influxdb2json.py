@@ -1,125 +1,21 @@
 import argparse
-import json
 import datetime
-import gzip
+import json
 import logging
 import os
-import shutil
 import sys
-import pandas as pd
 
 import dateutil.parser
+import pandas as pd
 import pytz
 from influxdb import InfluxDBClient
 from influxdb.exceptions import InfluxDBClientError
 
+from uirasmeta import META
 
 FI_TZ = pytz.timezone('Europe/Helsinki')
 
 UNITS = {"s": 1, "m": 60, "h": 3600, "d": 86400, "w": 604800}
-
-META = {
-    '70B3D57050001AB9': {
-        'name': 'Pikkukosken uimaranta',
-        'lat': 60.227704,
-        'lon': 24.983821,
-        'servicemap_url': 'https://palvelukartta.hel.fi/unit/41960',
-        'site_url': '',
-    },
-    '70B3D57050001BBE': {
-        'name': 'Rastilan uimaranta',
-        'lat': 60.207977,
-        'lon': 25.114849,
-        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/40157',
-        'site_url': '',
-    },
-    '70B3D57050004D86': {
-        'name': 'Pihlajasaari',
-        'lat': 60.140588,
-        'lon': 24.9157002,
-        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/45606',
-        'site_url': '',
-    },
-    '70B3D57050004FB9': {
-        'name': 'Hietaniemi (Ourit)',
-        'lat': 60.207977,
-        'lon': 25.114849,
-        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/41717',
-        'site_url': 'http://www.tuk.fi',
-    },
-    '70B3D57050004C07': {
-        'name': 'Sompasauna',
-        'lat': 60.175742,
-        'lon': 24.975318,
-        'servicemap_url': '',
-        'site_url': 'https://www.sompasauna.fi',
-    },
-    '70B3D57050004DF8': {
-        'name': 'Vasikkasaari',
-        'lat': 60.1523297,
-        'lon': 25.0158648,
-        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/50903',
-        'site_url': 'https://www.vasikkasaari.org',
-    },
-    '70B3D57050004FE1': {
-        'name': 'Herttoniemi (Tuorinniemen uimalaituri)',
-        'lat': 60.180109,
-        'lon': 25.068600,
-        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/41791',
-        'site_url': 'https://www.vartiosaari.fi',
-    },
-    '70B3D57050004FE6': {
-        'name': 'Vartiosaari (Reposalmen laituri)',
-        'lat': 60.180109,
-        'lon': 25.068600,
-        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/57156',
-        'site_url': 'https://www.vartiosaari.fi',
-    },
-    '70B3D57050004E0E': {
-        'name': 'Marjaniemen uimaranta',
-        'lat': 60.198449,
-        'lon': 25.076416,
-        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/40386',
-        'site_url': '',
-    },
-    '70B3D5705000504F': {
-        'name': 'Hanikan uimaranta (Espoo)',
-        'lat': 60.127797,
-        'lon': 24.691871,
-        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/39583',
-        'site_url': '',
-    },
-    '70B3D57050001BA6': {
-        'name': 'Vetokannas (Vantaa)',
-        'lat': 60.27026,
-        'lon': 24.88056,
-        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/56455',
-        'site_url': '',
-        'fieldmap': {
-            'temp_water': 'temp_out1',
-            'air_rh': 'temprh_rh',
-            'air_temp': 'temprh_temp',
-        },
-    },
-    '70B3D57050005054': {
-        'name': 'Eiranranta (Löyly)',
-        'lat': 60.15230,
-        'lon': 24.93100,
-        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/48896',
-        'site_url': 'https://www.loylyhelsinki.fi/',
-    },
-    '70B3D57050001AF1': {
-        'name': 'Lauttasaari (Vaskiniemi)',
-        'lat': 60.16050,
-        'lon': 24.85241,
-        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/48896',
-        'site_url': 'https://www.sauna.fi/',
-        'fieldmap': {
-            'temp_water': 'temp_out2',
-            'air_temp': 'temp_out1',
-        },
-    },
-}
 
 
 def convert_to_seconds(s):
@@ -181,7 +77,7 @@ def parse_args():
     parser.add_argument("-et", "--endtime", help="End time for dump including timezone")
     parser.add_argument("-f", "--filter", help="List of columns to filter", default='', nargs='?')
     parser.add_argument("-P", "--path", help="Directory to save the file")
-    parser.add_argument("--singles", action='store_true',  help="Save every sensor in separate file too")
+    parser.add_argument("--singles", action='store_true', help="Save every sensor in separate file too")
     args = parser.parse_args()
     if args.log:
         logging.basicConfig(level=getattr(logging, args.log))
@@ -226,8 +122,6 @@ def write_data(client, names, measure_name, start_time, end_time, args):
     for point in result:
         for item in point:
             datarow = {}
-            # print(item)
-            # exit()
             devid = item['dev-id']
             ms = item['time'] / 1000
             d = pytz.UTC.localize(datetime.datetime.utcfromtimestamp(ms))

@@ -5,6 +5,7 @@ import json
 import logging
 import math
 import os
+import re
 import time
 from io import StringIO
 
@@ -27,7 +28,7 @@ def get_args():
     parser.add_argument("-ip", "--hostname", help="Database address (ip/url)", default="localhost", nargs='?')
     parser.add_argument("-p", "--port", help="Database port", default="8086", nargs='?')
     parser.add_argument('-f', '--format', required=True,
-                        choices=['jsonsensor', 'ruuvi', 'ruuvitag_collector', 'sensornode'],
+                        choices=['jsonsensor', 'ruuvigateway', 'ruuvi', 'ruuvitag_collector', 'sensornode'],
                         help='MQTT message format')
     parser.add_argument("--config", help="Configuration file", default="config.ini", nargs='?')
     parser.add_argument("-m", "--measurement", help="Measurement to save", required=False)
@@ -102,16 +103,17 @@ def on_message(client, userdata, msg):
     try:
         if client.args.format == 'ruuvi':
             handle_ruuvitag(client, userdata, msg, payload)
+        elif client.args.format == 'ruuvigateway':
+            handle_ruuvigateway(client, userdata, msg, payload)
         elif client.args.format == 'ruuvitag_collector':
             handle_ruuvitag_collector(client, userdata, msg, payload)
         elif client.args.format == 'jsonsensor':
             handle_jsonsensor(client, userdata, msg, payload)
         elif client.args.format == 'sensornode':
             handle_sensornode(client, userdata, msg, payload)
-    except Exception as err:
+    except Exception as err:  # paho eats all exceptions, so this kludge... :(
         import traceback
         import sys
-        # print(err)
         tb_output = StringIO()
         exc_type, exc_value, exc_traceback = sys.exc_info()
         logging.error("*** print_tb:")
@@ -185,6 +187,66 @@ def handle_ruuvitag(client, userdata, msg, payload):
             save_buffer(client)
 
 
+def handle_ruuvigateway(client, userdata, msg, payload):
+    """
+    Topic: ruuvi/24:0a:cc:ee:34:e4/d1:c7:08:22:12:5e
+    Payload: {"gw_mac":"24:0a:cc:ee:34:e4","rssi":-71,"aoa":[],"gwts":1606226785,"ts":1606226777,"data":"0201061BFF990405138A35E7C5900014003003F0A3F63B50CED1C70822125E","coords":""}
+    :param client:
+    :param userdata:
+    :param msg:
+    :param payload:
+    :return:
+    """
+    topic = msg.topic
+    topic_levels = topic.split('/')
+    topic_levels.pop(0)
+    if len(topic_levels) != 2:
+        logging.info("Topic levels don't match 3: {}".format(topic))
+        return
+    gw_mac, ruuvi_mac = topic_levels
+    # Get rid of non-ruuvitag broadcasts
+    if re.search("^[cdef]1", ruuvi_mac, re.IGNORECASE) is None:
+        logging.debug(f'{ruuvi_mac} is not a RuuviTag (does not start with [cdef])')
+        return
+    logging.info(f'{topic}: {payload}')
+    msgdata = json.loads(payload)
+    raw = msgdata['data'][14:]
+    if raw.startswith('05'):
+        data = Df5Decoder().decode_data(raw)
+    elif raw.startswith('03'):
+        data = Df3Decoder().decode_data(raw)
+    else:
+        logging.warning(f"Not supported: {raw}")
+        # TODO: add support
+        return
+    data['rssi'] = msgdata['rssi']
+    # Calculate total acceleration
+    if data.keys() >= {'acceleration_x', 'acceleration_y', 'acceleration_z'}:
+        data['acceleration'] = math.sqrt(
+            sum([float(data[x]) ** 2 for x in ['acceleration_x', 'acceleration_y', 'acceleration_z']]))
+    epoch = msgdata['ts']
+    try:
+        if (time.time() - 365 * 24 * 60 * 60) < int(epoch) < (time.time() + 1 * 24 * 60 * 60):
+            timestamp = datetime.datetime.utcfromtimestamp(int(epoch))
+        else:
+            timestamp = time.time()
+            logging.warning(f'Got invalid epoch Ruuvitag collector: {epoch}. Using {timestamp} instead.')
+        timestamp = pytz.UTC.localize(timestamp)
+    except Exception as err:
+        logging.info(err)
+        return
+    # Delete obsolete keys from data
+    for key in ['tx_power', 'mac']:
+        data.pop(key, None)
+    devid = ruuvi_mac.upper()
+    extratags = {'gw-id': gw_mac.upper()}
+    idata = create_influxdb_obj(devid, client.args.measurement, data, timestamp=timestamp, extratags=extratags)
+    logging.debug(json.dumps(idata))
+    database = client.args.database
+    iclient = get_influxdb_client(database=database)
+    iclient.write_points([idata])
+
+
 def handle_ruuvitag_collector(client, userdata, msg, payload):
     """
     Topic: ruuviesp32/E09E67E3709B/state
@@ -210,7 +272,7 @@ def handle_ruuvitag_collector(client, userdata, msg, payload):
     epoch = data.pop('epoch')
     logging.info("{} {}".format(topic, payload))
     try:
-        if (time.time() - 365*24*60*60) < int(epoch) < (time.time() + 1*24*60*60):
+        if (time.time() - 365 * 24 * 60 * 60) < int(epoch) < (time.time() + 1 * 24 * 60 * 60):
             timestamp = datetime.datetime.utcfromtimestamp(int(epoch))
         else:
             timestamp = time.time()
@@ -221,7 +283,7 @@ def handle_ruuvitag_collector(client, userdata, msg, payload):
         return
     # Delete obsolete keys from data
     for key in ['tx_power']:
-         data.pop(key, None)
+        data.pop(key, None)
     # Convert mac address to : format (F09D67E9709B --> F0:9D:67:E9:70:9B) for backwards compatibility
     line = ruuvi_mac.upper()
     n = 2
@@ -240,7 +302,6 @@ def add_value(devid, _type, subtype, value):
         SN[devid] = {}
     if _type not in SN[devid]:
         SN[devid][_type] = {}
-    # print(devid, _type, subtype, value)
     if _type in ['Accelerometer', 'Magnetometer', 'Gyroscope', 'Gravity', 'Proximity', 'LinearAcceleration',
                  'RotationVector', 'LightIntensity']:
         SN[devid][_type][subtype] = float(value)
@@ -277,7 +338,6 @@ def handle_sensornode(client, userdata, msg, payload):
         INFLUX_BUFFER.append(idata)
         if (LAST_SAVE_TIME + 1) < time.time():
             save_buffer(client, database='sensornode')
-        # print(idata)
         # logging.debug(json.dumps(idata, indent=2))
 
 

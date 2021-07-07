@@ -22,10 +22,10 @@ into a CSV file `test.csv` and into InfluxDB database
 ```
 python fmiapi.py \
     -st 20200510T08:00:00Z -et 20200510T20:00:00Z \
-    --timestep 10 \ 
+    --timestep 10 \
     --storedquery fmi::observations::weather::multipointcoverage \
     --idfield fmisid \
-    --stationids 100971 101004 \ 
+    --stationids 100971 101004 \
     --outfile test.csv \
     --influxdb_database fmi --influxdb_measurement observations
 ```
