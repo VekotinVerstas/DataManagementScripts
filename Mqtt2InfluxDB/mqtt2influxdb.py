@@ -270,7 +270,7 @@ def handle_ruuvitag_collector(client, userdata, msg, payload):
         data['acceleration'] = math.sqrt(
             sum([float(data[x]) ** 2 for x in ['acceleration_x', 'acceleration_y', 'acceleration_z']]))
     epoch = data.pop('epoch')
-    logging.info(topic, payload)
+    logging.info("{} {}".format(topic, payload))
     try:
         if (time.time() - 365 * 24 * 60 * 60) < int(epoch) < (time.time() + 1 * 24 * 60 * 60):
             timestamp = datetime.datetime.utcfromtimestamp(int(epoch))
