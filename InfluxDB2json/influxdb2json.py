@@ -126,6 +126,8 @@ def write_data(client, names, measure_name, start_time, end_time, args):
             ms = item['time'] / 1000
             d = pytz.UTC.localize(datetime.datetime.utcfromtimestamp(ms))
             datarow['time'] = d.astimezone(FI_TZ).isoformat()
+            if devid not in META:
+                continue
             fm = META[devid].get('fieldmap')
             datarow['temp_air'] = item['temp_in']
             if fm is not None:
