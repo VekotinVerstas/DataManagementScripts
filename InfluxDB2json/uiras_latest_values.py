@@ -2,8 +2,9 @@ import argparse
 import datetime
 import json
 import logging
+import os
 import sys
-from pprint import pprint
+import tempfile
 
 import pytz
 from geojson import Feature, Point, FeatureCollection
@@ -99,6 +100,16 @@ def to_geojson(uiras, base_url):
     )
     links.update(
         {
+            "json v2": {
+                "type": "application/json",
+                "rel": "data",
+                "title": "Data for 2 weeks in JSON format, version 2",
+                "href": f"{base_url}{devid}_v2.json",
+            }
+        }
+    )
+    links.update(
+        {
             "csv": {
                 "type": "text/csv",
                 "rel": "data",
@@ -144,8 +155,25 @@ def main():
         feature = to_geojson(d, base_url)
         if feature is not None:
             features.append(feature)
-    feature_collection = FeatureCollection(features, meta={"created_at": get_now().isoformat()})
-    print(json.dumps(feature_collection, indent=2))
+    meta = {
+        "created_at": get_now().isoformat(),
+        "comment": "This is the 2nd version of UiRaS data, now in GeoJSON format. Use this instead of v1, please.",
+        "contact": "Aapo Rista <aapo.rista@forumvirium.fi>",
+    }
+    feature_collection = FeatureCollection(features, meta=meta)
+    json_data = json.dumps(feature_collection, indent=1)
+    if args.outfile:
+        try:
+            with tempfile.NamedTemporaryFile(dir=os.path.dirname(args.outfile), delete=False) as fp:
+                fp.write(json_data.encode())
+            os.replace(fp.name, args.outfile)
+        finally:
+            try:
+                os.unlink(fp.name)
+            except OSError:
+                pass
+    else:
+        print(json_data)
 
 
 if __name__ == "__main__":
