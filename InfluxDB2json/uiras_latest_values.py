@@ -155,7 +155,7 @@ def get_links(args: argparse.Namespace, d, devid, base_url):
             "geojson": {
                 "type": "application/geojson",
                 "rel": "data",
-                "title": f"Data for {args.raw} days in GeoJSON format, version 2",
+                "title": f"Data for {args.raw}/{args.h3}/{args.d1} days in GeoJSON format, version 2",
                 "href": f"{base_url}{devid}_v2.geojson",
             }
         }
@@ -201,12 +201,13 @@ def to_geojson(args: argparse.Namespace, uiras, base_url, latest_data=True):
     if devid not in META:
         return
     d = META[devid]
-    props = {
+    props = d.get("properties", {})
+    props.update({
         "name": d["name"],
         "location": d.get("location", ""),
         "district": d.get("district", ""),
         "created_at": get_now().isoformat(),
-    }
+    })
     if latest_data:
         props.update(
             {

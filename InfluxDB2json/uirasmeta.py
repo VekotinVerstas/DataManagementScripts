@@ -8,6 +8,11 @@ META = {
         "servicemap_url": "https://palvelukartta.hel.fi/unit/41960",
         "site_url": "",
         "links": {},
+        "properties": {
+            "installation depth": -0.2,
+            "installation platform": "pier",
+            "installation method": "floating",
+        },
     },
     "70B3D57050001BBE": {
         "name": "Rastilan uimaranta",
@@ -19,6 +24,11 @@ META = {
         "site_url": "https://www.kuhat.com/talviuinti/",
         "site_title": "Uintiseura Kuhat Ry",
         "links": {},
+        "properties": {
+            "installation depth": -0.2,
+            "installation platform": "pier",
+            "installation method": "floating",
+        },
     },
     "70B3D5705000E418": {
         "name": "Sompasauna",
@@ -31,6 +41,11 @@ META = {
         "site_title": "Sompasauna Ry",
         "links": {},
         "valid_from": "2022-05-05T16:00:00Z",
+        "properties": {
+            "installation depth": -0.3,
+            "installation platform": "steps",
+            "installation method": "static",
+        },
     },
     "70B3D5705000DFF6": {
         "name": "Munkkiniemen uimaranta",
@@ -38,10 +53,31 @@ META = {
         "district": "Munkkiniemi (Vanha Munkkiniemi)",
         "lat": 60.200333,
         "lon": 24.857306,
-        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/41264",
+        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/41601",
         "site_url": "",
         "site_title": "",
         "valid_from": "2022-05-13T13:00:00Z",
+        "properties": {
+            "installation depth": -0.3,
+            "installation platform": "steps",
+            "installation method": "static",
+        },
+    },
+    "70B3D5705000DFED": {
+        "name": "Katajanokan mattolaituri",
+        "location": "Laivastopuisto",
+        "district": "Katajanokka",
+        "lat": 60.169316,
+        "lon": 24.976013,
+        "servicemap_url": "",
+        "site_url": "",
+        "site_title": "",
+        "valid_from": "2022-06-13T14:00:00Z",
+        "properties": {
+            "installation depth": -0.2,
+            "installation platform": "pier",
+            "installation method": "floating",
+        },
     },
     "70B3D5705000E3C0": {
         "name": "Rajasaari",
@@ -53,15 +89,25 @@ META = {
         "site_url": "http://hkk-talviuimarit.fi/",
         "site_title": "HKK-Talviuimarit",
         "valid_from": "2022-05-13T13:00:00Z",
+        "properties": {
+            "installation depth": -0.2,
+            "installation platform": "pier",
+            "installation method": "floating",
+        },
     },
-    '70B3D57050004D86': {
-        'name': 'Pihlajasaari',
+    "70B3D57050004D86": {
+        "name": "Pihlajasaari",
         "location": "Retkisatama",
         "district": "Ulkosaaret (Länsisaaret)",
-        'lat': 60.140588,
-        'lon': 24.9157002,
-        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/41977',
-        'site_url': '',
+        "lat": 60.140588,
+        "lon": 24.9157002,
+        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/41977",
+        "site_url": "",
+        "properties": {
+            "installation depth": -0.4,
+            "installation platform": "pier",
+            "installation method": "floating",
+        },
     },
     "70B3D57050004FB9": {
         "name": "Hietaniemi",
@@ -72,6 +118,11 @@ META = {
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40142",
         "site_url": "http://www.tuk.fi",
         "site_title": "Talviuimarienkerho ry",
+        "properties": {
+            "installation depth": -0.4,
+            "installation platform": "steps",
+            "installation method": "static",
+        },
     },
     # "70B3D57050004DF8": {
     #     "name": "Vasikkasaari (Helsinki)",
@@ -96,6 +147,11 @@ META = {
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/41791",
         "site_url": "",
         "valid_from": "2022-05-30T13:00:00Z",
+        "properties": {
+            "installation depth": -0.3,
+            "installation platform": "steps",
+            "installation method": "static",
+        },
     },
     "70B3D5705000E070": {
         "name": "Matosaari itä",
@@ -103,9 +159,14 @@ META = {
         "district": "Laajasalo (Jollas)",
         "lat": 60.156914,
         "lon": 25.082887,
-        "servicemap_url": "",
+        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40798",
         "site_url": "",
         "valid_from": "2022-06-05T10:00:00Z",
+        "properties": {
+            "installation depth": -0.2,
+            "installation platform": "pier",
+            "installation method": "floating",
+        },
     },
     "70B3D5705000E3EF": {
         "name": "Matosaari länsi",
@@ -116,6 +177,25 @@ META = {
         "servicemap_url": "",
         "site_url": "",
         "valid_from": "2022-06-05T10:00:00Z",
+        "properties": {
+            "installation depth": -0.2,
+            "installation platform": "pier",
+            "installation method": "floating",
+        },
+    },
+    "70B3D5705000E3B2": {
+        "name": "Reposalmi VK",
+        "location": "Reposalmi",
+        "district": "Laajasalo (Yliskylä)",
+        "lat": 60.18052,
+        "lon": 25.06532,
+        "servicemap_url": "",
+        "site_url": "",
+        "properties": {
+            "installation depth": -0.2,
+            "installation platform": "pier",
+            "installation method": "floating",
+        },
     },
     # "70B3D57050004FE6": {
     #     "name": "Vartiosaari (Reposalmen laituri)",
@@ -134,6 +214,11 @@ META = {
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40386",
         "site_url": "http://www.meriuimarit.fi/",
         "site_title": "Meriuimarit ry",
+        "properties": {
+            "installation depth": -0.3,
+            "installation platform": "wall",
+            "installation method": "static",
+        },
     },
     "70B3D5705000504F": {
         "name": "Hanikan uimaranta",
@@ -143,6 +228,11 @@ META = {
         "lon": 24.691871,
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/39583",
         "site_url": "",
+        "properties": {
+            "installation depth": -0.2,
+            "installation platform": "pier",
+            "installation method": "floating",
+        },
     },
     "70B3D57050001BA6": {
         "name": "Vetokannas",
@@ -156,6 +246,11 @@ META = {
             "temp_water": "temp_out1",
             "air_rh": "temprh_rh",
             "air_temp": "temprh_temp",
+        },
+        "properties": {
+            "installation depth": -0.3,
+            "installation platform": "steps",
+            "installation method": "static",
         },
     },
     "70B3D57050001ADA": {
@@ -171,6 +266,11 @@ META = {
             "air_rh": "temprh_rh",
             "air_temp": "temprh_temp",
         },
+        "properties": {
+            "installation depth": -0.3,
+            "installation platform": "steps",
+            "installation method": "static",
+        },
     },
     "70B3D5705000516A": {
         "name": "Kattilajärvi",
@@ -180,18 +280,23 @@ META = {
         "lon": 24.61975,
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/39368",
         "site_url": "",
-    },
-    "70B3D57050001AF1": {
-        "name": "Lauttasaari (Vaskiniemi)",
-        "lat": 60.16050,
-        "lon": 24.85241,
-        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/42212",
-        "site_url": "https://www.sauna.fi/",
-        "fieldmap": {
-            "temp_water": "temp_out2",
-            "air_temp": "temp_out1",
+        "properties": {
+            "installation depth": -0.2,
+            "installation platform": "pier",
+            "installation method": "floating",
         },
     },
+    # "70B3D57050001AF1": {
+    #     "name": "Lauttasaari (Vaskiniemi)",
+    #     "lat": 60.16050,
+    #     "lon": 24.85241,
+    #     "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/42212",
+    #     "site_url": "https://www.sauna.fi/",
+    #     "fieldmap": {
+    #         "temp_water": "temp_out2",
+    #         "air_temp": "temp_out1",
+    #     },
+    # },
     "70B3D57050004FC2": {
         "name": "Lauttasaaren ulkoilupuisto",
         "location": "",
@@ -200,6 +305,11 @@ META = {
         "lon": 24.89070,
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40701",
         "site_url": "",
+        "properties": {
+            "installation depth": -0.4,
+            "installation platform": "steps",
+            "installation method": "static",
+        },
     },
     #    '70B3D5705000E703': {
     #        'name': 'Munkkiniemi',
@@ -216,6 +326,11 @@ META = {
         "lon": 24.983775,
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/58015",
         "site_url": "",
+        "properties": {
+            "installation depth": -0.4,
+            "installation platform": "buoy",
+            "installation method": "floating",
+        },
     },
     "70B3D57050004740": {
         "name": "Lapinlahden uimaranta",
@@ -225,6 +340,11 @@ META = {
         "lon": 24.908833,
         "servicemap_url": "",
         "site_url": "",
+        "properties": {
+            "installation depth": -0.4,
+            "installation platform": "buoy",
+            "installation method": "floating",
+        },
     },
     "70B3D5705000E70E": {
         "name": "Aurinkolahden uimaranta",
@@ -234,6 +354,11 @@ META = {
         "lon": 25.156321,
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40258",
         "site_url": "",
+        "properties": {
+            "installation depth": -0.4,
+            "installation platform": "buoy",
+            "installation method": "floating",
+        },
     },
     "70B3D5705000E6D1": {
         "name": "Porvarinlahti",
@@ -243,6 +368,11 @@ META = {
         "lon": 25.185788,
         "servicemap_url": "",
         "site_url": "",
+        "properties": {
+            "installation depth": -0.4,
+            "installation platform": "buoy",
+            "installation method": "floating",
+        },
     },
     "70B3D5705000E6F9": {
         "name": "Arabianranta",
@@ -252,8 +382,13 @@ META = {
         "lon": 24.982580,
         "servicemap_url": "",
         "site_url": "",
+        "properties": {
+            "installation depth": -0.4,
+            "installation platform": "buoy",
+            "installation method": "floating",
+        },
     },
-    "70B3D5705000E6F2": {
+    "70B3D57050004DF2": {
         "name": "Lauttasaaren uimaranta",
         "location": "",
         "district": "Lauttasaari",
@@ -261,7 +396,21 @@ META = {
         "lon": 24.862529,
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40098",
         "site_url": "",
+        "properties": {
+            "installation depth": -0.4,
+            "installation platform": "buoy",
+            "installation method": "floating",
+        },
     },
+    # "70B3D5705000E6F2": {
+    #     "name": "Lauttasaaren uimaranta",
+    #     "location": "",
+    #     "district": "Lauttasaari",
+    #     "lat": 60.15271,
+    #     "lon": 24.862529,
+    #     "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40098",
+    #     "site_url": "",
+    # },
     "70B3D5705000E696": {
         "name": "Töölönlahti",
         "location": "Töölönlahti",
@@ -270,6 +419,11 @@ META = {
         "lon": 24.9341,
         "servicemap_url": "",
         "site_url": "",
+        "properties": {
+            "installation depth": -0.4,
+            "installation platform": "buoy",
+            "installation method": "floating",
+        },
     },
     "70B3D5705000E653": {
         "name": "Pikku-Huopalahti",
@@ -279,6 +433,11 @@ META = {
         "lon": 24.890244,
         "servicemap_url": "",
         "site_url": "",
+        "properties": {
+            "installation depth": -0.4,
+            "installation platform": "buoy",
+            "installation method": "floating",
+        },
     },
     #    '70B3D57050004DF2': {
     #        'name': 'Eiranranta',
@@ -287,6 +446,31 @@ META = {
     #        'servicemap_url': '',
     #        'site_url': '',
     #    },
+    "70B3D5705000E0E9": {
+        "name": "Eiranranta",
+        "location": "Länsisatama",
+        "district": "Hernesaari",
+        "lat": 60.15412,
+        "lon": 24.93448,
+        "servicemap_url": "",
+        "site_url": "",
+        "valid_from": "2022-06-29T08:45:00Z",
+        "properties": {
+            "installation depth": -0.4,
+            "installation platform": "steps",
+            "installation method": "static",
+        },
+    },
+    # "70B3D5705000E394": {
+    #     "name": "Saukonpaasi",
+    #     "location": "Länsisatama",
+    #     "district": "Jätkäsaari",
+    #     "lat": 60.15798,
+    #     "lon": 24.90376,
+    #     "servicemap_url": "",
+    #     "site_url": "",
+    #     "valid_from": "2022-06-29T12:00:00Z",
+    # },
     "70B3D57050001A97": {
         "name": "Kalasatama",
         "location": "Sompasaarensalmi",
@@ -295,15 +479,20 @@ META = {
         "lon": 24.979968,
         "servicemap_url": "",
         "site_url": "",
+        "properties": {
+            "installation depth": -0.4,
+            "installation platform": "steps",
+            "installation method": "static",
+        },
     },
-    #    '003C62A8': {
-    #        'name': 'Uunisaari',
-    #        'lat': 60.15294,
-    #        'lon': 24.94991,
-    #        'servicemap_url': 'https://palvelukartta.hel.fi/fi/unit/40356',
-    #        'site_url': 'https://www.uunisaari.fi/',
-    #        'fieldmap': {
-    #            'temp_water': 'temp_out2',
-    #        },
-    #    },
+    # "003C62A8": {
+    #     "name": "Uunisaari",
+    #     "lat": 60.15294,
+    #     "lon": 24.94991,
+    #     "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40356",
+    #     "site_url": "https://www.uunisaari.fi/",
+    #     "fieldmap": {
+    #         "temp_water": "temp_out2",
+    #     },
+    # },
 }
