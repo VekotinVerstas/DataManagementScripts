@@ -6,6 +6,8 @@ import os
 import sys
 import tempfile
 from pathlib import Path
+from zoneinfo import ZoneInfo
+import isodate
 
 import pandas
 import pytz
@@ -14,8 +16,8 @@ from influxdb import InfluxDBClient, DataFrameClient
 
 from uirasmeta import META
 
-
 # from pprint import pprint
+TIMEZONE = "Europe/Helsinki"
 
 
 def usage():
@@ -44,7 +46,9 @@ def get_args() -> argparse.Namespace:
     parser.add_argument("--field", help="Field name, e.g. 'batt'", required=True)
     parser.add_argument("--outfile", help="Output filename for main geojson (default stdout)", nargs="?")
     parser.add_argument("--outdir", help="Output directory for sensor geojson files", default=".", nargs="?")
-    parser.add_argument("--days", help="How many days of data to dump", type=int, default=14, nargs="?")
+    parser.add_argument("--d1", help="How many days of 1d data", type=int, default=180, nargs="?")
+    parser.add_argument("--h3", help="How many days of 3h data", type=int, default=30, nargs="?")
+    parser.add_argument("--raw", help="How many days of raw data", type=int, default=7, nargs="?")
     parser.add_argument("--usage", action="store_true", help="Print usage text and exit")
     args = parser.parse_args()
     if args.usage:
@@ -87,8 +91,11 @@ def df_to_dict(df: pandas.DataFrame) -> list:
 
 
 def get_latest_per_sensor(
-    args: argparse.Namespace, devid: str, start_time: datetime.datetime, end_time: datetime.datetime
+        args: argparse.Namespace, devid: str, start_time: datetime.datetime, end_time: datetime.datetime
 ) -> dict:
+    valid_from = META[devid].get("valid_from")
+    if valid_from and isodate.parse_datetime(valid_from) > start_time:
+        start_time = isodate.parse_datetime(valid_from)
     all_data = {}
     iclient = DataFrameClient(host=args.host, port=args.port, database=args.database)
     timequery = """time >= '{}' AND time < '{}'""".format(start_time.isoformat(), end_time.isoformat())
@@ -106,16 +113,22 @@ def get_latest_per_sensor(
     df = df.rename(columns={"temp_out1": "temp_water"})  # Rename water temperature column
     df = df.filter(["temp_water", "temp_in", "rssi", "batt"])  # Filter out unneeded columns
     df = df.dropna()
-    df = df.tz_convert(tz="Europe/Helsinki")
+    df = df.tz_convert(tz=TIMEZONE)
     # also this may work: .agg({'A' : ['sum','std'], 'B' : ['mean','std'] })
-    df_1d_mean = df.resample("1d").mean()
+    now_date = datetime.datetime.now(ZoneInfo(TIMEZONE)).replace(hour=0, minute=0, second=0, microsecond=0)
+    filter_d1 = now_date - datetime.timedelta(days=args.d1)
+    df_1d_mean = df.loc[filter_d1:].resample("1d").mean()
     df_1d = df["temp_water"].resample("1d").agg(["min", "max"])
     df_1d = df_1d.rename(columns={"min": "temp_water_min", "max": "temp_water_max"})
     df_1d = df_1d.join(df_1d_mean)
+    df_1d = df_1d.dropna()
 
-    df_3h = df.resample("3h").mean()
+    filter_h3 = now_date - datetime.timedelta(days=args.h3)
+    df_3h = df.loc[filter_h3:].resample("3h").mean()
 
-    all_data["raw"] = df_to_dict(df)
+    filter_raw = now_date - datetime.timedelta(days=args.raw)
+
+    all_data["raw"] = df_to_dict(df.loc[filter_raw:])
     all_data["h3"] = df_to_dict(df_3h)
     all_data["d1"] = df_to_dict(df_1d)
     return all_data
@@ -142,7 +155,7 @@ def get_links(args: argparse.Namespace, d, devid, base_url):
             "geojson": {
                 "type": "application/geojson",
                 "rel": "data",
-                "title": f"Data for {args.days} days in GeoJSON format, version 2",
+                "title": f"Data for {args.raw} days in GeoJSON format, version 2",
                 "href": f"{base_url}{devid}_v2.geojson",
             }
         }
@@ -218,7 +231,7 @@ def create_device_feature(args: argparse.Namespace, devid: str) -> Feature:
 def create_device_data(args: argparse.Namespace):
     for k in sorted(META.keys()):
         feature = create_device_feature(args, k)
-        all_data = get_latest_per_sensor(args, k, get_now() - datetime.timedelta(days=args.days), get_now())
+        all_data = get_latest_per_sensor(args, k, get_now() - datetime.timedelta(days=args.d1), get_now())
         feature["properties"]["data"] = all_data
 
         fpath = Path(args.outdir) / f"{k}_v2.geojson"
