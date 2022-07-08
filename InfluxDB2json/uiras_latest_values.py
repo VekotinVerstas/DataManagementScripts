@@ -264,7 +264,7 @@ def main():
     for d in srt:
         if (get_now() - d["time"]).total_seconds() > 7 * 24 * 60 * 60:
             logging.warning(f"Discard more than 7 days old data: {d.get('name')} {d.get('devid')}")
-            return
+            continue
         feature = to_geojson(args, d, base_url)
         if feature is not None:
             features.append(feature)
