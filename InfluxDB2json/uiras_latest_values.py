@@ -6,7 +6,6 @@ import os
 import sys
 import tempfile
 from pathlib import Path
-from zoneinfo import ZoneInfo
 import isodate
 
 import pandas
@@ -115,7 +114,7 @@ def get_latest_per_sensor(
     df = df.dropna()
     df = df.tz_convert(tz=TIMEZONE)
     # also this may work: .agg({'A' : ['sum','std'], 'B' : ['mean','std'] })
-    now_date = datetime.datetime.now(ZoneInfo(TIMEZONE)).replace(hour=0, minute=0, second=0, microsecond=0)
+    now_date = get_now().replace(hour=0, minute=0, second=0, microsecond=0)
     filter_d1 = now_date - datetime.timedelta(days=args.d1)
     df_1d_mean = df.loc[filter_d1:].resample("1d").mean()
     df_1d = df["temp_water"].resample("1d").agg(["min", "max"])
@@ -160,16 +159,6 @@ def get_links(args: argparse.Namespace, d, devid, base_url):
             }
         }
     )
-    # links.update(
-    #     {
-    #         "csv": {
-    #             "type": "text/csv",
-    #             "rel": "data",
-    #             "title": "Data for 2 weeks in CSV format",
-    #             "href": f"{base_url}{devid}.csv",
-    #         }
-    #     }
-    # )
     if d.get("servicemap_url", "") != "":
         links.update(
             {
@@ -231,6 +220,7 @@ def create_device_feature(args: argparse.Namespace, devid: str) -> Feature:
 
 def create_device_data(args: argparse.Namespace):
     for k in sorted(META.keys()):
+        logging.info(f"Creating device data file for {k}")
         feature = create_device_feature(args, k)
         all_data = get_latest_per_sensor(args, k, get_now() - datetime.timedelta(days=args.d1), get_now())
         feature["properties"]["data"] = all_data
@@ -256,7 +246,6 @@ def atomic_write(fname: str, data: bytes):
 
 def main():
     args = get_args()
-    create_device_data(args)
     devs = get_latest_data(args)
     srt = sorted(devs, key=lambda i: i["devid"])
     features = []
@@ -265,7 +254,7 @@ def main():
         if (get_now() - d["time"]).total_seconds() > 7 * 24 * 60 * 60:
             logging.warning(f"Discard more than 7 days old data: {d.get('name')} {d.get('devid')}")
             continue
-        feature = to_geojson(args, d, base_url)
+        feature = to_geojson(args, d, base_url, latest_data=True)
         if feature is not None:
             features.append(feature)
     meta = {
@@ -279,6 +268,7 @@ def main():
         atomic_write(args.outfile, json_data.encode())
     else:
         print(json_data)
+    create_device_data(args)
 
 
 if __name__ == "__main__":
