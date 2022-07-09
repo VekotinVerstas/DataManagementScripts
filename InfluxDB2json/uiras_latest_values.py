@@ -124,10 +124,11 @@ def get_latest_per_sensor(
 
     filter_h3 = now_date - datetime.timedelta(days=args.h3)
     df_3h = df.loc[filter_h3:].resample("3h").mean()
+    df_3h = df_3h.dropna()
 
     filter_raw = now_date - datetime.timedelta(days=args.raw)
 
-    all_data["raw"] = df_to_dict(df.loc[filter_raw:])
+    all_data["raw"] = df_to_dict(df.loc[filter_raw:].dropna())
     all_data["h3"] = df_to_dict(df_3h)
     all_data["d1"] = df_to_dict(df_1d)
     return all_data
