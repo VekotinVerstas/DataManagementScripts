@@ -121,11 +121,11 @@ def get_latest_per_sensor(
     df_1d = df_filtered["temp_water"].resample("1d").agg(["min", "max"])
     df_1d = df_1d.rename(columns={"min": "temp_water_min", "max": "temp_water_max"})
     df_1d = df_1d.join(df_1d_mean)
-    # df_1d = df_1d.dropna()
+    df_1d = df_1d.dropna()
 
     filter_h3 = now_date - datetime.timedelta(days=args.h3)
     df_3h = df_filtered.loc[filter_h3:].resample("3h").mean()
-    # df_3h = df_3h.dropna()
+    df_3h = df_3h.dropna()
 
     filter_raw = now_date - datetime.timedelta(days=args.raw)
 
