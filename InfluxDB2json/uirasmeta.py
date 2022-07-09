@@ -191,6 +191,7 @@ META = {
         "lon": 25.06532,
         "servicemap_url": "",
         "site_url": "",
+        "valid_from": "2022-07-04T17:00:00Z",
         "properties": {
             "installation depth": -0.2,
             "installation platform": "pier",

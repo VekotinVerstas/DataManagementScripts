@@ -113,18 +113,19 @@ def get_latest_per_sensor(
     df = df.filter(["temp_water", "temp_in", "rssi", "batt"])  # Filter out unneeded columns
     df = df.dropna()
     df = df.tz_convert(tz=TIMEZONE)
+    df_filtered = df[df["temp_water"] > -300].dropna()  # Get rid of -327.68 and NaN values
     # also this may work: .agg({'A' : ['sum','std'], 'B' : ['mean','std'] })
     now_date = get_now().replace(hour=0, minute=0, second=0, microsecond=0)
     filter_d1 = now_date - datetime.timedelta(days=args.d1)
-    df_1d_mean = df.loc[filter_d1:].resample("1d").mean()
-    df_1d = df["temp_water"].resample("1d").agg(["min", "max"])
+    df_1d_mean = df_filtered.loc[filter_d1:].resample("1d").mean()
+    df_1d = df_filtered["temp_water"].resample("1d").agg(["min", "max"])
     df_1d = df_1d.rename(columns={"min": "temp_water_min", "max": "temp_water_max"})
     df_1d = df_1d.join(df_1d_mean)
-    df_1d = df_1d.dropna()
+    # df_1d = df_1d.dropna()
 
     filter_h3 = now_date - datetime.timedelta(days=args.h3)
-    df_3h = df.loc[filter_h3:].resample("3h").mean()
-    df_3h = df_3h.dropna()
+    df_3h = df_filtered.loc[filter_h3:].resample("3h").mean()
+    # df_3h = df_3h.dropna()
 
     filter_raw = now_date - datetime.timedelta(days=args.raw)
 
