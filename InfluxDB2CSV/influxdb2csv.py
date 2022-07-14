@@ -11,6 +11,7 @@ import pandas as pd
 import dateutil.parser
 import pytz
 from influxdb import InfluxDBClient
+from influxdb.exceptions import InfluxDBClientError
 
 UNITS = {"s": 1, "m": 60, "h": 3600, "d": 86400, "w": 604800}
 
@@ -74,6 +75,7 @@ def parse_args():
     parser.add_argument("-et", "--endtime", help="End time for dump including timezone")
     parser.add_argument("-f", "--filter", help="List of columns to filter", default='', nargs='?')
     parser.add_argument("-P", "--path", help="Directory to save the file")
+    parser.add_argument("-O", "--outfile", help="Filename, if automatically generated name doesn't fit your needs")
     args = parser.parse_args()
     if args.log:
         logging.basicConfig(level=getattr(logging, args.log))
@@ -85,15 +87,22 @@ def get_result(client, start_time, end_time, measure_name, extracondition=''):
     query = """select * from "{}" where {} {}""".format(measure_name, timequery, extracondition)
     logging.info(query)
     # https://docs.influxdata.com/influxdb/v0.13/guides/querying_data/
-    result = client.query(query, epoch='ms')
+    try:
+        result = client.query(query, epoch='ms')
+    except InfluxDBClientError as err:
+        print(query)
+        raise
     return result
 
 
 def write_data(client, names, measure_name, start_time, end_time, args):
-    fname = '{}-{}-{}.csv'.format(measure_name,
-                                  start_time.isoformat().replace(':', '').replace('-', '').replace('+0000', 'Z'),
-                                  end_time.isoformat().replace(':', '').replace('-', '').replace('+0000', 'Z')
-                                  )
+    if args.outfile is None:
+        fname = '{}-{}-{}.csv'.format(measure_name,
+                                      start_time.isoformat().replace(':', '').replace('-', '').replace('+0000', 'Z'),
+                                      end_time.isoformat().replace(':', '').replace('-', '').replace('+0000', 'Z')
+                                      )
+    else:
+        fname = args.outfile
     if args.path is None:
         filename = None
         f = sys.stdout
