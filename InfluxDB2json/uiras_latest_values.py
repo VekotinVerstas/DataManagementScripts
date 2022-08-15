@@ -6,13 +6,13 @@ import os
 import sys
 import tempfile
 from pathlib import Path
-import isodate
+from typing import Union
 
+import isodate
 import pandas
 import pytz
-from geojson import Feature, Point, FeatureCollection
-from influxdb import InfluxDBClient, DataFrameClient
-
+from geojson import Feature, FeatureCollection, Point
+from influxdb import DataFrameClient, InfluxDBClient
 from uirasmeta import META
 
 # from pprint import pprint
@@ -90,8 +90,8 @@ def df_to_dict(df: pandas.DataFrame) -> list:
 
 
 def get_latest_per_sensor(
-        args: argparse.Namespace, devid: str, start_time: datetime.datetime, end_time: datetime.datetime
-) -> dict:
+    args: argparse.Namespace, devid: str, start_time: datetime.datetime, end_time: datetime.datetime
+) -> Union[dict | None]:
     valid_from = META[devid].get("valid_from")
     if valid_from and isodate.parse_datetime(valid_from) > start_time:
         start_time = isodate.parse_datetime(valid_from)
@@ -100,7 +100,11 @@ def get_latest_per_sensor(
     timequery = """time >= '{}' AND time < '{}'""".format(start_time.isoformat(), end_time.isoformat())
     query = f"""SELECT * FROM {args.measurement} WHERE {timequery} AND "dev-id" = '{devid}' """  # noqa
     result: pandas.DataFrame = iclient.query(query, epoch="ns")
-    df = result[args.measurement]
+    try:
+        df = result[args.measurement]
+    except KeyError:
+        print(f"No data for {META[devid]} ")
+        return None
 
     # TODO: check if `fieldmap` exists and rename fields respectively
     if "fieldmap" in META[devid]:
@@ -193,12 +197,15 @@ def to_geojson(args: argparse.Namespace, uiras, base_url, latest_data=True):
         return
     d = META[devid]
     props = d.get("properties", {})
-    props.update({
-        "name": d["name"],
-        "location": d.get("location", ""),
-        "district": d.get("district", ""),
-        "created_at": get_now().isoformat(),
-    })
+    props.update(
+        {
+            "name": d["name"],
+            "location": d.get("location", ""),
+            "district": d.get("district", ""),
+            "info": d.get("info", ""),
+            "created_at": get_now().isoformat(),
+        }
+    )
     if latest_data:
         props.update(
             {
@@ -225,6 +232,8 @@ def create_device_data(args: argparse.Namespace):
         logging.info(f"Creating device data file for {k}")
         feature = create_device_feature(args, k)
         all_data = get_latest_per_sensor(args, k, get_now() - datetime.timedelta(days=args.d1), get_now())
+        if all_data is None:
+            return
         feature["properties"]["data"] = all_data
 
         fpath = Path(args.outdir) / f"{k}_v2.geojson"
