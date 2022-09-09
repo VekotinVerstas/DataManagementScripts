@@ -142,6 +142,9 @@ def get_default_argumentparser() -> argparse.ArgumentParser:
     parser.add_argument("-ip", "--influxdb_port", default=8086, help="InfluxDB port")
     parser.add_argument("-iu", "--influxdb_username", help="InfluxDB username")
     parser.add_argument("-iP", "--influxdb_password", help="InfluxDB password")
+    parser.add_argument("--influxdb_ssl", action="store_true", help="Use SSL")
+    parser.add_argument("--influxdb_verify_ssl", action="store_true", help="Verify SSL")
+    parser.add_argument("--influxdb_create_database", action="store_true", help="Verify SSL")
     parser.add_argument("--outfile", help="Output filename (.xlsx extension creates excel file, others CSV")
     parser.add_argument("--sentry-dns", required=False, help="sentry_dns uri, if Sentry is in use")
     return parser
@@ -187,9 +190,12 @@ def dataframe_into_influxdb(args: dict, df: pd.DataFrame, tag_columns=None):
         username=args.get("influxdb_username"),
         password=args.get("influxdb_password"),
         database=args.get("influxdb_database"),
+        ssl=args.get("influxdb_ssl"),
+        verify_ssl=args.get("influxdb_verify_ssl"),
     )
-    logging.info("Create database: {}".format(args.get("influxdb_database")))
-    client.create_database(args.get("influxdb_database"))
+    if args.get("influxdb_create_database"):
+        logging.info("Create database: {}".format(args.get("influxdb_database")))
+        client.create_database(args.get("influxdb_database"))
     len1 = len(df)
     df = df.dropna(thresh=2)  # Drop all lines where all but dev-id columns are NaN
     len2 = len(df)
