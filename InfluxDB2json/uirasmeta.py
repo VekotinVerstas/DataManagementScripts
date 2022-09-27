@@ -42,7 +42,7 @@ META = {
         "links": {},
         "valid_from": "2022-05-05T16:00:00Z",
         "properties": {
-            "installation depth": -0.3,
+            "installation depth": -0.39,  # Changed 2022-0907 -0.28 -> -0.39
             "installation platform": "steps",
             "installation method": "static",
         },
@@ -243,7 +243,7 @@ META = {
         "lon": 24.88056,
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/42505",
         "site_url": "",
-        "info": "Alhaisen vedenpinnan johdosta sensori mittaa ilman lämpötilaa 6.8.2022 alkaen. (15.8.2022)",
+        "info": "Alhaisen vedenpinnan johdosta sensori mittasi ilman lämpötilaa 6.-23.8.2022.",
         "fieldmap": {
             "temp_water": "temp_out1",
             "air_rh": "temprh_rh",
@@ -257,7 +257,7 @@ META = {
     },
     "70B3D57050001ADA": {
         "name": "Kuusijärvi",
-        "location": "",
+        "location": "Uimaranta",
         "district": "Vantaa (Kuninkaanmäki)",
         "lat": 60.313343,
         "lon": 25.113967,
@@ -288,31 +288,6 @@ META = {
             "installation method": "floating",
         },
     },
-    # "70B3D57050001AF1": {
-    #     "name": "Lauttasaari (Vaskiniemi)",
-    #     "lat": 60.16050,
-    #     "lon": 24.85241,
-    #     "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/42212",
-    #     "site_url": "https://www.sauna.fi/",
-    #     "fieldmap": {
-    #         "temp_water": "temp_out2",
-    #         "air_temp": "temp_out1",
-    #     },
-    # },
-    # "70B3D57050004FC2": {
-    #     "name": "Lauttasaaren ulkoilupuisto",
-    #     "location": "",
-    #     "district": "Lauttasaari",
-    #     "lat": 60.14682,
-    #     "lon": 24.89070,
-    #     "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40701",
-    #     "site_url": "",
-    #     "properties": {
-    #         "installation depth": -0.4,
-    #         "installation platform": "steps",
-    #         "installation method": "static",
-    #     },
-    # },
     #    '70B3D5705000E703': {
     #        'name': 'Munkkiniemi',
     #        'lat': 60.2004257,
@@ -328,6 +303,7 @@ META = {
         "lon": 24.983775,
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/58015",
         "site_url": "",
+        "info": "Mittari pois käytöstä 7.9.2022 alkaen.",
         "properties": {
             "installation depth": -0.4,
             "installation platform": "buoy",
@@ -390,6 +366,36 @@ META = {
             "installation method": "floating",
         },
     },
+    "70B3D57050004CDB": {
+        "name": "Lauttasaaren mattolaituri",
+        "location": "Laukkaluoto",
+        "district": "Lauttasaari (Katajaharju)",
+        "lat": 60.1707,
+        "lon": 24.8579,
+        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/9266",
+        "site_url": "",
+        "valid_from": "2022-08-25T13:40:00Z",
+        "properties": {
+            "installation depth": -0.3,
+            "installation platform": "pier",
+            "installation method": "floating",
+        },
+    },
+    "70B3D57050001BBC": {
+        "name": "Poliisien kesäkoti",
+        "location": "Länsiulapanniemi",
+        "district": "Lauttasaari (Myllykallio)",
+        "lat": 60.15168,
+        "lon": 24.85692,
+        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/21026",
+        "site_url": "",
+        "valid_from": "2022-08-29T13:30:00Z",
+        "properties": {
+            "installation depth": -0.28,
+            "installation platform": "pier",
+            "installation method": "static",
+        },
+    },
     # "70B3D57050004DF2": {
     #     "name": "Lauttasaaren uimaranta",
     #     "location": "",
@@ -413,6 +419,31 @@ META = {
     #     "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40098",
     #     "site_url": "",
     # },
+    # "70B3D57050001AF1": {
+    #     "name": "Lauttasaari (Vaskiniemi)",
+    #     "lat": 60.16050,
+    #     "lon": 24.85241,
+    #     "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/42212",
+    #     "site_url": "https://www.sauna.fi/",
+    #     "fieldmap": {
+    #         "temp_water": "temp_out2",
+    #         "air_temp": "temp_out1",
+    #     },
+    # },
+    "70B3D57050004FC2": {
+        "name": "Lauttasaaren ulkoilupuisto",
+        "location": "Veijarivuoren puisto",
+        "district": "Lauttasaari (Vattuniemi)",
+        "lat": 60.14682,
+        "lon": 24.89070,
+        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40701",
+        "site_url": "",
+        "properties": {
+            "installation depth": -0.4,
+            "installation platform": "steps",
+            "installation method": "static",
+        },
+    },
     # "70B3D5705000E696": {
     #     "name": "Töölönlahti",
     #     "location": "Töölönlahti",
@@ -450,8 +481,8 @@ META = {
     #    },
     "70B3D5705000E0E9": {
         "name": "Eiranranta",
-        "location": "Länsisatama",
-        "district": "Hernesaari",
+        "location": "Pyhän Birgitan puisto",
+        "district": "Länsisatama (Hernesaari)",
         "lat": 60.15412,
         "lon": 24.93448,
         "servicemap_url": "",
@@ -482,7 +513,7 @@ META = {
         "servicemap_url": "",
         "site_url": "",
         "properties": {
-            "installation depth": -0.4,
+            "installation depth": -0.43,  # Verified 2022-09-08
             "installation platform": "steps",
             "installation method": "static",
         },

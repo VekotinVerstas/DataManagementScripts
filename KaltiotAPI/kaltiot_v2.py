@@ -10,7 +10,6 @@ from zoneinfo import ZoneInfo
 
 import markdown
 import requests
-import sentry_sdk
 
 from fvhdms import get_default_argumentparser, parse_args, parse_times, user_agent
 
@@ -57,11 +56,6 @@ def parse_kaltiot_args() -> argparse.Namespace:
     parser.add_argument("--month", required=False, help="'this', 'last' or in month format YYYY-mm")
     parser.add_argument("--all", action="store_true", help="Dump all daily and hourly data since beginning")
     args = parse_args(parser)
-    if args.sentry_dns:
-        sentry_sdk.init(
-            dsn=args.sentry_dns,
-        )
-        logging.info("Sentry initialized")
     return args
 
 
