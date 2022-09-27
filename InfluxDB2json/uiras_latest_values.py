@@ -11,6 +11,7 @@ from typing import Union
 import isodate
 import pandas
 import pytz
+import sentry_sdk
 from geojson import Feature, FeatureCollection, Point
 from influxdb import DataFrameClient, InfluxDBClient
 from uirasmeta import META
@@ -49,10 +50,19 @@ def get_args() -> argparse.Namespace:
     parser.add_argument("--h3", help="How many days of 3h data", type=int, default=30, nargs="?")
     parser.add_argument("--raw", help="How many days of raw data", type=int, default=7, nargs="?")
     parser.add_argument("--usage", action="store_true", help="Print usage text and exit")
+    parser.add_argument("--sentry-dns", required=False, help="sentry_dns uri, if Sentry is in use")
+    parser.add_argument("--sentry-traces", default=0.0, type=float, help="Sentry APM traces sample rate (0.0-1.0)")
     args = parser.parse_args()
     if args.usage:
         usage()
     logging.basicConfig(format="%(asctime)s %(levelname)-8s %(message)s", level=getattr(logging, args.log))
+    if args.sentry_dns:
+        sentry_sdk.init(
+            dsn=args.sentry_dns,
+            traces_sample_rate=args.sentry_traces,
+        )
+        logging.info(f"Sentry initialized with traces sample rate {args.sentry_traces}")
+
     return args
 
 
@@ -283,4 +293,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    from sentry_sdk import start_transaction
+
+    with start_transaction(op="uiras_latest_values", name="cron or manually"):
+        main()
