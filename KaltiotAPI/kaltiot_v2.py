@@ -134,20 +134,29 @@ def get_all_data_from_beginning(args: dict):
 
 
 def format_md_link(fname: pathlib.Path) -> str:
-    return "* [{}](./{}) {:.1f} kB".format(fname.name, fname.name, fname.stat().st_size / 1024)
+    ftime = datetime.datetime.fromtimestamp(fname.lstat().st_mtime)
+    return "[{}](./{}) | {:.1f} kB | {}".format(fname.name, fname.name, fname.stat().st_size / 1024, ftime.isoformat())
 
 
 def create_index_html(args: dict):
     with open("README_v2.md", "rt") as f:
         md = [f.read()]
     md.append("# Data files")
-    md.append("## Daily")
+    md.append("## Daily\n")
+    md.append("File|Size|Time")
+    md.append("-----|-----|-----")
     for df in sorted(glob.glob("{}/{}-daily*".format(args["outdir"], args["prefix"]))):
         md.append(format_md_link(pathlib.Path(df)))
-    md.append("## Hourly")
+    md.append("\n## Hourly\n")
+    md.append("File|Size|Time")
+    md.append("-----|-----|-----")
     for df in sorted(glob.glob("{}/{}-hourly*".format(args["outdir"], args["prefix"]))):
-        md.append("* [{}](./{})".format(pathlib.Path(df).name, pathlib.Path(df).name))
-    html = markdown.markdown("\n".join(md))
+        md.append(format_md_link(pathlib.Path(df)))
+    html = """<!doctype html> <html> <head> <meta charset="utf-8"> <title>KuVa Ulkoliikunta</title> 
+    <body>
+    {}
+    </body>
+    </html>""".format(markdown.markdown("\n".join(md), extensions=["tables"]))
     with open(pathlib.Path(args["outdir"]) / pathlib.Path("index.html"), "wt") as f:
         f.write(html)
 
