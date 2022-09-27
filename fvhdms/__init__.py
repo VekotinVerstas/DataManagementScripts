@@ -11,6 +11,7 @@ import argcomplete
 import dateutil.parser
 import pandas as pd
 import pytz
+import sentry_sdk
 from influxdb import DataFrameClient
 from influxdb.exceptions import InfluxDBClientError
 
@@ -144,9 +145,10 @@ def get_default_argumentparser() -> argparse.ArgumentParser:
     parser.add_argument("-iP", "--influxdb_password", help="InfluxDB password")
     parser.add_argument("--influxdb_ssl", action="store_true", help="Use SSL")
     parser.add_argument("--influxdb_verify_ssl", action="store_true", help="Verify SSL")
-    parser.add_argument("--influxdb_create_database", action="store_true", help="Verify SSL")
+    parser.add_argument("--influxdb_create_database", action="store_true", help="Run CREATE DATABASE")
     parser.add_argument("--outfile", help="Output filename (.xlsx extension creates excel file, others CSV")
     parser.add_argument("--sentry-dns", required=False, help="sentry_dns uri, if Sentry is in use")
+    parser.add_argument("--sentry-traces", default=0.0, type=float, help="Sentry APM traces sample rate (0.0-1.0)")
     return parser
 
 
@@ -165,6 +167,12 @@ def parse_args(parser) -> argparse.Namespace:
             format="%(asctime)s.%(msecs)03dZ %(levelname)s %(message)s",
         )
         logging.Formatter.converter = time.gmtime  # Timestamps in UTC time
+    if args.sentry_dns:
+        sentry_sdk.init(
+            dsn=args.sentry_dns,
+            traces_sample_rate=args.sentry_traces,
+        )
+        logging.info(f"Sentry initialized with traces sample rate {args.sentry_traces}")
     return args
 
 
