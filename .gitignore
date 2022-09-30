@@ -1,3 +1,8 @@
+# app related files
+ThingparkAPI/*.json
+ThingparkAPI/deleted_devices/*.json
+KaltiotAPI/*/*.json
+
 .idea/
 *.ini
 .DS_Store
