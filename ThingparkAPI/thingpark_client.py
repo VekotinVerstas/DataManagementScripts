@@ -234,10 +234,12 @@ class ThingParkClient:
 
     def get_routing_profiles(self):
         """
+        Sample:
+
         {
           "id": "TWA_100002581.25885",
           "ref": "25885",
-          "name": "broker.fvh.io",
+          "name": "example.com",
           "default": true,
           "routes": [
             {
@@ -245,7 +247,7 @@ class ThingParkClient:
               "strategy": "BLAST",
               "contentType": "JSON",
               "addresses": [
-                "https://broker.fvh.io/digita/v1"
+                "https://example.com/thingpark/v1"
               ]
             },
             {
@@ -253,7 +255,7 @@ class ThingParkClient:
               "strategy": "BLAST",
               "contentType": "JSON",
               "addresses": [
-                "https://bri2.fvh.io/digita/v2?token=2f3d4a6a15a29cfffa9bcd8bcc55ef05"
+                "https://example.net/thingpark/v2"
               ]
             }
           ]
