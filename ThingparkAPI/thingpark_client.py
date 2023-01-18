@@ -13,7 +13,7 @@ TODO:
 USAGE:
 
 python thingpark_client.py
-    --api-url https://dx-api.thingpark.com
+    --api-url https://digita.thingpark.com/thingpark/dx
     --client-id 'digita-api/your.name@example.org'
     --client-secret 'your password here'
     --log DEBUG
