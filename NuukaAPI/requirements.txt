@@ -1,0 +1,4 @@
+isodate
+requests
+influxdb_client[extra]
+
