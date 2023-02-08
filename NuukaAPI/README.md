@@ -13,6 +13,8 @@ of how to use the NuukaClient class.
 
 # Usage
 
+Nuuka client takes the following Nuuka arguments:
+
 ```
 python nuuka_client.py
     --nuuka-token "***"
@@ -24,7 +26,7 @@ python nuuka_client.py
     --influx-bucket NuukaMirror
     --influx-token ***
     --log INFO
-    --chunk 28d
+    --chunk 7d
     --timedelta 7d
 ```
 

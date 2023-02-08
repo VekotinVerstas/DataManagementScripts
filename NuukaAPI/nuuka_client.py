@@ -23,15 +23,17 @@ def get_args() -> argparse.Namespace:
         "--nuuka-url", default="https://nuukacustomerwebapi.azurewebsites.net/api/v2.0/", required=False
     )
     parser.add_argument("--nuuka-token", required=True)
-    parser.add_argument("--start-time", required=False)
-    parser.add_argument("--end-time", required=False, help="Default: now")
-    parser.add_argument("--chunk-length", default="7d", help="3600s, 24h, 7d, 52w", required=False)
-    parser.add_argument("--timedelta", required=False)
-    parser.add_argument("--round-times", required=False, action="store_true", help="Round times to last full hour")
+    parser.add_argument("--start-time")
+    parser.add_argument("--end-time", help="Default: now")
+    parser.add_argument("--chunk-length", default="8d", help="3600s, 24h, 8d, 52w")
+    parser.add_argument("--timedelta")
+    parser.add_argument("--limit", type=int, help="How many datapoints to fetch at most")
+    parser.add_argument("--max-points", default=100, type=int, help="How many datapoints to fetch at once")
+    parser.add_argument("--round-times", action="store_true", help="Round times to last full hour")
     group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument("--get-buildings", action="store_true", required=False)
-    group.add_argument("--get-measurement-info", help="Building ID", required=False)
-    group.add_argument("--get-measurement-data", help="Building ID", required=False)
+    group.add_argument("--get-buildings", action="store_true")
+    group.add_argument("--get-measurement-info", help="Building ID")
+    group.add_argument("--get-measurement-data", help="Building ID")
     parser.add_argument(
         "--measurement-ids", nargs="+", default=["all"], help="Measurement IDs (default all)", required=False
     )
@@ -208,37 +210,43 @@ class NuukaClient(ABC):
         now = datetime.datetime.now(tz=datetime.timezone.utc)
         if times[-1][1] > now:
             times[-1][1] = now.replace(microsecond=0, second=0, minute=0)
-        max_points = 100
+        max_points = self.args.max_points
 
         def get_data_chunk_from_url(data_point_ids: str, start: datetime.datetime, end: datetime.datetime):
             params = get_request_params(building_id, start, end)
             params["DataPointIDs"] = data_point_ids
-            fname = "data-{}-{}_{}-{}.json".format(params["StartTime"], params["EndTime"], ids[0], ids[-1]).replace(
-                " ", "_"
-            )
-            logging.debug(fname)
-            fpath = Path("cache") / fname
-            if Path(fname).exists():
+            cache_dir = Path("cache")
+            cache_dir.mkdir(exist_ok=True)
+            # remove [-: ] characters from dates using regex
+            start_end = re.sub(r"[-: ]", "", "{}_{}".format(params["StartTime"], params["EndTime"]))
+            fname = "data-{}_{}-{}.json".format(start_end, ids[0], ids[-1])
+            fpath = cache_dir / fname
+            if Path(fpath).exists():
+                logging.debug(f"Using cached data from file {fname}")
                 with open(fpath, "r") as f:
                     data = json.loads(f.read())
                 cached = True
             else:
                 data = self.api_get("GetMeasurementDataByIDs/", params, {})
+                logging.debug(f"Saving data to file {fname}")
                 with open(fpath, "w") as f:
                     f.write(json.dumps(data))
                 cached = False
             return cached, data
 
         # Split list into chunks of max_points items
+        point_cnt = 0
         for ids in [data_point_ids[i : i + max_points] for i in range(0, len(data_point_ids), max_points)]:
+            point_cnt += len(ids)
             data_point_ids = ";".join([str(x) for x in ids])
             for start, end in times:
+                # Use recursive splitting if too many rows are returned
                 cached, data = get_data_chunk_from_url(data_point_ids, start, end)
                 if len(data) == 1 and data[0].get("message", "").startswith("Too many rows"):
                     row_cnt, max_rows = parse_too_many_rows(data[0]["message"])
-                    logging.warning("Too many rows: {} > {}".format(row_cnt, max_rows))
                     # Split time range between current start and end into smaller chunks
                     chunks = math.ceil(row_cnt / max_rows * 2)
+                    logging.warning("Too many rows {}/{}. Split request to {} chunks".format(row_cnt, max_rows, chunks))
                     approximate_timedelta = math.ceil((end - start).total_seconds() / chunks)
                     for i in range(0, int((end - start).total_seconds()), approximate_timedelta):
                         tmp_start = start + datetime.timedelta(seconds=i)
@@ -246,9 +254,16 @@ class NuukaClient(ABC):
                         if tmp_end > end:
                             tmp_end = end
                         cached, data = get_data_chunk_from_url(data_point_ids, tmp_start, tmp_end)
+                        if len(data) == 1 and data[0].get("message", "").startswith("Too many rows"):
+                            row_cnt, max_rows = parse_too_many_rows(data[0]["message"])
+                            logging.error("Too many rows {}/{}. Splitting failed".format(row_cnt, max_rows))
+                            exit(1)
                         yield cached, data
                 else:
                     yield cached, data
+            if point_cnt >= self.args.limit:
+                logging.info("Reached limit of {} points".format(self.args.limit))
+                break
 
 
 class Nuuka2InfluxDB(NuukaClient):
@@ -298,9 +313,12 @@ class Nuuka2InfluxDB(NuukaClient):
         """
         with open(self.measurement_info_fname, "r") as f:
             measurement_info = json.load(f)
+        # sort list by DataPointID
+        measurement_info = sorted(measurement_info, key=lambda k: k["DataPointID"])
         logging.info("Saving measurement info to InfluxDB")
         measurement = f"measurement_info_{self.args.get_measurement_info}"
         points = []
+        now_str = datetime.datetime.now(tz=ZoneInfo("UTC")).strftime("%Y-%m-%dT%H:%M:%SZ")
         for point in measurement_info:
             points.append(
                 {
@@ -314,10 +332,18 @@ class Nuuka2InfluxDB(NuukaClient):
                         "analysisgroup": point["AnalysisGroup"],
                         "comment": point["Comment"],
                     },
-                    "time": "2023-01-01T00:00:00Z",
+                    "time": now_str,
                     "fields": {"datapointid": point["DataPointID"]},
                 }
             )
+        # Delete old data from InfluxDB, based on timestamp
+        self.influxdb_client.delete_api().delete(
+            start="1970-01-01T00:00:00Z",
+            stop=now_str,
+            bucket=self.influx_args.influx_bucket,
+            org=self.influx_args.influx_org,
+            predicate=f'_measurement="{measurement}"',
+        )
         self.influxdb_client.write_api(write_options=SYNCHRONOUS).write(
             self.influx_args.influx_bucket, self.influx_args.influx_org, points
         )
@@ -332,8 +358,8 @@ class Nuuka2InfluxDB(NuukaClient):
             if not cached:
                 self.save_to_influxdb(data)
             else:
-                self.save_to_influxdb(data)
-                # logging.info("Data was cached, not saving to InfluxDB")
+                # self.save_to_influxdb(data)
+                logging.info("Data was cached, not saving to InfluxDB")
 
     def save_to_influxdb(self, data: dict):
         """
@@ -349,7 +375,6 @@ class Nuuka2InfluxDB(NuukaClient):
         """
         building_id = "7683"
         measurement = f"nuuka_{building_id}"
-        # for data in self.get_data():
         logging.info("Saving data to InfluxDB")
         points = []
         for point in data:
