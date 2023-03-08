@@ -139,15 +139,18 @@ class NuukaClient(ABC):
     def __init__(self):
         self.args = get_args()
         self.measurement_info_fname = None
+        self.building_id = None
         if self.args.get_buildings:
             with open("buildings.json", "w") as f:
                 json.dump(self.get_buildings(), f, indent=2)
         elif self.args.get_measurement_info:
             self.measurement_info_fname = f"measurement_info_{self.args.get_measurement_info}.json"
+            self.building_id = self.args.get_measurement_info
             with open(self.measurement_info_fname, "w") as f:
                 json.dump(self.get_measurement_info(self.args.get_measurement_info), f, indent=2)
         elif self.args.get_measurement_data:
             self.measurement_info_fname = f"measurement_info_{self.args.get_measurement_data}.json"
+            self.building_id = self.args.get_measurement_data
             self.start_time, self.end_time, self.timedelta = parse_times(
                 self.args.start_time, self.args.end_time, self.args.timedelta, self.args.round_times
             )
@@ -421,7 +424,7 @@ class Nuuka2InfluxDB(NuukaClient):
             "DataPointID": 136975
           }
         """
-        building_id = "7683"
+        building_id = self.building_id
         measurement = f"nuuka_{building_id}"
         logging.info("Saving data to InfluxDB")
         points = []
