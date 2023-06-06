@@ -31,6 +31,7 @@ def get_args() -> argparse.Namespace:
     parser.add_argument("--limit", type=int, help="How many datapoints to fetch at most")
     parser.add_argument("--max-points", default=100, type=int, help="How many datapoints to fetch at once")
     parser.add_argument("--round-times", action="store_true", help="Round times to last full hour")
+    parser.add_argument("--extra-meta-file", help="JSON file containing extra metadata for measurements")
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("--get-buildings", action="store_true")
     group.add_argument("--get-measurement-info", help="Building ID")
@@ -326,6 +327,7 @@ class Nuuka2InfluxDB(NuukaClient):
             org=self.influx_args.influx_org,
             token=self.influx_args.influx_token,
             enable_gzip=True,  # TODO: this could be optional
+            timeout=10 * 60 * 1000,
         )
         super().__init__()
         if self.args.get_measurement_info:
@@ -364,6 +366,21 @@ class Nuuka2InfluxDB(NuukaClient):
         """
         with open(self.measurement_info_fname, "r") as f:
             measurement_info = json.load(f)
+        # Read extra metadata from file
+        extra_meta = {}
+        if self.args.extra_meta_file:
+            with open(self.args.extra_meta_file, "r") as f:
+                for m in json.load(f):
+                    m["Translation"] = m["Tranlation"]
+                    extra_meta[m["DataPointID"]] = m
+                    # Remove unnecessary fields
+                    for k in [
+                        "DataPointID",
+                        "Description",
+                        "Tranlation",
+                    ]:
+                        m.pop(k)
+
         # sort list by DataPointID
         measurement_info = sorted(measurement_info, key=lambda k: k["DataPointID"])
         logging.info("Saving measurement info to InfluxDB")
@@ -371,22 +388,24 @@ class Nuuka2InfluxDB(NuukaClient):
         points = []
         now_str = datetime.datetime.now(tz=ZoneInfo("UTC")).strftime("%Y-%m-%dT%H:%M:%SZ")
         for point in measurement_info:
-            points.append(
-                {
-                    "measurement": measurement,
-                    "tags": {
-                        # "datapointid": str(point["DataPointID"]),
-                        "name": point["Name"],
-                        "description": point["Description"],
-                        "unit": point["Unit"],
-                        "category": point["Category"],
-                        "analysisgroup": point["AnalysisGroup"],
-                        "comment": point["Comment"],
-                    },
-                    "time": now_str,
-                    "fields": {"datapointid": point["DataPointID"]},
-                }
-            )
+            p = {
+                "measurement": measurement,
+                "tags": {
+                    # "datapointid": str(point["DataPointID"]),
+                    "name": point["Name"],
+                    "description": point["Description"],
+                    "unit": point["Unit"],
+                    "category": point["Category"],
+                    "analysisgroup": point["AnalysisGroup"],
+                    "comment": point["Comment"],
+                },
+                "time": now_str,
+                "fields": {"datapointid": point["DataPointID"]},
+            }
+            # Add extra metadata to tags
+            if point["DataPointID"] in extra_meta:
+                p["tags"].update(extra_meta[point["DataPointID"]])
+            points.append(p)
         # Delete old data from InfluxDB, based on timestamp
         self.influxdb_client.delete_api().delete(
             start="1970-01-01T00:00:00Z",
