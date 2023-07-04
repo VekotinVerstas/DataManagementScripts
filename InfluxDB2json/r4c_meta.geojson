@@ -1,0 +1,211 @@
+{
+  "type": "FeatureCollection",
+  "meta": {
+    "created_at": "2023-07-04T04:28:21.029825+00:00",
+    "created_from": "R4C sensors installation 28.06.2023 (1).xlsx",
+    "comment": "This is the metadata file for the R4C sensors.",
+    "contact": "Aapo Rista <aapo.rista@forumvirium.fi>"
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "70B3D57050011447",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.050956,
+          60.18089
+        ]
+      },
+      "properties": {
+        "name": "Yliskyl\u00e4ntie 2",
+        "location": "",
+        "district": "Laajasalo",
+        "street": "Yliskyl\u00e4ntie 2",
+        "Estimated height from the ground level (m)": 3.5,
+        "Pole surroundings": "Flat ground, bare ground/grass",
+        "WUDAPT Local Climate Zone Classification": "5, Open Midrise"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D5705001140C",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.081155,
+          60.166372
+        ]
+      },
+      "properties": {
+        "name": "Puuskaniementie 19",
+        "location": "",
+        "district": "Laajasalo",
+        "street": "Puuskaniementie 19",
+        "Estimated height from the ground level (m)": 3.4,
+        "Pole surroundings": "Flat ground (base height measured), bare ground/grass",
+        "WUDAPT Local Climate Zone Classification": "14, Low Plants"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D570500114B8",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.054404,
+          60.177943
+        ]
+      },
+      "properties": {
+        "name": "Holmanmoisionpolku 1",
+        "location": "",
+        "district": "Laajasalo",
+        "street": "Holmanmoisionpolku 1",
+        "Estimated height from the ground level (m)": 3.51,
+        "Pole surroundings": "Flat ground, bare ground/grass",
+        "WUDAPT Local Climate Zone Classification": "5, Open Midrise"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D570500114EC",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.089721,
+          60.163703
+        ]
+      },
+      "properties": {
+        "name": "Poikasaartentie 4",
+        "location": "",
+        "district": "Laajasalo",
+        "street": "Poikasaartentie 4",
+        "Estimated height from the ground level (m)": 3.42,
+        "Pole surroundings": "Raising hill behind the pole, bare forest ground",
+        "WUDAPT Local Climate Zone Classification": "11, Dense Trees"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D570500113FE",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.068878,
+          60.163859
+        ]
+      },
+      "properties": {
+        "name": "Kuunaritie 1",
+        "location": "",
+        "district": "Laajasalo",
+        "street": "Kuunaritie 1",
+        "Estimated height from the ground level (m)": 3.38,
+        "Pole surroundings": "Flat ground, bare ground/grass, wooden pole",
+        "WUDAPT Local Climate Zone Classification": "11, Dense Trees"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D570500114BE",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.051773,
+          60.167613
+        ]
+      },
+      "properties": {
+        "name": "Sarvastonkaari 1",
+        "location": "",
+        "district": "Laajasalo",
+        "street": "Sarvastonkaari 1",
+        "Estimated height from the ground level (m)": 3.34,
+        "Pole surroundings": "Flat ground, bare ground",
+        "WUDAPT Local Climate Zone Classification": "6, Open Lowrise"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D57050011404",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.038076,
+          60.170226
+        ]
+      },
+      "properties": {
+        "name": "Rudolfintie 19",
+        "location": "",
+        "district": "Laajasalo",
+        "street": "Rudolfintie 19",
+        "Estimated height from the ground level (m)": 3.01,
+        "Pole surroundings": "Mild slope raising behind the pole, grass",
+        "WUDAPT Local Climate Zone Classification": "6, Open Lowrise"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D570500113C3",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.033859,
+          60.173213
+        ]
+      },
+      "properties": {
+        "name": "Jurmonkuja 1",
+        "location": "",
+        "district": "Laajasalo",
+        "street": "Jurmonkuja 1",
+        "Estimated height from the ground level (m)": 3.27,
+        "Pole surroundings": "Flat ground, asphalt/stone pavement",
+        "WUDAPT Local Climate Zone Classification": "6, Open Lowrise"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D57050011400",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.019676,
+          60.16734
+        ]
+      },
+      "properties": {
+        "name": "Pojamankatu 1",
+        "location": "",
+        "district": "Laajasalo",
+        "street": "Pojamankatu 1",
+        "Estimated height from the ground level (m)": 3.35,
+        "Pole surroundings": "Flat ground, asphalt pavement",
+        "WUDAPT Local Climate Zone Classification": "14, Low Plants"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D570500113D6",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.033072,
+          60.178172
+        ]
+      },
+      "properties": {
+        "name": "Tuurholmanpolku",
+        "location": "",
+        "district": "Laajasalo",
+        "street": "Tuurholmanpolku",
+        "Estimated height from the ground level (m)": 2.84,
+        "Pole surroundings": "Flat ground, grass, ground lower than the sand pavement beside",
+        "WUDAPT Local Climate Zone Classification": "14, Low Plants"
+      }
+    }
+  ]
+}
