@@ -1,5 +1,7 @@
-influxdb
-pandas
 geojson
+influxdb
+influxdb-client
 isodate
-
+pandas
+sentry_sdk
+git+https://github.com/ForumViriumHelsinki/FVHIoT-python.git#egg=fvhiot
