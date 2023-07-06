@@ -8,7 +8,7 @@ import tempfile
 from pathlib import Path
 
 import influxdb_client
-import pandas
+import pandas as pd
 import sentry_sdk
 from fvhiot.database.influxdb import get_influxdb_args, create_influxdb_client
 
@@ -50,11 +50,12 @@ def get_latest_data(
 ) -> list:
     """
     Get the latest measurement record for all given device ids.
+    If device hasn't sent any data in the last 7 days, it will not be included in the result.
     """
     devs = []
     ids = "|".join(device_ids)
     data_query = f"""
-          from(bucket: "{bucket}")
+      from(bucket: "{bucket}")
       |> range(start:-7d)
       |> filter(fn: (r) => r["_measurement"] == "{args.measurement}")
       |> filter(fn: (r) => r["dev-id"] =~ /({ids})/)
@@ -79,7 +80,36 @@ def get_latest_data(
     return devs
 
 
-def df_to_dict(df: pandas.DataFrame) -> list:
+def get_all_data(
+    args: argparse.Namespace, influx_client: influxdb_client.InfluxDBClient, bucket: str, device_ids: list
+) -> pd.DataFrame:
+    """
+    Get all measurement records for all given device ids.
+    """
+    ids = "|".join(device_ids)
+    # TODO: add start time as argument
+    data_query = f"""
+      from(bucket: "{bucket}")
+      |> range(start:2023-06-06T09:00:00Z)
+      |> filter(fn: (r) => r["_measurement"] == "{args.measurement}")
+      |> filter(fn: (r) => r["dev-id"] =~ /({ids})/)
+      |> filter(fn: (r) => r["_field"] =~ /(temprh_temp|temprh_rh|batt|dev-id)/)
+      |> drop(columns: ["_start", "_stop", "_result", "_measurement"])
+      |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
+      |> sort(columns: ["_time"])
+    """
+
+    df = influx_client.query_api().query_data_frame(data_query)
+    df = df.drop(columns=["result", "table"])  # drop columns not needed
+    df = df.set_index("_time").rename_axis("time")  # rename index
+    df = df.sort_index()  # sort by time index, flux sort doesn't seem to work
+    df = df.round({"batt": 3, "temprh_temp": 2, "temprh_rh": 1, "rssi": 1})
+    # df = df.tz_convert(tz=args.timezone)  # convert to local time, but we use UTC for now
+    logging.debug(df)
+    return df
+
+
+def df_to_dict(df: pd.DataFrame) -> list:
     """
     Convert a dataframe to a list of dicts.
     """
@@ -152,10 +182,26 @@ def devs_to_geojson(devs: dict):
     return geojson_content
 
 
+def all_data_to_files(file_prefix: str, df_all: pd.DataFrame):
+    """Save all data to a file as parquet and csv, using first a temporary file to make write atomic."""
+    parquet_file = f"{file_prefix}_all.parquet"
+    parquet_file_tmp = f"{parquet_file}.tmp"
+    df_all.to_parquet(parquet_file_tmp, compression="snappy")
+    os.chmod(parquet_file_tmp, 0o644)
+    os.replace(parquet_file_tmp, parquet_file)
+
+    csv_file = f"{file_prefix}_all.csv.gz"
+    csv_file_tmp = f"{csv_file}.tmp"
+    df_all.to_csv(csv_file_tmp, compression="gzip", date_format="%Y-%m-%dT%H:%M:%S.%f%z")
+    os.chmod(csv_file_tmp, 0o644)
+    os.replace(csv_file_tmp, csv_file)
+
+
 def main():
     args = get_args()
-    meta = meta_to_dict(get_device_metadata(args.metafile))
+    meta = meta_to_dict(get_device_metadata(args.metafile))  # Read device metadata from a geojson file
     device_ids = list(meta.keys())
+    # Create influxdb client
     host, token, org, bucket = get_influxdb_args()
     influx_client = create_influxdb_client(host, token, org)
 
@@ -166,7 +212,14 @@ def main():
     if args.outfile is None:
         print(geojson_content)
     else:
-        atomic_write(args.outfile, geojson_content.encode())
+        atomic_write(args.outfile + "_last.geojson", geojson_content.encode())
+
+    # Get and save all data to a file as parquet and csv
+    df_all = get_all_data(args, influx_client, bucket, device_ids)
+    all_data_to_files(args.outfile, df_all)
+
+    # TODO: save smaller period (last month, this year?) of df to a file as parquet and csv
+    # TODO: create a separate geojson file for each device and their history for the last months
 
 
 if __name__ == "__main__":
