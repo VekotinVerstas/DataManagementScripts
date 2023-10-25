@@ -1,7 +1,9 @@
+exclude: .*migrations\/.*
+
 repos:
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.5.0
     hooks:
       - id: check-yaml
       - id: debug-statements
@@ -9,40 +11,24 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: 'v0.0.218'
+    rev: 'v0.0.292'
     hooks:
       - id: ruff
-        # Respect `exclude` and `extend-exclude` settings.
-        args: ["--force-exclude", --line-length, "120"]
-
-#  - repo: https://github.com/pycqa/isort
-#    rev: 5.10.1
-#    hooks:
-#      - id: isort
-#        name: isort (python)
+        args: [ "--line-length", "120" ]
 
   - repo: https://github.com/psf/black
-    rev: 22.12.0
+    rev: 23.9.1
     hooks:
       - id: black
+        args: [ --line-length=120 ]
 
   - repo: https://github.com/myint/autoflake
-    rev: v2.0.0
+    rev: v2.2.1
     hooks:
       - id: autoflake
         exclude: migrations
 
-#  - repo: https://gitlab.com/pycqa/flake8
-#    rev: 3.9.2
-#    hooks:
-#      - id: flake8
-#        exclude: migrations
-
-#  - repo: https://github.com/pre-commit/mirrors-mypy
-#    rev: v0.971
-#    hooks:
-#      - id: mypy
-#        additional_dependencies:
-#          - types-requests
-#        args:
-#          - --ignore-missing-imports
+  - repo: https://github.com/jazzband/pip-tools
+    rev: 7.3.0
+    hooks:
+      - id: pip-compile

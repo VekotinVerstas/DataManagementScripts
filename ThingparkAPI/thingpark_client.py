@@ -33,6 +33,7 @@ import logging
 import re
 import secrets
 from pathlib import Path
+from pprint import pformat
 from zoneinfo import ZoneInfo
 
 import requests
@@ -50,6 +51,7 @@ def get_args() -> argparse.Namespace:
     group.add_argument("--get-devices", help="Update devices list from API", action="store_true")
     group.add_argument("--delete-eui", help="Dev EUIs to delete", nargs="+")  # TODO validate eui format
     group.add_argument("--get-routing-profiles", help="Show available routing profiles", action="store_true")
+    group.add_argument("--get-connectivity-plans", help="Show available connectivity plans", action="store_true")
     group.add_argument("--get-device-profiles", help="Show available device profiles", action="store_true")
     group.add_argument("--generate-csv", help="Generate a CSV file used by --create-devices", nargs=1)
     parser.add_argument("--start-eui", help="First EUI", nargs="*")
@@ -58,6 +60,7 @@ def get_args() -> argparse.Namespace:
     parser.add_argument("--device-count", help="Number of devices to create", type=int)
     parser.add_argument("--device-profile-id", help="Device profile id", nargs="*")
     parser.add_argument("--routing-profile-id", help="Routing profile id", nargs="*")
+    parser.add_argument("--connectivity-plan-id", help="Connectivity profile id", nargs="*")
     motion_choices = ["NEAR_STATIC", "WALKING_SPEED", "BIKE_SPEED", "VEHICLE_SPEED", "RANDOM"]
     parser.add_argument("--motion-indicator", choices=motion_choices, default=motion_choices[0])
     group.add_argument("--create-devices", help="Create new devices defined in a CSV file", nargs=1)
@@ -120,6 +123,9 @@ class ThingParkClient:
         elif self.args.get_routing_profiles:
             logging.info("Print routing profile list")
             self.get_routing_profiles()
+        elif self.args.get_connectivity_plans:
+            logging.info("Print connectivity plan list")
+            self.get_connectivity_plans()
         elif self.args.get_device_profiles:
             logging.info("Print device profile list")
             self.get_device_profiles()
@@ -181,10 +187,13 @@ class ThingParkClient:
         """
         TODO: Create new device.
         """
+        if not self.args.connectivity_plan_id:
+            raise ValueError("--connectivity-plan-id is mandatory, see --get-routing-profiles")
         url = f"{self.api_url}/core/latest/api/devices"
         with open(self.args.create_devices[0], "rt") as devfile:
             writer = csv.DictReader(devfile)
             for device_data in writer:
+                device_data["connectivityPlanId"] = self.args.connectivity_plan_id[0]
                 logging.debug(f"POSTing to {url} device_data:")
                 logging.debug(device_data)
                 res = requests.post(url, headers=self.headers, json=device_data)
@@ -199,6 +208,8 @@ class ThingParkClient:
             raise ValueError("--device_profile_id is mandatory, see --get-device-profiles")
         if not self.args.routing_profile_id:
             raise ValueError("--routing-profile-id is mandatory, see --get-routing-profiles")
+        if not self.args.connectivity_plan_id:
+            raise ValueError("--connectivity-plan-id is mandatory, see --get-routing-profiles")
         url = f"{self.api_url}/core/latest/api/devices"
         with open(self.args.create_devices_json[0], "rt") as f:
             devices = json.load(f)
@@ -270,6 +281,20 @@ class ThingParkClient:
             print(f"{rp['id']:20} {rp['name']}")
             for route in rp["routes"]:
                 print("                      {}".format(", ".join(route["addresses"])))
+
+    def get_connectivity_plans(self):
+        """
+        Sample:
+        """
+        url = f"{self.api_url}/core/latest/api/connectivityPlans"
+        logging.debug(f"Getting {url}")
+        res = requests.get(url, headers=self.headers)
+        logging.debug(f"Response {res.status_code}")
+        connectivity_plans = res.json()
+        logging.debug(pformat(connectivity_plans))
+        for rp in connectivity_plans:
+            print(f"Name: {rp['name']}:")
+            print(f"--connectivity-plan-id {rp['id']}\n")
 
     def get_device_profiles(self):
         """
