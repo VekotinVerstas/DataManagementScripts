@@ -9,6 +9,7 @@ from influxdb_client import InfluxDBClient
 
 OUTPUT_FORMATS = {
     "csv": "csv",
+    "csv.gz": "csv.gz",
     "excel": "xlsx",
     "parquet": "parquet",
 }
@@ -30,6 +31,7 @@ def get_args():
     parser.add_argument("--device-ids", nargs="+", required=False, help="List of device ids")
     parser.add_argument("--start-date", help="Start datetime for data")
     parser.add_argument("--end-date", help="End datetime for data")
+    parser.add_argument("--date", help="Date (UTC) for data (YYYY-MM-DD, yesterday, today)")
     parser.add_argument(
         "--output-format",
         choices=OUTPUT_FORMATS.keys(),
@@ -37,16 +39,29 @@ def get_args():
         nargs="*",
         help="Output format",
     )
+    parser.add_argument("--output-dir", help="Output directory")
     args = parser.parse_args()
     logging.basicConfig(format="%(asctime)s %(levelname)-8s %(message)s", level=getattr(logging, args.log))
-    if args.start_date:
-        args.start_date = isodate.parse_datetime(args.start_date)
-    else:  # Default to 7 days ago, using aware UTC datetime
-        args.start_date = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=7)
-    if args.end_date:
-        args.end_date = isodate.parse_datetime(args.end_date)
-    else:  # Default to now, using aware UTC datetime
-        args.end_date = datetime.datetime.now(datetime.timezone.utc)
+    if args.date:  # start_date and end_date in UTC timezone from date, which is in format YYYY-MM-DD
+        if args.date == "yesterday":  # Create UTC datetime for yesterday at 00:00:00
+            start_date = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=1)
+        elif args.date == "today":
+            start_date = datetime.datetime.now(datetime.timezone.utc)
+        else:
+            start_date = datetime.datetime.strptime(args.date, "%Y-%m-%d").replace(tzinfo=datetime.timezone.utc)
+        start_date = start_date.replace(hour=0, minute=0, second=0, microsecond=0)
+        end_date = start_date + datetime.timedelta(days=1)
+    else:
+        if args.start_date:
+            start_date = isodate.parse_datetime(args.start_date)
+        else:  # Default to 7 days ago, using aware UTC datetime
+            start_date = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=7)
+        if args.end_date:
+            end_date = isodate.parse_datetime(args.end_date)
+        else:  # Default to now, using aware UTC datetime
+            end_date = datetime.datetime.now(datetime.timezone.utc)
+    args.start_date = start_date
+    args.end_date = end_date
     return args
 
 
@@ -109,20 +124,26 @@ def main():
         exit()
     df = get_all_data(args, client, args.influx_bucket, args.device_ids)
     print(df)
-    # Create filename from measurement name, first date and last date in df and output format
-    filename = "{}-{}-{}.".format(
-        args.influx_measurement,
-        df.index[0].strftime("%Y%m%dT%H%M%SZ"),
-        df.index[-1].strftime("%Y%m%dT%H%M%SZ"),
-    )
+    if args.date:
+        filename = "{}-{}.".format(args.influx_measurement, df.index[0].strftime("%Y%m%d"))
+    else:
+        # Create filename from measurement name, first date and last date in df and output format
+        filename = "{}-{}-{}.".format(
+            args.influx_measurement,
+            df.index[0].strftime("%Y%m%dT%H%M%SZ"),
+            df.index[-1].strftime("%Y%m%dT%H%M%SZ"),
+        )
+    if args.output_dir:
+        filename = os.path.join(args.output_dir, filename)
     if "excel" in args.output_format:
-        # Remove timezone from index
-        df.index = df.index.tz_localize(None)
+        df.index = df.index.tz_localize(None)  # Remove timezone from index
         df.to_excel(filename + OUTPUT_FORMATS["excel"])
     if "parquet" in args.output_format:
         df.to_parquet(filename + OUTPUT_FORMATS["parquet"])
     if "csv" in args.output_format:
         df.to_csv(filename + OUTPUT_FORMATS["csv"], index=True, header=True, date_format="%Y-%m-%dT%H:%M:%S.%fZ")
+    if "csv.gz" in args.output_format:  # gzip compression automatically if filename ends with .gz
+        df.to_csv(filename + OUTPUT_FORMATS["csv.gz"], index=True, header=True, date_format="%Y-%m-%dT%H:%M:%S.%fZ")
 
 
 if __name__ == "__main__":
