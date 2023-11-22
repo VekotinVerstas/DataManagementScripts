@@ -6,7 +6,7 @@
 #
 aiocsv==1.2.4
     # via influxdb-client
-aiohttp==3.8.5
+aiohttp==3.8.6
     # via influxdb-client
 aiokafka==0.8.1
     # via mittaridatapumppu-persister (pyproject.toml)
@@ -135,7 +135,7 @@ urllib3==2.0.7
     #   influxdb-client
     #   requests
     #   sentry-sdk
-werkzeug==2.3.7
+werkzeug==3.0.1
     # via flask
 yarl==1.9.2
     # via aiohttp
