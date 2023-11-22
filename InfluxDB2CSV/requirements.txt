@@ -2,3 +2,4 @@ influxdb
 influxdb-client
 isodate
 pandas
+pyarrow

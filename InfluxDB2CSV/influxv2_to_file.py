@@ -31,7 +31,11 @@ def get_args():
     parser.add_argument("--start-date", help="Start datetime for data")
     parser.add_argument("--end-date", help="End datetime for data")
     parser.add_argument(
-        "--output-format", choices=OUTPUT_FORMATS.keys(), default=list(OUTPUT_FORMATS.values())[0], help="Output format"
+        "--output-format",
+        choices=OUTPUT_FORMATS.keys(),
+        default=[list(OUTPUT_FORMATS.values())[0]],
+        nargs="*",
+        help="Output format",
     )
     args = parser.parse_args()
     logging.basicConfig(format="%(asctime)s %(levelname)-8s %(message)s", level=getattr(logging, args.log))
@@ -106,18 +110,19 @@ def main():
     df = get_all_data(args, client, args.influx_bucket, args.device_ids)
     print(df)
     # Create filename from measurement name, first date and last date in df and output format
-    filename = "{}-{}-{}.{}".format(
+    filename = "{}-{}-{}.".format(
         args.influx_measurement,
         df.index[0].strftime("%Y%m%dT%H%M%SZ"),
         df.index[-1].strftime("%Y%m%dT%H%M%SZ"),
-        OUTPUT_FORMATS[args.output_format],
     )
-    if args.output_format == OUTPUT_FORMATS["excel"]:
-        df.to_excel(filename)
-    elif args.output_format == OUTPUT_FORMATS["parquet"]:
-        df.to_parquet(filename)
-    else:
-        df.to_csv(filename, index=True, header=True, date_format="%Y-%m-%dT%H:%M:%S.%fZ")
+    if "excel" in args.output_format:
+        # Remove timezone from index
+        df.index = df.index.tz_localize(None)
+        df.to_excel(filename + OUTPUT_FORMATS["excel"])
+    if "parquet" in args.output_format:
+        df.to_parquet(filename + OUTPUT_FORMATS["parquet"])
+    if "csv" in args.output_format:
+        df.to_csv(filename + OUTPUT_FORMATS["csv"], index=True, header=True, date_format="%Y-%m-%dT%H:%M:%S.%fZ")
 
 
 if __name__ == "__main__":
