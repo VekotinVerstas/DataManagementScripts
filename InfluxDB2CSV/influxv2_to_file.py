@@ -32,6 +32,7 @@ def get_args():
     parser.add_argument("--start-date", help="Start datetime for data")
     parser.add_argument("--end-date", help="End datetime for data")
     parser.add_argument("--date", help="Date (UTC) for data (YYYY-MM-DD, yesterday, today)")
+    parser.add_argument("--month", help="Month for data (YYYY-MM)")
     parser.add_argument(
         "--output-format",
         choices=OUTPUT_FORMATS.keys(),
@@ -51,6 +52,10 @@ def get_args():
             start_date = datetime.datetime.strptime(args.date, "%Y-%m-%d").replace(tzinfo=datetime.timezone.utc)
         start_date = start_date.replace(hour=0, minute=0, second=0, microsecond=0)
         end_date = start_date + datetime.timedelta(days=1)
+    elif args.month:  # start_date and end_date in UTC timezone from month, which is in format YYYY-MM
+        start_date = datetime.datetime.strptime(args.month, "%Y-%m").replace(tzinfo=datetime.timezone.utc)
+        # end_date is the first day of the next month
+        end_date = (start_date + datetime.timedelta(days=32)).replace(day=1)
     else:
         if args.start_date:
             start_date = isodate.parse_datetime(args.start_date)
