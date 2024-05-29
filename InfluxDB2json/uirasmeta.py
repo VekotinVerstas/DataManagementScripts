@@ -1,3 +1,5 @@
+low_water = "Alhaisen vedenkorkeuden johdosta mittari voi mitata välillä ilman lämpötilaa."
+
 META = {
     "70B3D57050001AB9": {
         "name": "Pikkukosken uimaranta",
@@ -39,6 +41,7 @@ META = {
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/54929",
         "site_url": "https://www.sompasauna.fi/",
         "site_title": "Sompasauna Ry",
+        "info": low_water,
         "links": {},
         "valid_from": "2022-05-05T16:00:00Z",
         "properties": {
@@ -56,6 +59,7 @@ META = {
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/41601",
         "site_url": "",
         "site_title": "",
+        "info": "Mittari on kadonnut uimaportaiden vaihdon yhteydessä",
         "valid_from": "2022-05-13T13:00:00Z",
         "properties": {
             "installation depth": -0.3,
@@ -117,6 +121,7 @@ META = {
         "lon": 24.9157002,
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/41977",
         "site_url": "",
+        "info": "Mittari on palautettu talvisäilytyksestä 3.5.2024 klo 9 alkaen",
         "valid_from": "2023-06-19T11:30:00Z",
         "properties": {
             "installation depth": -0.4,
@@ -133,7 +138,7 @@ META = {
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40356",
         "site_url": "",
         "site_title": "",
-        "info": "",
+        "info": low_water,
         "valid_from": "2023-06-19T11:00:00Z",
         "properties": {
             "installation depth": -0.5,
@@ -141,8 +146,8 @@ META = {
             "installation method": "static",
         },
     },
-    "70B3D57050004FB9": {
-        "name": "Hietaniemi",
+    "70B3D570500114C7": {
+        "name": "Hietaniemi (TODO)",
         "location": "Ourit",
         "district": "Etu-Töölö",
         "lat": 60.1715,
@@ -150,13 +155,30 @@ META = {
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40142",
         "site_url": "http://www.tuk.fi",
         "site_title": "Talviuimarienkerho ry",
-        "info": "",
+        "info": "Mittaria ei ole vielä asennettu, asennus 29.5.2024 illalla",
+        "valid_from": "2024-05-29T13:00:00Z",
         "properties": {
             "installation depth": -0.32,
             "installation platform": "steps",
             "installation method": "static",
         },
     },
+    #    "70B3D57050004FB9": {
+    #        "name": "Hietaniemi",
+    #        "location": "Ourit",
+    #        "district": "Etu-Töölö",
+    #        "lat": 60.1715,
+    #        "lon": 24.8983,
+    #        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40142",
+    #        "site_url": "http://www.tuk.fi",
+    #        "site_title": "Talviuimarienkerho ry",
+    #        "info": "Mittari on taas paikoillaan 17.8.2023 klo 16:00 alkaen uimaportaiden huollon jälkeen",
+    #        "properties": {
+    #            "installation depth": -0.32,
+    #            "installation platform": "steps",
+    #            "installation method": "static",
+    #        },
+    #    },
     # "70B3D57050004DF8": {
     #     "name": "Vasikkasaari (Helsinki)",
     #     "lat": 60.15232,
@@ -179,6 +201,7 @@ META = {
         "lon": 25.04012,
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/41791",
         "site_url": "",
+        "info": low_water,
         "valid_from": "2022-05-30T13:00:00Z",
         "properties": {
             "installation depth": -0.3,
@@ -524,6 +547,7 @@ META = {
         "lon": 24.85692,
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/21026",
         "site_url": "",
+        "info": low_water,
         "valid_from": "2022-08-29T13:30:00Z",
         "properties": {
             "installation depth": -0.28,
@@ -588,7 +612,7 @@ META = {
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40701",
         "site_url": "",
         "valid_from": "2022-11-18T07:15:00Z",
-        "info": "",
+        "info": low_water,
         "properties": {
             "installation depth": -0.3,
             "installation platform": "steps",
@@ -663,6 +687,7 @@ META = {
         "lon": 24.979968,
         "servicemap_url": "",
         "site_url": "",
+        "info": low_water,
         "properties": {
             "installation depth": -0.43,  # Verified 2022-09-08
             "installation platform": "steps",
