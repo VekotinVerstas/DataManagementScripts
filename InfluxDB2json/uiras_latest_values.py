@@ -132,6 +132,8 @@ def get_latest_per_sensor(
     now_date = get_now().replace(hour=0, minute=0, second=0, microsecond=0)
     filter_d1 = now_date - datetime.timedelta(days=args.d1)
     df_1d_mean = df_filtered.loc[filter_d1:].resample("1d").mean()
+    if df_1d_mean.empty:
+        return None
     df_1d = df_filtered["temp_water"].resample("1d").agg(["min", "max"])
     df_1d = df_1d.rename(columns={"min": "temp_water_min", "max": "temp_water_max"})
     df_1d = df_1d.join(df_1d_mean)
