@@ -1,1 +1,8 @@
+argcomplete
+argparse
+fmiopendata
+httpx
+influxdb_client[extra]
+isodate
+pandas
 xmltodict
