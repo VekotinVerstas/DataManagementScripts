@@ -1,9 +1,12 @@
 from __future__ import annotations
 
 import argparse
+import calendar
 import datetime
 import logging
 import os
+import pathlib
+import re
 from typing import Union
 
 import httpx
@@ -24,6 +27,7 @@ def add_time_arguments(parser: argparse.ArgumentParser):
     parser.add_argument("--start-time", help="Start datetime (with UTC offset) for data")
     parser.add_argument("--end-time", help="End datetime (with UTC offset) for data")
     parser.add_argument("--duration", help="Time period duration (e.g. 500s, 120m, 24h, 5d, 16w)")
+    parser.add_argument("--period", help="Fixed time period (e.g. 2024, 2024-06, 2024-06-30)")
 
 
 def add_influxdb_arguments(parser: argparse.ArgumentParser):
@@ -59,17 +63,19 @@ def get_args() -> argparse.Namespace:
     add_influxdb_arguments(parser)
     # Logging level
     parser.add_argument("--log", default="INFO", choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"])
-    # Parse start and end time to aware UTC datetime. End time defaults to now. start time defaults to 7 days ago.
-
     args = parser.parse_args()
+
     # Set up logging with ISO8601 timestamps with milliseconds
     logging.Formatter.formatTime = lambda self, record, datefmt=None: datetime.datetime.fromtimestamp(
         record.created, datetime.timezone.utc
     ).isoformat(sep="T", timespec="milliseconds")
     logging.basicConfig(format="%(asctime)s %(levelname)-8s %(message)s", level=getattr(logging, args.log))
+
     if args.influxdb_measurement is None:
         args.influxdb_measurement = args.stored_query_id.replace("::", "_")
-    args.start_time, args.end_time, args.duration = parse_times(args.start_time, args.end_time, args.duration)
+    args.start_time, args.end_time, args.duration = parse_times(
+        args.start_time, args.end_time, args.duration, args.period
+    )
     return args
 
 
@@ -93,22 +99,45 @@ def parse_times(
     start_time: Union[datetime.datetime, None],
     end_time: Union[datetime.datetime, None],
     duration: Union[str, None],
+    period: Union[str, None] = None,
     round_times: bool = False,
 ) -> (datetime.datetime, datetime.datetime, int):
     """Parse time period's start and time. If start time is not given, use end time minus duration."""
-    if end_time is None:
-        end_time = datetime.datetime.now().astimezone(tz=datetime.timezone.utc)
+    if start_time is None and duration is None and period is None:
+        raise RuntimeError("Either start time or duration or time must be given")
+    # Fixed time period, if
+    # 2024: start time is 2024-01-01T00:00:00Z, end time is 2024-12-31T23:59:59Z
+    # 2024-06: start time is 2024-06-01T00:00:00Z, end time is 2024-06-30T23:59:59Z
+    # 2024-06-30: start time is 2024-06-30T00:00:00Z, end time is 2024-06-30T23:59:59Z
+    if period is not None:  # Use regex to match YYYY, YYYY-MM, YYYY-MM-DD
+        date_regex = re.compile(r"(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?")
+        match = date_regex.match(period)
+        if not match:
+            raise ValueError("Date string is not in the correct format")
+        year = int(match.group(1))
+        month = int(match.group(2) or 1)
+        day = int(match.group(3) or 1)
+        start_time = datetime.datetime(year, month, day, tzinfo=datetime.timezone.utc)
+        # Determine the end time
+        if match.group(3):  # If day is present
+            end_time = datetime.datetime(year, month, day, 23, 59, 59, tzinfo=datetime.timezone.utc)
+        elif match.group(2):  # If only month is present
+            last_day = calendar.monthrange(year, month)[1]
+            end_time = datetime.datetime(year, month, last_day, 23, 59, 59, tzinfo=datetime.timezone.utc)
+        else:  # Only year is present
+            end_time = datetime.datetime(year, 12, 31, 23, 59, 59, tzinfo=datetime.timezone.utc)
     else:
-        end_time = isodate.parse_datetime(end_time)
-    if round_times:
-        end_time = end_time.replace(minute=0, second=0, microsecond=0)
-    if start_time is None and duration is None:
-        raise RuntimeError("Either start time or duration must be given")
-    if start_time is None:
-        duration = convert_to_seconds(duration)
-        start_time = end_time - datetime.timedelta(seconds=duration)
-    else:
-        start_time = isodate.parse_datetime(start_time)
+        if end_time is None:
+            end_time = datetime.datetime.now().astimezone(tz=datetime.timezone.utc)
+        else:
+            end_time = isodate.parse_datetime(end_time)
+        if round_times:
+            end_time = end_time.replace(minute=0, second=0, microsecond=0)
+        if start_time is None:
+            duration = convert_to_seconds(duration)
+            start_time = end_time - datetime.timedelta(seconds=duration)
+        else:
+            start_time = isodate.parse_datetime(start_time)
     assert start_time < end_time, "Start time must be before end time"
     return start_time, end_time, int((end_time - start_time).total_seconds())
 
@@ -198,6 +227,10 @@ def save_dataframe(df: pd.DataFrame, args: argparse.Namespace):
     end_time = df.index[-1].strftime("%Y%m%dT%H%M%S%z")
     # Add the time range to the filename and all unique fmisid as strings
     filename = f"{args.filename_prefix}_{start_time}_{end_time}"
+    # add the output directory to the filename, using pathlib
+    if args.output_dir:
+        filename = pathlib.Path(args.output_dir) / filename
+
     for fmt in args.output_format:
         if fmt == "csv":
             # Save to CSV, index is included, time format is ISO8601
