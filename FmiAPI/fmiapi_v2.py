@@ -55,7 +55,7 @@ def get_args() -> argparse.Namespace:
     add_time_arguments(parser)
     # Output formats for the data (csv, parquet, etc.). Multiple formats can be selected
     fmats = ["csv", "parquet", "json", "feather", "html", "excel", "msgpack", "stata", "pickle", "hdf5", "gbq", "sql"]
-    parser.add_argument("--output-format", nargs="+", choices=fmats, help="Output format for the data")
+    parser.add_argument("--output-format", nargs="+", default=[], choices=fmats, help="Output format for the data")
     # Output file name prefix and directory
     parser.add_argument("--filename-prefix", help="Prefix for the output file name(s)")
     parser.add_argument("--output-dir", help="Directory for the output file(s)")
@@ -219,8 +219,8 @@ def list_stations(args: argparse.Namespace):
 
 def save_dataframe(df: pd.DataFrame, args: argparse.Namespace):
     """Save the DataFrame to a file"""
-    if not args.output_format:
-        logging.warning("No output format specified. Data not saved.")
+    if not args.output_format and not args.influxdb_url:
+        logging.warning("Neither output format nor InfluxDB URL given, data is not saved.")
         return
     # Get the first and last timestamp of the data
     start_time = df.index[0].strftime("%Y%m%dT%H%M%S%z")
@@ -230,7 +230,6 @@ def save_dataframe(df: pd.DataFrame, args: argparse.Namespace):
     # add the output directory to the filename, using pathlib
     if args.output_dir:
         filename = pathlib.Path(args.output_dir) / filename
-
     for fmt in args.output_format:
         if fmt == "csv":
             # Save to CSV, index is included, time format is ISO8601
@@ -323,10 +322,11 @@ def extract_station_data(response: MultiPoint) -> pd.DataFrame:
         df.index = df.index.tz_localize("UTC")
         dataframes.append(df)
     # Combine all dataframes
-    df = pd.concat(dataframes)
-    # Sort by time index and fmisid
-    df = df.sort_values(by=["time", "fmisid"])
-    return df
+    if dataframes:
+        df = pd.concat(dataframes)
+        # Sort by time index and fmisid
+        df = df.sort_values(by=["time", "fmisid"])
+        return df
 
 
 def get_data(args: argparse.Namespace):
@@ -370,6 +370,10 @@ def get_data(args: argparse.Namespace):
         dfs.append(df)
         start_time = end_time_loop
     df = pd.concat(dfs)
+    # Drop columns with all NaN values except time, Station, fmisid
+    columns_to_check = [col for col in df.columns if col not in ["Station", "fmisid"]]
+    # Drop rows where all specified columns are NaN
+    df = df.dropna(subset=columns_to_check, how="all")
     print(df)
     save_dataframe(df, args)
     return df
