@@ -63,7 +63,14 @@ def get_args() -> argparse.Namespace:
     add_influxdb_arguments(parser)
     # Logging level
     parser.add_argument("--log", default="INFO", choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"])
+    # Sentry DSN
+    parser.add_argument("--sentry-dsn", default=get_env("SENTRY_DSN"), help="Sentry DSN for error logging")
     args = parser.parse_args()
+    if args.sentry_dsn:
+        import sentry_sdk
+
+        logging.info("Sentry error logging enabled")
+        sentry_sdk.init(args.sentry_dsn)
 
     # Set up logging with ISO8601 timestamps with milliseconds
     logging.Formatter.formatTime = lambda self, record, datefmt=None: datetime.datetime.fromtimestamp(
