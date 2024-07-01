@@ -41,6 +41,7 @@ def get_args():
         help="Output format",
     )
     parser.add_argument("--output-dir", help="Output directory")
+    parser.add_argument("--output-file", help="Output filename without extension")
     args = parser.parse_args()
     logging.basicConfig(format="%(asctime)s %(levelname)-8s %(message)s", level=getattr(logging, args.log))
     if args.date:  # start_date and end_date in UTC timezone from date, which is in format YYYY-MM-DD
@@ -128,8 +129,10 @@ def main():
         query_measurements(client, args.influx_org, args.influx_bucket)
         exit()
     df = get_all_data(args, client, args.influx_bucket, args.device_ids)
-    print(df)
-    if args.date:
+    logging.debug(df)
+    if args.output_file:
+        filename = args.output_file.rstrip(".") + "."
+    elif args.date:
         filename = "{}-{}.".format(args.influx_measurement, df.index[0].strftime("%Y%m%d"))
     else:
         # Create filename from measurement name, first date and last date in df and output format
