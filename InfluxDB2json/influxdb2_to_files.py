@@ -80,10 +80,12 @@ def get_args() -> argparse.Namespace:
     parser.add_argument("--groupby", help="Group by field in the latest query", default="dev-id")
     parser.add_argument("--timezone", help="Time zone for timestamps", default="Europe/Helsinki")
     parser.add_argument("--metafile", help="File name for sensor metadata (geojson)", required=True)
-    parser.add_argument("--outfile", help="Output filename for main geojson (default stdout)", nargs="?")
+    parser.add_argument("--filename-prefix", help="Prefix for output file names", default="")
+    parser.add_argument("--filename", help="Filename for raw data files without extension", default="")
+    parser.add_argument("--latest-geojson", default="-", help="Output filename for main geojson (default stdout)")
     parser.add_argument("--output-dir", help="Output directory for all files")
     # Output formats for the data (csv, parquet, etc.). Multiple formats can be selected
-    fmats = ["csv", "parquet", "json", "feather", "html", "excel", "msgpack", "pickle", "hdf5", "sql"]
+    fmats = ["csv", "parquet", "json", "feather", "html", "xlsx", "msgpack", "pickle", "hdf5", "sql"]
     parser.add_argument("--output-format", nargs="+", default=[], choices=fmats, help="Output format for the data")
     parser.add_argument("--geojson", action="store_true", help="Create a geojson file for each device")
     parser.add_argument("--d1", help="How many days of 1d data in geojson", type=str, default="P1Y", nargs="?")
@@ -247,24 +249,6 @@ def devs_to_geojson(devs: dict) -> str:
     return geojson_content
 
 
-# def all_data_to_files(file_prefix: str, df_all: pd.DataFrame):
-#     """
-#     Save all data to a file as parquet and csv,
-#     using first a temporary file to make write atomic.
-#     """
-#     parquet_file = f"{file_prefix}_all.parquet"
-#     parquet_file_tmp = f"{parquet_file}.tmp"
-#     df_all.to_parquet(parquet_file_tmp, compression="snappy")
-#     os.chmod(parquet_file_tmp, 0o644)
-#     os.replace(parquet_file_tmp, parquet_file)
-#
-#     csv_file = f"{file_prefix}_all.csv.gz"
-#     csv_file_tmp = f"{csv_file}.tmp"
-#     df_all.to_csv(csv_file_tmp, compression="gzip", date_format="%Y-%m-%dT%H:%M:%S.%f%z")
-#     os.chmod(csv_file_tmp, 0o644)
-#     os.replace(csv_file_tmp, csv_file)
-
-
 def single_device_data_to_geojson(args: argparse.Namespace, device_id: str, meta: dict, df_all: pd.DataFrame):
     df_dev = df_all[df_all["dev-id"] == device_id]
     # Drop dev-id
@@ -296,7 +280,7 @@ def single_device_data_to_geojson(args: argparse.Namespace, device_id: str, meta
     # and the properties contain the history data
     dev_geojson = copy.deepcopy(meta[device_id])
     dev_geojson["properties"]["data"] = data
-    filename = str(pathlib.Path(args.output_dir) / f"{device_id}_v2.geojson")
+    filename = str(pathlib.Path(args.output_dir) / f"{device_id}.geojson")
     atomic_write(filename, json.dumps(dev_geojson, indent=1).encode())
 
 
@@ -319,21 +303,23 @@ def main():
     data = get_latest_data(args, influx_client, device_ids)
     devs = add_measurements_to_properties(meta, data)
     geojson_content = devs_to_geojson(devs)
-    if args.outfile is None:
+    if args.latest_geojson == "-":  # print to sys.stdout
         print(geojson_content)
     else:
-        filename = f"{args.output_dir}/{args.outfile}_last.geojson"
+        filename = f"{args.output_dir}/{args.latest_geojson}.geojson"
         atomic_write(filename, geojson_content.encode())
+        logging.info(f"Saved the latest data for {len(device_ids)} devices to '{filename}'")
     # Get all data for all devices
     df_raw = get_all_data(args, influx_client, device_ids)
     # Save the data to a file in the desired formats
     save_dataframe(df_raw, args)
     # df_rounded = df_raw.round(args.rounding)  # round values
-    # all_data_to_files(args.outfile, df_rounded)
+    # all_data_to_files(args.latest_geojson, df_rounded)
     # Create a geojson file for each device
     if args.geojson:
         for device_id in device_ids:
             single_device_data_to_geojson(args, device_id, meta, df_raw)
+        logging.info(f"Saved geojson for {len(device_ids)} devices to directory '{args.output_dir}'")
 
 
 if __name__ == "__main__":
