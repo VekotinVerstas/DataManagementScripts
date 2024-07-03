@@ -170,7 +170,10 @@ def parse_args(parser) -> argparse.Namespace:
     if args.sentry_dns:
         sentry_sdk.init(
             dsn=args.sentry_dns,
+            sample_rate=args.sentry_traces,
             traces_sample_rate=args.sentry_traces,
+            environment="testing_performance_monitoring",
+            send_default_pii=True,
         )
         logging.info(f"Sentry initialized with traces sample rate {args.sentry_traces}")
     return args
