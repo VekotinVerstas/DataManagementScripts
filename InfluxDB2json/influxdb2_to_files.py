@@ -88,7 +88,7 @@ def get_args() -> argparse.Namespace:
     fmats = ["csv", "parquet", "json", "feather", "html", "xlsx", "msgpack", "pickle", "hdf5", "sql"]
     parser.add_argument("--output-format", nargs="+", default=[], choices=fmats, help="Output format for the data")
     parser.add_argument("--geojson", action="store_true", help="Create a geojson file for each device")
-    parser.add_argument("--d1", help="How many days of 1d data in geojson", type=str, default="P1Y", nargs="?")
+    parser.add_argument("--d1", help="How many days of 1d data in geojson", type=str, default="P180D", nargs="?")
     parser.add_argument("--h3", help="How many days of 3h data in geojson", type=str, default="P30D", nargs="?")
     parser.add_argument("--raw", help="How many days of raw data in geojson", type=str, default="P7D", nargs="?")
     parser.add_argument("--usage", action="store_true", help="Print usage text and exit")
@@ -281,7 +281,7 @@ def single_device_data_to_geojson(args: argparse.Namespace, device_id: str, meta
     dev_geojson = copy.deepcopy(meta[device_id])
     dev_geojson["properties"]["data"] = data
     filename = str(pathlib.Path(args.output_dir) / f"{device_id}.geojson")
-    atomic_write(filename, json.dumps(dev_geojson, indent=1).encode())
+    atomic_write(filename, json.dumps(dev_geojson, allow_nan=False, indent=1).encode())
 
 
 def main():
