@@ -200,6 +200,8 @@ def df_to_dict(df: pd.DataFrame) -> list:
     data_rows = []
     for index, row in df[df.columns].iterrows():
         data_row = {"time": index.isoformat()}
+        # Replace NaN with None in data_row using dict comprehension
+        data_row = {k: (v if pd.notna(v) else None) for k, v in data_row.items()}
         data_row.update(row.to_dict())
         data_rows.append(data_row)
     return data_rows
