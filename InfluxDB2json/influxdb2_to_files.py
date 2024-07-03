@@ -4,6 +4,7 @@ import datetime
 import json
 import logging
 import pathlib
+import re
 
 import influxdb_client
 import isodate
@@ -281,7 +282,8 @@ def single_device_data_to_geojson(args: argparse.Namespace, device_id: str, meta
     dev_geojson = copy.deepcopy(meta[device_id])
     dev_geojson["properties"]["data"] = data
     filename = str(pathlib.Path(args.output_dir) / f"{device_id}.geojson")
-    atomic_write(filename, json.dumps(dev_geojson, allow_nan=False, indent=1).encode())
+    data_str = re.sub(r"\bNaN\b", "null", json.dumps(dev_geojson, indent=1))
+    atomic_write(filename, data_str.encode())
 
 
 def main():
