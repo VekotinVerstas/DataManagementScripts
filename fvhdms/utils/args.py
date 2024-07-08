@@ -51,9 +51,9 @@ def add_sentry_arguments(parser: argparse.ArgumentParser):
 
 def setup_sentry(args: argparse.Namespace):
     """Initialize Sentry based on the arguments"""
-    if args.sentry_dns:
+    if args.sentry_dsn:
         sentry_sdk.init(
-            dsn=args.sentry_dns,
+            dsn=args.sentry_dsn,
             traces_sample_rate=args.sentry_traces,
         )
         logging.info(f"Sentry initialized with traces sample rate {args.sentry_traces}")
