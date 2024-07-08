@@ -4,7 +4,6 @@ import datetime
 import json
 import logging
 import pathlib
-import re
 
 import influxdb_client
 import isodate
@@ -218,7 +217,10 @@ def meta_to_dict(meta: dict) -> dict:
     """Convert metadata to a dictionary."""
     d = {}
     for f in meta["features"]:
-        device_id = f["id"]
+        device_id = f.get("id")
+        if not device_id:
+            logging.error(f"Device id not found in metadata: {f}")
+            continue
         d[device_id] = f
     return d
 
@@ -284,7 +286,7 @@ def single_device_data_to_geojson(args: argparse.Namespace, device_id: str, meta
     dev_geojson = copy.deepcopy(meta[device_id])
     dev_geojson["properties"]["data"] = data
     filename = str(pathlib.Path(args.output_dir) / f"{device_id}.geojson")
-    data_str = re.sub(r"\bNaN\b", "null", json.dumps(dev_geojson, indent=1))
+    data_str = json.dumps(dev_geojson, indent=1)
     atomic_write(filename, data_str.encode())
 
 
