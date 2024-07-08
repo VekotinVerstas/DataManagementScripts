@@ -58,7 +58,7 @@ httpx==0.24.1
     # via
     #   mittaridatapumppu-persister (pyproject.toml)
     #   python-telegram-bot
-idna==3.4
+idna==3.7
     # via
     #   anyio
     #   httpx
