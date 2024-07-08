@@ -26,7 +26,7 @@ attrs==23.1.0
     # via aiohttp
 blinker==1.6.2
     # via flask
-certifi==2023.7.22
+certifi==2024.7.4
     # via
     #   fvhiot
     #   httpcore
