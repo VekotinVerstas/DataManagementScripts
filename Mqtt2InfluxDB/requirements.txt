@@ -107,7 +107,7 @@ reactivex==4.0.4
     # via
     #   influxdb-client
     #   ruuvitag-sensor
-requests==2.31.0
+requests==2.32.2
     # via
     #   influxdb
     #   mittaridatapumppu-persister (pyproject.toml)
