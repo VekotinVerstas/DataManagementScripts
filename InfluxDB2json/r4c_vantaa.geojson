@@ -1,0 +1,222 @@
+{
+  "type": "FeatureCollection",
+  "name": "r4c-vantaa",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "24E124136E146087",
+      "properties": {
+        "fid": 1,
+        "field_1": "Rautkallio daycare",
+        "field_2": 60.32294,
+        "field_3": 25.06572,
+        "field_4": "Rautkallionkatu 5, 01360 Vantaa",
+        "Photo": null,
+        "Date_installed": "2024-06-26",
+        "Sensor_number": 6087
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.06572,
+          60.32294
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146128",
+      "properties": {
+        "fid": 2,
+        "field_1": "Koivukylä health station",
+        "field_2": 60.31944,
+        "field_3": 25.05937,
+        "field_4": "Karsikkokuja 15, 01360 Vantaa",
+        "Photo": null,
+        "Date_installed": "2024-06-26",
+        "Sensor_number": 6128
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.059536545410001,
+          60.319624701875711
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146155",
+      "properties": {
+        "fid": 3,
+        "field_1": "Koivukylä center",
+        "field_2": 60.32412,
+        "field_3": 25.05631,
+        "field_4": "Nursing home and big shops nearby. Ojalehdonkuja 1",
+        "Photo": "https://www.mapillary.com/app/?lat=60.3240518&lng=25.0560902&z=17.471048173820574&pKey=1650317105157627&focus=photo&x=0.5818076161883803&y=0.45724785482431995&zoom=0",
+        "Date_installed": "2024-06-26",
+        "Sensor_number": 6155
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.056895458613138,
+          60.323812373864442
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E140283",
+      "properties": {
+        "fid": 4,
+        "field_1": "Potential sensor spot",
+        "field_2": 60.31896,
+        "field_3": 25.08571,
+        "field_4": "In middle of vegetation / green areas Sahamäenkaari.",
+        "Photo": null,
+        "Date_installed": "2024-06-26",
+        "Sensor_number": 283
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.085594660205292,
+          60.319029128147157
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": null,
+      "properties": {
+        "fid": 5,
+        "field_1": "Havunkoski center",
+        "field_2": 60.3211,
+        "field_3": 25.07173,
+        "field_4": "Very center of Havunkoski, nursing home, a lot of concrete. Alpea kellokkaantie",
+        "Photo": null,
+        "Date_installed": "2024-06-26",
+        "Sensor_number": null
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.071710650381757,
+          60.321087665584081
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146190",
+      "properties": {
+        "fid": 6,
+        "field_1": "Sairaalakatu (UPDATED)",
+        "field_2": 60.33322,
+        "field_3": 25.05869,
+        "field_4": null,
+        "Photo": null,
+        "Date_installed": "2024-06-26",
+        "Sensor_number": 6190
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.058774546806518,
+          60.333262437024111
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146069",
+      "properties": {
+        "fid": 7,
+        "field_1": "Kuusitie 11 (UPDATED)",
+        "field_2": 60.32794,
+        "field_3": 25.05394,
+        "field_4": null,
+        "Photo": null,
+        "Date_installed": "2024-06-26",
+        "Sensor_number": 6069
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.05280813096903,
+          60.327736420054592
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146083",
+      "properties": {
+        "fid": 8,
+        "field_1": "Leinelä center",
+        "field_2": 60.32427,
+        "field_3": 25.04041,
+        "field_4": "Multiple daycares nearby leineläntie 4",
+        "Photo": null,
+        "Date_installed": "2024-06-26",
+        "Sensor_number": 6083
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.040422169662946,
+          60.324280601986402
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146118",
+      "properties": {
+        "fid": 9,
+        "field_1": "Between Koivukylä school & daycare",
+        "field_2": 60.32566,
+        "field_3": 25.0761,
+        "field_4": "Kustaantie",
+        "Photo": null,
+        "Date_installed": "2024-06-26",
+        "Sensor_number": 6118
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.076084591672647,
+          60.325695989998927
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146080",
+      "properties": {
+        "fid": 10,
+        "field_1": "Koivutaival forest",
+        "field_2": 60.32801,
+        "field_3": 25.03472,
+        "field_4": null,
+        "Photo": null,
+        "Date_installed": "2024-06-26",
+        "Sensor_number": 6080
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.034850310632546,
+          60.327983173717193
+        ]
+      }
+    }
+  ]
+}
