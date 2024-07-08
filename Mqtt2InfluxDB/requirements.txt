@@ -130,7 +130,7 @@ starlette==0.36.2
     # via fvhiot
 typing-extensions==4.7.1
     # via reactivex
-urllib3==2.0.7
+urllib3==2.2.2
     # via
     #   influxdb-client
     #   requests
