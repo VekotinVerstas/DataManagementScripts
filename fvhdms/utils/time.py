@@ -65,6 +65,8 @@ def parse_times(
             if duration_seconds == 0:
                 raise ValueError(f"Invalid duration string. {duration} results total_seconds == 0")
             start_time = end_time - datetime.timedelta(seconds=duration_seconds)
+        else:
+            start_time = isodate.parse_datetime(start_time)
 
     if subtract_end_time != 0.0:
         end_time -= datetime.timedelta(seconds=subtract_end_time)
