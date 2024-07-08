@@ -45,7 +45,7 @@ def setup_logging(args: argparse.Namespace):
 
 def add_sentry_arguments(parser: argparse.ArgumentParser):
     """Add Sentry related arguments to the argument parser"""
-    parser.add_argument("--sentry-dns", required=False, help="Sentry DSN URI")
+    parser.add_argument("--sentry-dsn", required=False, help="Sentry DSN URI")
     parser.add_argument("--sentry-traces", default=0.0, type=float, help="Sentry APM traces sample rate (0.0-1.0)")
 
 
