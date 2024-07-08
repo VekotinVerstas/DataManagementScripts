@@ -6,7 +6,7 @@
 #
 aiocsv==1.2.4
     # via influxdb-client
-aiohttp==3.9.2
+aiohttp==3.9.4
     # via influxdb-client
 aiokafka==0.8.1
     # via mittaridatapumppu-persister (pyproject.toml)
