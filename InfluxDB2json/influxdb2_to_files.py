@@ -219,7 +219,7 @@ def meta_to_dict(meta: dict) -> dict:
     for f in meta["features"]:
         device_id = f.get("id")
         if not device_id:
-            logging.error(f"Device id not found in metadata: {f}")
+            logging.warning(f"Device id not found in metadata: {f}")
             continue
         d[device_id] = f
     return d
