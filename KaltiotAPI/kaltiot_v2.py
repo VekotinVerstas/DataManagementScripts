@@ -2,6 +2,8 @@ import argparse
 import csv
 import datetime
 import glob
+import gzip
+import io
 import json
 import logging
 import pathlib
@@ -54,6 +56,7 @@ def parse_kaltiot_args() -> argparse.Namespace:
     parser.add_argument("--prefix", default="ulkoliikunta", help="Prefix for datafiles")
     parser.add_argument("--outdir", required=True, help="Directory to save files")
     parser.add_argument("--month", required=False, help="'this', 'last' or in month format YYYY-mm")
+    parser.add_argument("--week", required=False, help="'this', 'last' or in week format YYYY-mm-dd")
     parser.add_argument("--all", action="store_true", help="Dump all daily and hourly data since beginning")
     args = parse_args(parser)
     return args
@@ -80,6 +83,15 @@ def get_last_this_next_month() -> Tuple[datetime.datetime, datetime.datetime, da
     next_month = (this_month.replace(day=28) + datetime.timedelta(days=4)).replace(day=1)
     last_month = (this_month.replace(day=1) - datetime.timedelta(days=1)).replace(day=1)
     return last_month, this_month, next_month
+
+
+def get_last_this_next_week() -> Tuple[datetime.datetime, datetime.datetime, datetime.datetime]:
+    """Return datetimes for Monday of previous, current and next week."""
+    now = datetime.datetime.now(tz=ZoneInfo("UTC"))
+    this_week = (now - datetime.timedelta(days=now.weekday())).replace(hour=0, minute=0, second=0, microsecond=0)
+    next_week = this_week + datetime.timedelta(days=7)
+    last_week = this_week - datetime.timedelta(days=7)
+    return last_week, this_week, next_week
 
 
 def clean_data(data: list, aggregation: str) -> list:
@@ -111,9 +123,24 @@ def save_to_file(
             writer.writeheader()
             for d in data:
                 writer.writerow(d)
-    else:
+    if format_ == "csv.gz":
+        # write the csv to a buffer and then compress it to a file
+        fpath = base_path / pathlib.Path(fname + "csv.gz")
+        with io.StringIO() as f:
+            writer = csv.DictWriter(f, fieldnames=data[0].keys())
+            writer.writeheader()
+            for d in data:
+                writer.writerow(d)
+            f.seek(0)
+            with gzip.open(fpath, "wt") as gz:
+                gz.write(f.read())
+    elif format_ == "json":
         fpath = base_path / pathlib.Path(fname + "json")
         with open(fpath, "wt") as f:
+            f.write(json.dumps(data, indent=2))
+    elif format_ == "json.gz":
+        fpath = base_path / pathlib.Path(fname + "json.gz")
+        with gzip.open(fpath, "wt") as f:
             f.write(json.dumps(data, indent=2))
 
 
@@ -121,7 +148,7 @@ def get_and_save_data(args: dict, start_time: datetime.datetime, end_time: datet
     data = get_daily_data(args["baseurl"], args["apikey"], args["aggregation"], start_time, end_time)
     cleaned_data = clean_data(data, args["aggregation"])
     save_to_file(args, cleaned_data, start_time, end_time, "json")
-    save_to_file(args, cleaned_data, start_time, end_time, "csv")
+    save_to_file(args, cleaned_data, start_time, end_time, "csv.gz")
 
 
 def get_all_data_from_beginning(args: dict):
@@ -152,11 +179,13 @@ def create_index_html(args: dict):
     md.append("-----|-----|-----")
     for df in sorted(glob.glob("{}/{}-hourly*".format(args["outdir"], args["prefix"]))):
         md.append(format_md_link(pathlib.Path(df)))
-    html = """<!doctype html> <html> <head> <meta charset="utf-8"> <title>KuVa Ulkoliikunta</title> 
+    html = """<!doctype html> <html> <head> <meta charset="utf-8"> <title>KuVa Ulkoliikunta</title>
     <body>
     {}
     </body>
-    </html>""".format(markdown.markdown("\n".join(md), extensions=["tables"]))
+    </html>""".format(
+        markdown.markdown("\n".join(md), extensions=["tables"])
+    )
     with open(pathlib.Path(args["outdir"]) / pathlib.Path("index.html"), "wt") as f:
         f.write(html)
 
@@ -170,19 +199,19 @@ def main():
         exit()
     # Parse start and end times
     if args["month"] == "this":
-        last_month, this_month, next_month = get_last_this_next_month()
-        start_time = this_month
-        end_time = next_month
+        last_month, start_time, end_time = get_last_this_next_month()
     elif args["month"] == "last":
-        last_month, this_month, next_month = get_last_this_next_month()
-        start_time = last_month
-        end_time = this_month
+        start_time, end_time, next_month = get_last_this_next_month()
+    elif args["week"] == "this":
+        last_week, start_time, end_time = get_last_this_next_week()
+    elif args["week"] == "last":
+        start_time, end_time, next_week = get_last_this_next_week()
     else:
         start_time, end_time, time_length = parse_times(args)
     data = get_daily_data(args["baseurl"], args["apikey"], args["aggregation"], start_time, end_time)
     cleaned_data = clean_data(data, args["aggregation"])
-    save_to_file(args, cleaned_data, start_time, end_time, "json")
-    save_to_file(args, cleaned_data, start_time, end_time, "csv")
+    save_to_file(args, cleaned_data, start_time, end_time, "json.gz")
+    save_to_file(args, cleaned_data, start_time, end_time, "csv.gz")
     create_index_html(args)
 
 
