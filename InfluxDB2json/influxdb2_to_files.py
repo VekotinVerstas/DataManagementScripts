@@ -80,6 +80,7 @@ def get_args() -> argparse.Namespace:
     parser.add_argument("--groupby", help="Group by field in the latest query", default="dev-id")
     parser.add_argument("--timezone", help="Time zone for timestamps", default="Europe/Helsinki")
     parser.add_argument("--metafile", help="File name for sensor metadata (geojson)", required=True)
+    parser.add_argument("--base-url", help="Base URL for the sensor data", default="")
     parser.add_argument("--filename-prefix", help="Prefix for output file names", default="")
     parser.add_argument("--filename", help="Filename for raw data files without extension", default="")
     parser.add_argument("--latest-geojson", default="-", help="Output filename for main geojson (default stdout)")
@@ -244,25 +245,66 @@ def add_measurements_to_properties(meta: dict, devs: list):
     return meta
 
 
-def devs_to_geojson(devs: dict) -> str:
+def devs_to_geojson(args: argparse.Namespace, devs: dict) -> str:
     """
     Convert devices to single geojson.
     Each device is a feature with the latest data as properties.
     """
     features = []
     for device_id in devs.keys():
-        features.append(devs[device_id])
+        dev = devs[device_id]
+        get_links(args, dev["properties"], device_id, args.base_url)
+        features.append(dev)
     feature_collection = {
         "type": "FeatureCollection",
         "meta": {
-            "created_at": datetime.datetime.now().astimezone(tz=datetime.timezone.utc).isoformat(),
-            "comment": "The latest measurements and the metadata file for the R4C sensors.",
+            "created_at": datetime.datetime.now(tz=datetime.timezone.utc).isoformat(),
+            "comment": f"The latest measurements and the metadata file for the {args.name} sensors.",
             "contact": "Aapo Rista <aapo.rista@forumvirium.fi>",
         },
         "features": features,
     }
     geojson_content = json.dumps(feature_collection, indent=1)
     return geojson_content
+
+
+def get_links(args: argparse.Namespace, properties: dict, devid: str, base_url: str) -> dict:
+    links = properties.get("links", {})
+    geojson_url = f"{devid}.geojson" if base_url == "" else f"{base_url.rstrip('/')}/{devid}.geojson"
+    links.update(
+        {
+            "geojson": {
+                "type": "application/geojson",
+                "rel": "data",
+                "title": f"Data for {args.raw}/{args.h3}/{args.d1} days in GeoJSON format, version 2",
+                "href": geojson_url,
+            }
+        }
+    )
+    if properties.get("servicemap_url", "") != "":
+        links.update(
+            {
+                "servicemap": {
+                    "type": "text/html",
+                    "rel": "external",
+                    "title": "Palvelukartta",
+                    "href": properties["servicemap_url"],
+                },
+            }
+        )
+
+    if properties.get("site_url", "") != "":
+        links.update(
+            {
+                "site": {
+                    "type": "text/html",
+                    "rel": "external",
+                    "title": properties.get("site_title", "Kotisivu"),
+                    "href": properties["site_url"],
+                }
+            }
+        )
+    return links
 
 
 def single_device_data_to_geojson(args: argparse.Namespace, device_id: str, meta: dict, df_all: pd.DataFrame) -> bool:
@@ -304,6 +346,7 @@ def single_device_data_to_geojson(args: argparse.Namespace, device_id: str, meta
 def main():
     args = get_args()
     meta = meta_to_dict(get_device_metadata(args.metafile))  # Read device metadata from a geojson file
+    args.name = meta.get("name", args.metafile.split(".")[0])
     # Check args, then metadata for device ids, then set it None if not found
     # device_ids = args.device_ids or list(meta.keys())
     device_ids = list(meta.keys())
@@ -319,7 +362,7 @@ def main():
     # Create geojson file which contains the latest data for each device
     data = get_latest_data(args, influx_client, device_ids)
     devs = add_measurements_to_properties(meta, data)
-    geojson_content = devs_to_geojson(devs)
+    geojson_content = devs_to_geojson(args, devs)
     if args.latest_geojson == "-":  # print to sys.stdout
         print(json.dumps(geojson_content, indent=1))
     else:
