@@ -1,0 +1,816 @@
+{
+  "type": "FeatureCollection",
+  "name": "UiRaS",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "70B3D57050001AB9",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.983821,
+          60.227704
+        ]
+      },
+      "properties": {
+        "name": "Pikkukosken uimaranta",
+        "location": "Pikkukoski",
+        "district": "Ver\u00e4j\u00e4m\u00e4ki",
+        "servicemap_url": "https://palvelukartta.hel.fi/unit/41960",
+        "site_url": "",
+        "links": {},
+        "installation depth": -0.2,
+        "installation platform": "pier",
+        "installation method": "floating"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D57050001BBE",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.114849,
+          60.207977
+        ]
+      },
+      "properties": {
+        "name": "Rastilan uimaranta",
+        "location": "Vartiokyl\u00e4nlahti",
+        "district": "Rastila",
+        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40157",
+        "site_url": "https://www.kuhat.com/talviuinti/",
+        "site_title": "Uintiseura Kuhat Ry",
+        "links": {},
+        "installation depth": -0.2,
+        "installation platform": "pier",
+        "installation method": "floating"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D5705000E418",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.984992,
+          60.194102
+        ]
+      },
+      "properties": {
+        "name": "Sompasauna",
+        "location": "Hermanninranta",
+        "district": "Hermanni",
+        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/54929",
+        "site_url": "https://www.sompasauna.fi/",
+        "site_title": "Sompasauna Ry",
+        "info": "Alhaisen vedenkorkeuden johdosta mittari voi mitata v\u00e4lill\u00e4 ilman l\u00e4mp\u00f6tilaa.",
+        "links": {},
+        "valid_from": "2022-05-05T16:00:00Z",
+        "installation depth": -0.39,
+        "installation platform": "steps",
+        "installation method": "static"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D5705000DFF6",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.857306,
+          60.200333
+        ]
+      },
+      "properties": {
+        "name": "Munkkiniemen uimaranta",
+        "location": "Laajalahti",
+        "district": "Munkkiniemi (Vanha Munkkiniemi)",
+        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/41601",
+        "site_url": "",
+        "site_title": "",
+        "info": "Mittari on kadonnut uimaportaiden vaihdon yhteydess\u00e4",
+        "valid_from": "2022-05-13T13:00:00Z",
+        "installation depth": -0.3,
+        "installation platform": "steps",
+        "installation method": "static"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D5705000DFED",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.976013,
+          60.169316
+        ]
+      },
+      "properties": {
+        "name": "Katajanokan mattolaituri",
+        "location": "Laivastopuisto",
+        "district": "Katajanokka",
+        "servicemap_url": "",
+        "site_url": "",
+        "site_title": "",
+        "valid_from": "2022-06-13T14:00:00Z",
+        "installation depth": -0.2,
+        "installation platform": "pier",
+        "installation method": "floating"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D5705000E3C0",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.908639,
+          60.180667
+        ]
+      },
+      "properties": {
+        "name": "Rajasaari",
+        "location": "Humalluodot",
+        "district": "Taka-T\u00f6\u00f6l\u00f6",
+        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40606",
+        "site_url": "http://hkk-talviuimarit.fi/",
+        "site_title": "HKK-Talviuimarit",
+        "valid_from": "2022-05-13T13:00:00Z",
+        "installation depth": -0.2,
+        "installation platform": "pier",
+        "installation method": "floating"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D5705001140F",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.9157002,
+          60.140588
+        ]
+      },
+      "properties": {
+        "name": "Pihlajasaari",
+        "location": "Retkisatama",
+        "district": "Ulkosaaret (L\u00e4nsisaaret)",
+        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/41977",
+        "site_url": "",
+        "info": "Mittari on palautettu talvis\u00e4ilytyksest\u00e4 3.5.2024 klo 9 alkaen",
+        "valid_from": "2023-06-19T11:30:00Z",
+        "installation depth": -0.4,
+        "installation platform": "pier",
+        "installation method": "floating"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D5705001148E",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.951225,
+          60.153153
+        ]
+      },
+      "properties": {
+        "name": "Uunisaari",
+        "location": "Pohjoinen Uunisaari",
+        "district": "Ullanlinna",
+        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40356",
+        "site_url": "",
+        "site_title": "",
+        "info": "Alhaisen vedenkorkeuden johdosta mittari voi mitata v\u00e4lill\u00e4 ilman l\u00e4mp\u00f6tilaa.",
+        "valid_from": "2023-06-19T11:00:00Z",
+        "installation depth": -0.5,
+        "installation platform": "steps",
+        "installation method": "static"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D570500114C7",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.8983,
+          60.1715
+        ]
+      },
+      "properties": {
+        "name": "Hietaniemi (TODO)",
+        "location": "Ourit",
+        "district": "Etu-T\u00f6\u00f6l\u00f6",
+        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40142",
+        "site_url": "http://www.tuk.fi",
+        "site_title": "Talviuimarienkerho ry",
+        "info": "Mittaria ei ole viel\u00e4 asennettu, asennus 29.5.2024 illalla",
+        "valid_from": "2024-05-29T13:00:00Z",
+        "installation depth": -0.32,
+        "installation platform": "steps",
+        "installation method": "static"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D5705000E430",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.04012,
+          60.18554
+        ]
+      },
+      "properties": {
+        "name": "Tuorinniemi",
+        "location": "Kaivolahti",
+        "district": "Herttoniemi (Herttoniemenranta)",
+        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/41791",
+        "site_url": "",
+        "info": "Alhaisen vedenkorkeuden johdosta mittari voi mitata v\u00e4lill\u00e4 ilman l\u00e4mp\u00f6tilaa.",
+        "valid_from": "2022-05-30T13:00:00Z",
+        "installation depth": -0.3,
+        "installation platform": "steps",
+        "installation method": "static"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D5705000E070",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.082887,
+          60.156914
+        ]
+      },
+      "properties": {
+        "name": "Matosaari it\u00e4",
+        "location": "Villinginsalmi",
+        "district": "Laajasalo (Jollas)",
+        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40798",
+        "site_url": "",
+        "valid_from": "2022-06-05T10:00:00Z",
+        "installation depth": -0.2,
+        "installation platform": "pier",
+        "installation method": "floating"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D5705000E3EF",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.081486,
+          60.156126
+        ]
+      },
+      "properties": {
+        "name": "Matosaari l\u00e4nsi",
+        "location": "Jollaksenlahti",
+        "district": "Laajasalo (Jollas)",
+        "servicemap_url": "",
+        "site_url": "",
+        "valid_from": "2022-06-05T10:00:00Z",
+        "installation depth": -0.2,
+        "installation platform": "pier",
+        "installation method": "floating"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D5705000E3B2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.06532,
+          60.18052
+        ]
+      },
+      "properties": {
+        "name": "Reposalmi VK",
+        "location": "Reposalmi",
+        "district": "Laajasalo (Yliskyl\u00e4)",
+        "servicemap_url": "",
+        "site_url": "",
+        "valid_from": "2022-07-04T17:00:00Z",
+        "installation depth": -0.2,
+        "installation platform": "pier",
+        "installation method": "floating"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D57050011422",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.011246,
+          60.165212
+        ]
+      },
+      "properties": {
+        "name": "Kruunuvuorenranta",
+        "location": "S\u00e4ili\u00f6 468",
+        "district": "Laajasalo (Kruunuvuorenranta)",
+        "servicemap_url": "",
+        "site_url": "",
+        "valid_from": "2023-05-12T10:55:00Z",
+        "installation depth": -0.4,
+        "installation platform": "pier",
+        "installation method": "floating"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D57050004E0E",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.076416,
+          60.198449
+        ]
+      },
+      "properties": {
+        "name": "Marjaniemen uimaranta (vanha)",
+        "location": "",
+        "district": "Vartiokyl\u00e4 (Marjaniemi)",
+        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40386",
+        "site_url": "http://www.meriuimarit.fi/",
+        "site_title": "Meriuimarit ry",
+        "info": "Mittari hajosi lopullisesti ja on vaihdettu uuteen",
+        "installation depth": -0.3,
+        "installation platform": "wall",
+        "installation method": "static"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D57050011439",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.076416,
+          60.198449
+        ]
+      },
+      "properties": {
+        "name": "Marjaniemen uimaranta (uusi)",
+        "location": "",
+        "district": "Vartiokyl\u00e4 (Marjaniemi)",
+        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40386",
+        "site_url": "http://www.meriuimarit.fi/",
+        "site_title": "Meriuimarit ry",
+        "info": "",
+        "valid_from": "2023-06-20T11:15:00Z",
+        "installation depth": -0.5,
+        "installation platform": "wall",
+        "installation method": "static"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D5705000504F",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.691871,
+          60.127797
+        ]
+      },
+      "properties": {
+        "name": "Hanikan uimaranta",
+        "location": "Suinonsalmi",
+        "district": "Espoo (Soukka)",
+        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/39583",
+        "site_url": "",
+        "installation depth": -0.2,
+        "installation platform": "pier",
+        "installation method": "floating"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D57050001BA6",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.88056,
+          60.27026
+        ]
+      },
+      "properties": {
+        "name": "Vetokannas",
+        "location": "Silvola",
+        "district": "Vantaa (Kaivoksela)",
+        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/42505",
+        "site_url": "",
+        "info": "",
+        "fieldmap": {
+          "temp_water": "temp_out1",
+          "air_rh": "temprh_rh",
+          "air_temp": "temprh_temp"
+        },
+        "installation depth": -0.3,
+        "installation platform": "steps",
+        "installation method": "static"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D57050001ADA",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.113967,
+          60.313343
+        ]
+      },
+      "properties": {
+        "name": "Kuusij\u00e4rvi",
+        "location": "Uimaranta",
+        "district": "Vantaa (Kuninkaanm\u00e4ki)",
+        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/42611",
+        "site_url": "https://www.vantaa.fi/vapaa-aika/luonto_ja_ulkoilu/retkeily/kuusijarven_ulkoilualue",
+        "fieldmap": {
+          "temp_water": "temp_out1",
+          "air_rh": "temprh_rh",
+          "air_temp": "temprh_temp"
+        },
+        "installation depth": -0.3,
+        "installation platform": "steps",
+        "installation method": "static"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D5705000516A",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.61975,
+          60.29904
+        ]
+      },
+      "properties": {
+        "name": "Kattilaj\u00e4rvi",
+        "location": "Kattilaniemen leirikeskus",
+        "district": "Espoo (Nuuksio)",
+        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/39368",
+        "site_url": "",
+        "installation depth": -0.2,
+        "installation platform": "pier",
+        "installation method": "floating"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D5705000E703",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.8554928,
+          60.2004257
+        ]
+      },
+      "properties": {
+        "name": "Munkkiniemi (poiju)",
+        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/41601",
+        "site_url": "",
+        "installation depth": -0.4,
+        "installation platform": "buoy",
+        "installation method": "floating"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D5705000E6E6",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.983775,
+          60.141163
+        ]
+      },
+      "properties": {
+        "name": "Suomenlinnan uimaranta",
+        "location": "Susiluodonlahti",
+        "district": "Suomenlinna",
+        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/58015",
+        "site_url": "",
+        "info": "",
+        "installation depth": -0.4,
+        "installation platform": "buoy",
+        "installation method": "floating"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D57050004740",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.908833,
+          60.167735
+        ]
+      },
+      "properties": {
+        "name": "Lapinlahden uimaranta",
+        "location": "Lapinlahti",
+        "district": "L\u00e4nsisatama (Lapinlahti)",
+        "servicemap_url": "",
+        "site_url": "",
+        "installation depth": -0.4,
+        "installation platform": "buoy",
+        "installation method": "floating"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D5705000E70E",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.156321,
+          60.200447
+        ]
+      },
+      "properties": {
+        "name": "Aurinkolahden uimaranta",
+        "location": "Aurinkolahti",
+        "district": "Vuosaari (Aurinkolahti)",
+        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40258",
+        "site_url": "",
+        "installation depth": -0.4,
+        "installation platform": "buoy",
+        "installation method": "floating"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D570500113C4",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.141843,
+          60.198626
+        ]
+      },
+      "properties": {
+        "name": "Aurinkolahti (Kalkkihiekantori)",
+        "location": "Kalkkihiekantorin laivalaituri",
+        "district": "Vuosaari (Kallahti)",
+        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/46069",
+        "site_url": "",
+        "valid_from": "2023-06-20T12:20:00Z",
+        "info": "Laituri on kes\u00e4s\u00e4ilytyksess\u00e4 n. 1 km l\u00e4nteen",
+        "installation depth": -0.4,
+        "installation platform": "pier",
+        "installation method": "floating"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D57050011458",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.96276,
+          60.18157
+        ]
+      },
+      "properties": {
+        "name": "S\u00f6rn\u00e4isten rantatien mattolaituri",
+        "location": "S\u00f6rn\u00e4isten rantatie",
+        "district": "S\u00f6rn\u00e4inen (Vilhonvuori)",
+        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/9271",
+        "site_url": "",
+        "valid_from": "2023-06-08T13:00:00Z",
+        "installation depth": -0.4,
+        "installation platform": "pier",
+        "installation method": "floating"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D57050011432",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.8786,
+          60.18222
+        ]
+      },
+      "properties": {
+        "name": "Seurasaaren uimala",
+        "location": "Seurasaari, l\u00e4nsipuoli",
+        "district": "Meilahti",
+        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40993",
+        "site_url": "https://www.hel.fi/fi/kulttuuri-ja-vapaa-aika/ulkoilu-puistot-ja-luontokohteet/uimarannat/helsingin-uimarannat/seurasaaren-uimala",
+        "valid_from": "2023-07-12T07:10:00Z",
+        "installation depth": -0.4,
+        "installation platform": "pier",
+        "installation method": "floating"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D5705000E6D1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.185788,
+          60.228068
+        ]
+      },
+      "properties": {
+        "name": "Porvarinlahti",
+        "location": "Porvarinlahti",
+        "district": "Vuosaari (Niinisaari)",
+        "servicemap_url": "",
+        "site_url": "",
+        "installation depth": -0.4,
+        "installation platform": "buoy",
+        "installation method": "floating"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D5705000E6F9",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.98258,
+          60.202336
+        ]
+      },
+      "properties": {
+        "name": "Arabianranta",
+        "location": "Vanhankaupunginselk\u00e4",
+        "district": "Toukola",
+        "servicemap_url": "",
+        "site_url": "",
+        "installation depth": -0.4,
+        "installation platform": "buoy",
+        "installation method": "floating"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D57050004CDB",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.8579,
+          60.1707
+        ]
+      },
+      "properties": {
+        "name": "Lauttasaaren mattolaituri",
+        "location": "Laukkaluoto",
+        "district": "Lauttasaari (Katajaharju)",
+        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/9266",
+        "site_url": "",
+        "valid_from": "2022-08-25T13:40:00Z",
+        "installation depth": -0.3,
+        "installation platform": "pier",
+        "installation method": "floating"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D57050001BBC",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.85692,
+          60.15168
+        ]
+      },
+      "properties": {
+        "name": "Poliisien kes\u00e4koti",
+        "location": "L\u00e4nsiulapanniemi",
+        "district": "Lauttasaari (Myllykallio)",
+        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/21026",
+        "site_url": "",
+        "info": "Alhaisen vedenkorkeuden johdosta mittari voi mitata v\u00e4lill\u00e4 ilman l\u00e4mp\u00f6tilaa.",
+        "valid_from": "2022-08-29T13:30:00Z",
+        "installation depth": -0.28,
+        "installation platform": "pier",
+        "installation method": "static"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D57050001BA7",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.8907,
+          60.14682
+        ]
+      },
+      "properties": {
+        "name": "Lauttasaaren ulkoilupuisto",
+        "location": "Veijarivuoren puisto",
+        "district": "Lauttasaari (Vattuniemi)",
+        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40701",
+        "site_url": "",
+        "valid_from": "2022-11-18T07:15:00Z",
+        "info": "Alhaisen vedenkorkeuden johdosta mittari voi mitata v\u00e4lill\u00e4 ilman l\u00e4mp\u00f6tilaa.",
+        "installation depth": -0.3,
+        "installation platform": "steps",
+        "installation method": "static"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D5705000E696",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.9341,
+          60.18021
+        ]
+      },
+      "properties": {
+        "name": "T\u00f6\u00f6l\u00f6nlahti",
+        "location": "T\u00f6\u00f6l\u00f6nlahti",
+        "district": "Taka-T\u00f6\u00f6l\u00f6",
+        "servicemap_url": "",
+        "site_url": "",
+        "installation depth": -0.4,
+        "installation platform": "buoy",
+        "installation method": "floating"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D5705000E653",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.890244,
+          60.197827
+        ]
+      },
+      "properties": {
+        "name": "Pikku-Huopalahti",
+        "location": "Pikku-Huopalahden puisto",
+        "district": "Munkkiniemi (Vanha Munkkiniemi)",
+        "servicemap_url": "",
+        "site_url": "",
+        "installation depth": -0.4,
+        "installation platform": "buoy",
+        "installation method": "floating"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D5705000E0E9",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.93448,
+          60.15412
+        ]
+      },
+      "properties": {
+        "name": "Eiranranta",
+        "location": "Pyh\u00e4n Birgitan puisto",
+        "district": "L\u00e4nsisatama (Hernesaari)",
+        "servicemap_url": "",
+        "site_url": "",
+        "valid_from": "2022-06-29T08:45:00Z",
+        "installation depth": -0.4,
+        "installation platform": "steps",
+        "installation method": "static"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "70B3D57050001A97",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.979968,
+          60.180724
+        ]
+      },
+      "properties": {
+        "name": "Kalasatama",
+        "location": "Sompasaarensalmi",
+        "district": "S\u00f6rn\u00e4inen (Sompasaari)",
+        "servicemap_url": "",
+        "site_url": "",
+        "info": "Alhaisen vedenkorkeuden johdosta mittari voi mitata v\u00e4lill\u00e4 ilman l\u00e4mp\u00f6tilaa.",
+        "installation depth": -0.43,
+        "installation platform": "steps",
+        "installation method": "static"
+      }
+    }
+  ]
+}
