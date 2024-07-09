@@ -124,6 +124,9 @@ def get_all_fields(args: argparse.Namespace, influx_client: influxdb_client.Infl
 
 def tidy_up_df(args: argparse.Namespace, df: pd.DataFrame) -> pd.DataFrame:
     """Tidy up the dataframe."""
+    # After query df may be a list of dataframes, so we need to concatenate them
+    if isinstance(df, list):
+        df = pd.concat(df)
     df = df.drop(columns=["result", "table"])  # drop columns not needed
     df = df.set_index("_time").rename_axis("time")  # rename index
     df = df.rename(columns=args.field_mapping)  # rename fields
@@ -192,6 +195,13 @@ def get_all_data(
     return df
 
 
+def nan_to_none(d: dict) -> dict:
+    """
+    Replace NaN with None in a dictionary using dict comprehension.
+    """
+    return {k: (v if pd.notna(v) else None) for k, v in d.items()}
+
+
 def df_to_dict(df: pd.DataFrame) -> list:
     """
     Convert a dataframe to a list of dicts.
@@ -200,8 +210,9 @@ def df_to_dict(df: pd.DataFrame) -> list:
     for index, row in df[df.columns].iterrows():
         data_row = {"time": index.isoformat()}
         # Replace NaN with None in data_row using dict comprehension
-        data_row = {k: (v if pd.notna(v) else None) for k, v in data_row.items()}
+        # data_row = {k: (v if pd.notna(v) else None) for k, v in data_row.items()}
         data_row.update(row.to_dict())
+        data_row = nan_to_none(data_row)
         data_rows.append(data_row)
     return data_rows
 
@@ -229,7 +240,7 @@ def add_measurements_to_properties(meta: dict, devs: list):
     """Add measurements to properties."""
     for dev in devs:
         devid = dev.pop("dev-id")
-        meta[devid]["properties"]["measurement"] = dev
+        meta[devid]["properties"]["measurement"] = nan_to_none(dev)
     return meta
 
 
@@ -254,8 +265,11 @@ def devs_to_geojson(devs: dict) -> str:
     return geojson_content
 
 
-def single_device_data_to_geojson(args: argparse.Namespace, device_id: str, meta: dict, df_all: pd.DataFrame):
+def single_device_data_to_geojson(args: argparse.Namespace, device_id: str, meta: dict, df_all: pd.DataFrame) -> bool:
     df_dev = df_all[df_all["dev-id"] == device_id]
+    if df_dev.empty:
+        logging.warning(f"Device {device_id} not found in the data")
+        return False
     # Drop dev-id
     df_dev = df_dev.drop(columns=["dev-id"])
     # Filter latest raw data for the device for args.raw duration
@@ -272,10 +286,6 @@ def single_device_data_to_geojson(args: argparse.Namespace, device_id: str, meta
     df_d1 = df_d1.resample("1D").mean()
     # Round the values
     df_d1 = df_d1.round(args.rounding)
-
-    # print(df_raw)
-    # print(df_h3)
-    # print(df_d1)
     data = {
         "raw": df_to_dict(df_raw),
         "h3": df_to_dict(df_h3),
@@ -288,6 +298,7 @@ def single_device_data_to_geojson(args: argparse.Namespace, device_id: str, meta
     filename = str(pathlib.Path(args.output_dir) / f"{device_id}.geojson")
     data_str = json.dumps(dev_geojson, indent=1)
     atomic_write(filename, data_str.encode())
+    return True
 
 
 def main():
@@ -310,7 +321,7 @@ def main():
     devs = add_measurements_to_properties(meta, data)
     geojson_content = devs_to_geojson(devs)
     if args.latest_geojson == "-":  # print to sys.stdout
-        print(geojson_content)
+        print(json.dumps(geojson_content, indent=1))
     else:
         filename = f"{args.output_dir}/{args.latest_geojson}.geojson"
         atomic_write(filename, geojson_content.encode())
@@ -323,9 +334,12 @@ def main():
     # all_data_to_files(args.latest_geojson, df_rounded)
     # Create a geojson file for each device
     if args.geojson:
+        dev_count = 0
         for device_id in device_ids:
-            single_device_data_to_geojson(args, device_id, meta, df_raw)
-        logging.info(f"Saved geojson for {len(device_ids)} devices to directory '{args.output_dir}'")
+            success = single_device_data_to_geojson(args, device_id, meta, df_raw)
+            if success:
+                dev_count += 1
+        logging.info(f"Saved geojson for {dev_count}/{len(device_ids)} devices to directory '{args.output_dir}'")
 
 
 if __name__ == "__main__":
