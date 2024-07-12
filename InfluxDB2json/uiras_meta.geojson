@@ -64,7 +64,7 @@
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/54929",
         "site_url": "https://www.sompasauna.fi/",
         "site_title": "Sompasauna Ry",
-        "info": "Alhaisen vedenkorkeuden johdosta mittari voi mitata v\u00e4lill\u00e4 ilman l\u00e4mp\u00f6tilaa.",
+        "info": "Alhaisen vedenkorkeuden vallitessa  mittari voi mitata v\u00e4lill\u00e4 ilman l\u00e4mp\u00f6tilaa.",
         "links": {},
         "valid_from": "2022-05-05T16:00:00Z",
         "installation depth": -0.39,
@@ -148,8 +148,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          24.9157002,
-          60.140588
+          24.916318,
+          60.14055
         ]
       },
       "properties": {
@@ -158,7 +158,7 @@
         "district": "Ulkosaaret (L\u00e4nsisaaret)",
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/41977",
         "site_url": "",
-        "info": "Mittari on palautettu talvis\u00e4ilytyksest\u00e4 3.5.2024 klo 9 alkaen",
+        "info": "",
         "valid_from": "2023-06-19T11:30:00Z",
         "installation depth": -0.4,
         "installation platform": "pier",
@@ -182,7 +182,7 @@
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40356",
         "site_url": "",
         "site_title": "",
-        "info": "Alhaisen vedenkorkeuden johdosta mittari voi mitata v\u00e4lill\u00e4 ilman l\u00e4mp\u00f6tilaa.",
+        "info": "Alhaisen vedenkorkeuden vallitessa  mittari voi mitata v\u00e4lill\u00e4 ilman l\u00e4mp\u00f6tilaa.",
         "valid_from": "2023-06-19T11:00:00Z",
         "installation depth": -0.5,
         "installation platform": "steps",
@@ -200,15 +200,15 @@
         ]
       },
       "properties": {
-        "name": "Hietaniemi (TODO)",
+        "name": "Hietaniemi",
         "location": "Ourit",
         "district": "Etu-T\u00f6\u00f6l\u00f6",
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40142",
         "site_url": "http://www.tuk.fi",
         "site_title": "Talviuimarienkerho ry",
-        "info": "Mittaria ei ole viel\u00e4 asennettu, asennus 29.5.2024 illalla",
-        "valid_from": "2024-05-29T13:00:00Z",
-        "installation depth": -0.32,
+        "info": "Mittari uusittu 29.5.2024",
+        "valid_from": "2024-05-29T13:30:00Z",
+        "installation depth": -0.4,
         "installation platform": "steps",
         "installation method": "static"
       }
@@ -229,7 +229,7 @@
         "district": "Herttoniemi (Herttoniemenranta)",
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/41791",
         "site_url": "",
-        "info": "Alhaisen vedenkorkeuden johdosta mittari voi mitata v\u00e4lill\u00e4 ilman l\u00e4mp\u00f6tilaa.",
+        "info": "Alhaisen vedenkorkeuden vallitessa  mittari voi mitata v\u00e4lill\u00e4 ilman l\u00e4mp\u00f6tilaa.",
         "valid_from": "2022-05-30T13:00:00Z",
         "installation depth": -0.3,
         "installation platform": "steps",
@@ -358,7 +358,7 @@
         ]
       },
       "properties": {
-        "name": "Marjaniemen uimaranta (uusi)",
+        "name": "Marjaniemen uimaranta",
         "location": "",
         "district": "Vartiokyl\u00e4 (Marjaniemi)",
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40386",
@@ -409,11 +409,6 @@
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/42505",
         "site_url": "",
         "info": "",
-        "fieldmap": {
-          "temp_water": "temp_out1",
-          "air_rh": "temprh_rh",
-          "air_temp": "temprh_temp"
-        },
         "installation depth": -0.3,
         "installation platform": "steps",
         "installation method": "static"
@@ -435,11 +430,6 @@
         "district": "Vantaa (Kuninkaanm\u00e4ki)",
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/42611",
         "site_url": "https://www.vantaa.fi/vapaa-aika/luonto_ja_ulkoilu/retkeily/kuusijarven_ulkoilualue",
-        "fieldmap": {
-          "temp_water": "temp_out1",
-          "air_rh": "temprh_rh",
-          "air_temp": "temprh_temp"
-        },
         "installation depth": -0.3,
         "installation platform": "steps",
         "installation method": "static"
@@ -696,7 +686,7 @@
         "district": "Lauttasaari (Myllykallio)",
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/21026",
         "site_url": "",
-        "info": "Alhaisen vedenkorkeuden johdosta mittari voi mitata v\u00e4lill\u00e4 ilman l\u00e4mp\u00f6tilaa.",
+        "info": "Alhaisen vedenkorkeuden vallitessa  mittari voi mitata v\u00e4lill\u00e4 ilman l\u00e4mp\u00f6tilaa.",
         "valid_from": "2022-08-29T13:30:00Z",
         "installation depth": -0.28,
         "installation platform": "pier",
@@ -720,7 +710,7 @@
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40701",
         "site_url": "",
         "valid_from": "2022-11-18T07:15:00Z",
-        "info": "Alhaisen vedenkorkeuden johdosta mittari voi mitata v\u00e4lill\u00e4 ilman l\u00e4mp\u00f6tilaa.",
+        "info": "Alhaisen vedenkorkeuden vallitessa  mittari voi mitata v\u00e4lill\u00e4 ilman l\u00e4mp\u00f6tilaa.",
         "installation depth": -0.3,
         "installation platform": "steps",
         "installation method": "static"
@@ -806,7 +796,7 @@
         "district": "S\u00f6rn\u00e4inen (Sompasaari)",
         "servicemap_url": "",
         "site_url": "",
-        "info": "Alhaisen vedenkorkeuden johdosta mittari voi mitata v\u00e4lill\u00e4 ilman l\u00e4mp\u00f6tilaa.",
+        "info": "Alhaisen vedenkorkeuden vallitessa  mittari voi mitata v\u00e4lill\u00e4 ilman l\u00e4mp\u00f6tilaa.",
         "installation depth": -0.43,
         "installation platform": "steps",
         "installation method": "static"
