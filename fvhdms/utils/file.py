@@ -49,6 +49,7 @@ def save_dataframe(df: pd.DataFrame, args: argparse.Namespace):
     # Create a dictionary to map format to corresponding DataFrame method
     format_methods = {
         "csv": lambda buf: df.to_csv(buf, index=True, date_format="%Y-%m-%dT%H:%M:%S.%f%z"),
+        "csv.gz": lambda buf: df.to_csv(buf, index=True, date_format="%Y-%m-%dT%H:%M:%S.%f%z", compression="gzip"),
         "parquet": lambda buf: df.to_parquet(buf, index=True),
         "json": lambda buf: df.to_json(buf, orient="records"),
         "feather": lambda buf: df.to_feather(buf),
