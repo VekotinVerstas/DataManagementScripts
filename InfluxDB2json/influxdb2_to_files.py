@@ -86,7 +86,7 @@ def get_args() -> argparse.Namespace:
     parser.add_argument("--latest-geojson", default="-", help="Output filename for main geojson (default stdout)")
     parser.add_argument("--output-dir", help="Output directory for all files")
     # Output formats for the data (csv, parquet, etc.). Multiple formats can be selected
-    fmats = ["csv", "parquet", "json", "feather", "html", "xlsx", "msgpack", "pickle", "hdf5", "sql"]
+    fmats = ["csv", "csv.gz", "parquet", "json", "feather", "html", "xlsx", "msgpack", "pickle", "hdf5", "sql"]
     parser.add_argument("--output-format", nargs="+", default=[], choices=fmats, help="Output format for the data")
     parser.add_argument("--geojson", action="store_true", help="Create a geojson file for each device")
     parser.add_argument("--d1", help="How many days of 1d data in geojson", type=str, default="P180D", nargs="?")
