@@ -1,4 +1,4 @@
-low_water = "Alhaisen vedenkorkeuden johdosta mittari voi mitata välillä ilman lämpötilaa."
+low_water = "Alhaisen vedenkorkeuden vallitessa  mittari voi mitata välillä ilman lämpötilaa."
 
 META = {
     "70B3D57050001AB9": {
@@ -117,11 +117,11 @@ META = {
         "name": "Pihlajasaari",
         "location": "Retkisatama",
         "district": "Ulkosaaret (Länsisaaret)",
-        "lat": 60.140588,
-        "lon": 24.9157002,
+        "lat": 60.140550,
+        "lon": 24.916318,
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/41977",
         "site_url": "",
-        "info": "Mittari on palautettu talvisäilytyksestä 3.5.2024 klo 9 alkaen",
+        "info": "",
         "valid_from": "2023-06-19T11:30:00Z",
         "properties": {
             "installation depth": -0.4,
@@ -147,7 +147,7 @@ META = {
         },
     },
     "70B3D570500114C7": {
-        "name": "Hietaniemi (TODO)",
+        "name": "Hietaniemi",
         "location": "Ourit",
         "district": "Etu-Töölö",
         "lat": 60.1715,
@@ -155,10 +155,10 @@ META = {
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40142",
         "site_url": "http://www.tuk.fi",
         "site_title": "Talviuimarienkerho ry",
-        "info": "Mittaria ei ole vielä asennettu, asennus 29.5.2024 illalla",
-        "valid_from": "2024-05-29T13:00:00Z",
+        "info": "Mittari uusittu 29.5.2024",
+        "valid_from": "2024-05-29T13:30:00Z",
         "properties": {
-            "installation depth": -0.32,
+            "installation depth": -0.40,
             "installation platform": "steps",
             "installation method": "static",
         },
@@ -294,7 +294,7 @@ META = {
         },
     },
     "70B3D57050011439": {
-        "name": "Marjaniemen uimaranta (uusi)",
+        "name": "Marjaniemen uimaranta",
         "location": "",
         "district": "Vartiokylä (Marjaniemi)",
         "lat": 60.198449,
