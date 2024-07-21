@@ -115,7 +115,7 @@ ruuvitag-sensor==2.2.0
     # via mittaridatapumppu-persister (pyproject.toml)
 sentry-asgi==0.2.0
     # via mittaridatapumppu-persister (pyproject.toml)
-sentry-sdk==1.30.0
+sentry-sdk==2.8.0
     # via sentry-asgi
 six==1.16.0
     # via
