@@ -518,29 +518,6 @@
         "installation method": "floating"
       }
     },
-/*
-    {
-      "type": "Feature",
-      "id": "70B3D5705000E70E",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          25.156321,
-          60.200447
-        ]
-      },
-      "properties": {
-        "name": "Aurinkolahden uimaranta",
-        "location": "Aurinkolahti",
-        "district": "Vuosaari (Aurinkolahti)",
-        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40258",
-        "site_url": "",
-        "installation depth": -0.4,
-        "installation platform": "buoy",
-        "installation method": "floating"
-      }
-    },
-*/
     {
       "type": "Feature",
       "id": "70B3D5705000E6F9",
@@ -557,6 +534,7 @@
         "district": "Vuosaari (Aurinkolahti)",
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40258",
         "site_url": "",
+        "valid_from": "2024-07-20T03:20:00Z",
         "installation depth": -0.4,
         "installation platform": "buoy",
         "installation method": "floating"
@@ -650,29 +628,6 @@
         "installation method": "floating"
       }
     },
-/*
-    {
-      "type": "Feature",
-      "id": "70B3D5705000E6F9",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          24.98258,
-          60.202336
-        ]
-      },
-      "properties": {
-        "name": "Arabianranta",
-        "location": "Vanhankaupunginselk\u00e4",
-        "district": "Toukola",
-        "servicemap_url": "",
-        "site_url": "",
-        "installation depth": -0.4,
-        "installation platform": "buoy",
-        "installation method": "floating"
-      }
-    },
-*/
     {
       "type": "Feature",
       "id": "70B3D57050004CDB",
