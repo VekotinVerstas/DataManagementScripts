@@ -308,7 +308,12 @@ def get_links(args: argparse.Namespace, properties: dict, devid: str, base_url: 
 
 
 def single_device_data_to_geojson(args: argparse.Namespace, device_id: str, meta: dict, df_all: pd.DataFrame) -> bool:
+    dev_geojson = copy.deepcopy(meta[device_id])
     df_dev = df_all[df_all["dev-id"] == device_id]
+    # if there is dev_geojson["properties"]["valid_from"], filter the data out before that
+    if "valid_from" in dev_geojson["properties"]:
+        valid_from = pd.to_datetime(dev_geojson["properties"]["valid_from"])
+        df_dev = df_dev[df_dev.index > valid_from]
     if df_dev.empty:
         logging.warning(f"Device {device_id} not found in the data")
         return False
@@ -335,7 +340,6 @@ def single_device_data_to_geojson(args: argparse.Namespace, device_id: str, meta
     }
     # Create a geojson file for the device, where each feature is a Point with the latest data
     # and the properties contain the history data
-    dev_geojson = copy.deepcopy(meta[device_id])
     dev_geojson["properties"]["data"] = data
     filename = str(pathlib.Path(args.output_dir) / f"{device_id}.geojson")
     data_str = json.dumps(dev_geojson, indent=1)
