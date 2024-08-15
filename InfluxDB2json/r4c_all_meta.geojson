@@ -1,0 +1,509 @@
+{
+  "type": "FeatureCollection",
+  "meta": {
+    "created_at": "2023-07-04T04:28:21.029825+00:00",
+    "created_from": "R4C sensors installation 28.06.2023 (1).xlsx",
+    "comment": "This is the metadata file for the R4C sensors.",
+    "contact": "Aapo Rista <aapo.rista@forumvirium.fi>"
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "24E124136E146087",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.06572,
+          60.32294
+        ]
+      },
+      "properties": {
+        "fid": 1,
+        "field_1": "Rautkallio daycare",
+        "field_2": 60.32294,
+        "field_3": 25.06572,
+        "field_4": "Rautkallionkatu 5, 01360 Vantaa",
+        "Date_installed": "2024-06-26",
+        "Sensor_number": 6087,
+        "name": "",
+        "location": "",
+        "district": "",
+        "street": "",
+        "Estimated height from the ground level (m)": null,
+        "Pole surroundings": "",
+        "WUDAPT Local Climate Zone Classification": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146128",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.05953654541,
+          60.31962470187571
+        ]
+      },
+      "properties": {
+        "fid": 2,
+        "field_1": "Koivukyl\u00e4 health station",
+        "field_2": 60.31944,
+        "field_3": 25.05937,
+        "field_4": "Karsikkokuja 15, 01360 Vantaa",
+        "Date_installed": "2024-06-26",
+        "Sensor_number": 6128,
+        "name": "",
+        "location": "",
+        "district": "",
+        "street": "",
+        "Estimated height from the ground level (m)": null,
+        "Pole surroundings": "",
+        "WUDAPT Local Climate Zone Classification": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146155",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.056895458613138,
+          60.32381237386444
+        ]
+      },
+      "properties": {
+        "fid": 3,
+        "field_1": "Koivukyl\u00e4 center",
+        "field_2": 60.32412,
+        "field_3": 25.05631,
+        "field_4": "Nursing home and big shops nearby. Ojalehdonkuja 1",
+        "Photo": "https://www.mapillary.com/app/?lat=60.3240518&lng=25.0560902&z=17.471048173820574&pKey=1650317105157627&focus=photo&x=0.5818076161883803&y=0.45724785482431995&zoom=0",
+        "Date_installed": "2024-06-26",
+        "Sensor_number": 6155,
+        "name": "",
+        "location": "",
+        "district": "",
+        "street": "",
+        "Estimated height from the ground level (m)": null,
+        "Pole surroundings": "",
+        "WUDAPT Local Climate Zone Classification": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E140283",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.08559466020529,
+          60.31902912814716
+        ]
+      },
+      "properties": {
+        "fid": 4,
+        "field_1": "Potential sensor spot",
+        "field_2": 60.31896,
+        "field_3": 25.08571,
+        "field_4": "In middle of vegetation / green areas Saham\u00e4enkaari.",
+        "Date_installed": "2024-06-26",
+        "Sensor_number": 283,
+        "name": "",
+        "location": "",
+        "district": "",
+        "street": "",
+        "Estimated height from the ground level (m)": null,
+        "Pole surroundings": "",
+        "WUDAPT Local Climate Zone Classification": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146218",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.071710650381757,
+          60.32108766558408
+        ]
+      },
+      "properties": {
+        "fid": 5,
+        "field_1": "Havunkoski center",
+        "field_2": 60.3211,
+        "field_3": 25.07173,
+        "field_4": "Very center of Havunkoski, nursing home, a lot of concrete. Alpea kellokkaantie",
+        "Date_installed": "2024-06-26",
+        "Sensor_number": 6218,
+        "name": "",
+        "location": "",
+        "district": "",
+        "street": "",
+        "Estimated height from the ground level (m)": null,
+        "Pole surroundings": "",
+        "WUDAPT Local Climate Zone Classification": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146190",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.058774546806518,
+          60.33326243702411
+        ]
+      },
+      "properties": {
+        "fid": 6,
+        "field_1": "Sairaalakatu (UPDATED)",
+        "field_2": 60.33322,
+        "field_3": 25.05869,
+        "Date_installed": "2024-06-26",
+        "Sensor_number": 6190,
+        "name": "",
+        "location": "",
+        "district": "",
+        "street": "",
+        "Estimated height from the ground level (m)": null,
+        "Pole surroundings": "",
+        "WUDAPT Local Climate Zone Classification": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146069",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.05280813096903,
+          60.32773642005459
+        ]
+      },
+      "properties": {
+        "fid": 7,
+        "field_1": "Kuusitie 11 (UPDATED)",
+        "field_2": 60.32794,
+        "field_3": 25.05394,
+        "Date_installed": "2024-06-26",
+        "Sensor_number": 6069,
+        "name": "",
+        "location": "",
+        "district": "",
+        "street": "",
+        "Estimated height from the ground level (m)": null,
+        "Pole surroundings": "",
+        "WUDAPT Local Climate Zone Classification": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146083",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.040422169662946,
+          60.3242806019864
+        ]
+      },
+      "properties": {
+        "fid": 8,
+        "field_1": "Leinel\u00e4 center",
+        "field_2": 60.32427,
+        "field_3": 25.04041,
+        "field_4": "Multiple daycares nearby leinel\u00e4ntie 4",
+        "Date_installed": "2024-06-26",
+        "Sensor_number": 6083,
+        "name": "",
+        "location": "",
+        "district": "",
+        "street": "",
+        "Estimated height from the ground level (m)": null,
+        "Pole surroundings": "",
+        "WUDAPT Local Climate Zone Classification": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146118",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.076084591672647,
+          60.32569598999893
+        ]
+      },
+      "properties": {
+        "fid": 9,
+        "field_1": "Between Koivukyl\u00e4 school & daycare",
+        "field_2": 60.32566,
+        "field_3": 25.0761,
+        "field_4": "Kustaantie",
+        "Date_installed": "2024-06-26",
+        "Sensor_number": 6118,
+        "name": "",
+        "location": "",
+        "district": "",
+        "street": "",
+        "Estimated height from the ground level (m)": null,
+        "Pole surroundings": "",
+        "WUDAPT Local Climate Zone Classification": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146080",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.034850310632546,
+          60.32798317371719
+        ]
+      },
+      "properties": {
+        "fid": 10,
+        "field_1": "Koivutaival forest",
+        "field_2": 60.32801,
+        "field_3": 25.03472,
+        "Date_installed": "2024-06-26",
+        "Sensor_number": 6080,
+        "name": "",
+        "location": "",
+        "district": "",
+        "street": "",
+        "Estimated height from the ground level (m)": null,
+        "Pole surroundings": "",
+        "WUDAPT Local Climate Zone Classification": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146157",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.050955366758195,
+          60.18089723029303
+        ]
+      },
+      "properties": {
+        "fid": 11,
+        "Date_installed": "2024-06-25",
+        "Sensor_number": 6157,
+        "name": "Yliskyl\u00e4ntie 2",
+        "location": "",
+        "district": "Laajasalo",
+        "street": "Yliskyl\u00e4ntie 2",
+        "Estimated height from the ground level (m)": 3.5,
+        "Pole surroundings": "Flat ground, bare ground/grass",
+        "WUDAPT Local Climate Zone Classification": "5, Open Midrise"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146235",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.054461721547142,
+          60.17791332910831
+        ]
+      },
+      "properties": {
+        "fid": 12,
+        "Date_installed": "2024-06-25",
+        "Sensor_number": 6235,
+        "name": "Holmanmoisionpolku 1",
+        "location": "",
+        "district": "Laajasalo",
+        "street": "Holmanmoisionpolku 1",
+        "Estimated height from the ground level (m)": 3.51,
+        "Pole surroundings": "Flat ground, bare ground/grass",
+        "WUDAPT Local Climate Zone Classification": "5, Open Midrise"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146186",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.03355598732001,
+          60.17338413916632
+        ]
+      },
+      "properties": {
+        "fid": 13,
+        "Date_installed": "2024-06-25",
+        "Sensor_number": 6186,
+        "name": "Jurmonkuja 1",
+        "location": "",
+        "district": "Laajasalo",
+        "street": "Jurmonkuja 1",
+        "Estimated height from the ground level (m)": 3.27,
+        "Pole surroundings": "Flat ground, asphalt/stone pavement",
+        "WUDAPT Local Climate Zone Classification": "6, Open Lowrise"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146167",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.01943622180639,
+          60.167472595257465
+        ]
+      },
+      "properties": {
+        "fid": 14,
+        "Date_installed": "2024-06-25",
+        "Sensor_number": 6167,
+        "name": "Pojamankatu 1",
+        "location": "",
+        "district": "Laajasalo",
+        "street": "Pojamankatu 1",
+        "Estimated height from the ground level (m)": 3.35,
+        "Pole surroundings": "Flat ground, asphalt pavement",
+        "WUDAPT Local Climate Zone Classification": "14, Low Plants"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E140271",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.038138954219203,
+          60.17019884666942
+        ]
+      },
+      "properties": {
+        "fid": 15,
+        "Date_installed": "2024-06-25",
+        "Sensor_number": 271,
+        "name": "Rudolfintie 19",
+        "location": "",
+        "district": "Laajasalo",
+        "street": "Rudolfintie 19",
+        "Estimated height from the ground level (m)": 3.01,
+        "Pole surroundings": "Mild slope raising behind the pole, grass",
+        "WUDAPT Local Climate Zone Classification": "6, Open Lowrise"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E140287",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.033164118825763,
+          60.17820925308568
+        ]
+      },
+      "properties": {
+        "fid": 16,
+        "Date_installed": "2024-06-25",
+        "Sensor_number": 287,
+        "name": "Tuurholmanpolku",
+        "location": "",
+        "district": "Laajasalo",
+        "street": "Tuurholmanpolku",
+        "Estimated height from the ground level (m)": 2.84,
+        "Pole surroundings": "Flat ground, grass, ground lower than the sand pavement beside",
+        "WUDAPT Local Climate Zone Classification": "14, Low Plants"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146224",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.051803506562962,
+          60.16760355134523
+        ]
+      },
+      "properties": {
+        "fid": 17,
+        "Date_installed": "2024-06-25",
+        "Sensor_number": 6224,
+        "name": "Sarvastonkaari 1",
+        "location": "",
+        "district": "Laajasalo",
+        "street": "Sarvastonkaari 1",
+        "Estimated height from the ground level (m)": 3.34,
+        "Pole surroundings": "Flat ground, bare ground",
+        "WUDAPT Local Climate Zone Classification": "6, Open Lowrise"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146126",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.0811313318558,
+          60.16635041344928
+        ]
+      },
+      "properties": {
+        "fid": 18,
+        "Date_installed": "2024-06-25",
+        "Sensor_number": 6126,
+        "name": "Puuskaniementie 19",
+        "location": "",
+        "district": "Laajasalo",
+        "street": "Puuskaniementie 19",
+        "Estimated height from the ground level (m)": 3.4,
+        "Pole surroundings": "Flat ground (base height measured), bare ground/grass",
+        "WUDAPT Local Climate Zone Classification": "14, Low Plants"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146198",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.089740958221043,
+          60.16370815865264
+        ]
+      },
+      "properties": {
+        "fid": 19,
+        "Date_installed": "2024-06-25",
+        "Sensor_number": 6198,
+        "name": "Poikasaartentie 4",
+        "location": "",
+        "district": "Laajasalo",
+        "street": "Poikasaartentie 4",
+        "Estimated height from the ground level (m)": 3.42,
+        "Pole surroundings": "Raising hill behind the pole, bare forest ground",
+        "WUDAPT Local Climate Zone Classification": "11, Dense Trees"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146237",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.068313113651286,
+          60.16354863794643
+        ]
+      },
+      "properties": {
+        "fid": 20,
+        "Date_installed": "2024-06-25",
+        "Sensor_number": 6237,
+        "name": "Kuunaritie 1",
+        "location": "",
+        "district": "Laajasalo",
+        "street": "Kuunaritie 1",
+        "Estimated height from the ground level (m)": 3.38,
+        "Pole surroundings": "Flat ground, bare ground/grass, wooden pole",
+        "WUDAPT Local Climate Zone Classification": "11, Dense Trees"
+      }
+    }
+  ]
+}
