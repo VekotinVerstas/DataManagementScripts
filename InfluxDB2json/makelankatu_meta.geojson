@@ -1,0 +1,245 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "24E124136E106618",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.95214986305944,
+          60.19603679151048
+        ]
+      },
+      "properties": {
+        "fid": 1,
+        "Tyyppi": "Varjossa",
+        "Numero": 1,
+        "Huomiot": "Vesiputkessa",
+        "Kiinnitystapa": "Putkessa nippusitein",
+        "Sensori": 6618,
+        "Asennettu_pvm": "2024-05-30"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E106686",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.954281110891024,
+          60.19476461138742
+        ]
+      },
+      "properties": {
+        "fid": 2,
+        "Tyyppi": "Varjossa",
+        "Numero": 2,
+        "Huomiot": "Puussa",
+        "Kiinnitystapa": "Varjo,puussa",
+        "Sensori": 6686,
+        "Asennettu_pvm": "2024-05-27"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E106619",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.954472833953627,
+          60.19597458443258
+        ]
+      },
+      "properties": {
+        "fid": 3,
+        "Tyyppi": "Auringossa",
+        "Numero": 3,
+        "Huomiot": "Katupylv\u00e4s",
+        "Kiinnitystapa": "Tolppa",
+        "Sensori": 6619,
+        "Asennettu_pvm": "2024-06-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E106661",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.95566158371556,
+          60.19641839065333
+        ]
+      },
+      "properties": {
+        "fid": 4,
+        "Tyyppi": "Auringossa",
+        "Numero": 4,
+        "Huomiot": "Tolppa parkkialueella",
+        "Kiinnitystapa": "Tolppa",
+        "Sensori": 6661,
+        "Asennettu_pvm": "2024-06-16"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E106635",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.95465791769169,
+          60.19665805740335
+        ]
+      },
+      "properties": {
+        "fid": 5,
+        "Tyyppi": "Varjossa",
+        "Numero": 5,
+        "Huomiot": "Puussa",
+        "Kiinnitystapa": "Varjo, puu",
+        "Sensori": 6635,
+        "Asennettu_pvm": "2024-05-30"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E106616",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.953944343215543,
+          60.19628790558516
+        ]
+      },
+      "properties": {
+        "fid": 6,
+        "Tyyppi": "Varjossa",
+        "Numero": 6,
+        "Huomiot": "Puussa",
+        "Kiinnitystapa": "Puu",
+        "Sensori": 6616,
+        "Asennettu_pvm": "2024-05-30"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E106637",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.94848480567734,
+          60.19845337489223
+        ]
+      },
+      "properties": {
+        "fid": 9,
+        "Tyyppi": "Auringossa",
+        "Numero": 9,
+        "Huomiot": "R\u00e4nniss\u00e4",
+        "Kiinnitystapa": "Tolppa",
+        "Sensori": 6637,
+        "Asennettu_pvm": "2024-06-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E106674",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.949697722407258,
+          60.19760495885829
+        ]
+      },
+      "properties": {
+        "fid": 11,
+        "Tyyppi": "Varjossa",
+        "Numero": 10,
+        "Huomiot": "S\u00e4\u00e4stett\u00e4v\u00e4 puu",
+        "Kiinnitystapa": "Varjo, puu suuri",
+        "Sensori": 6674,
+        "Asennettu_pvm": "2024-05-30"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E106638",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.952021110782997,
+          60.19691015749769
+        ]
+      },
+      "properties": {
+        "fid": 12,
+        "Tyyppi": "Auringossa",
+        "Numero": 12,
+        "Huomiot": "Valopylv\u00e4s. Sensorin eka numero puuttuu",
+        "Kiinnitystapa": "Tolppa",
+        "Sensori": 638,
+        "Asennettu_pvm": "2024-06-14"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E106636",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.947575305714295,
+          60.197169753763504
+        ]
+      },
+      "properties": {
+        "fid": 13,
+        "Tyyppi": "Varjossa",
+        "Numero": 13,
+        "Huomiot": "Puussa",
+        "Kiinnitystapa": "Varjo, puu",
+        "Sensori": 6636,
+        "Asennettu_pvm": "2024-05-27"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E106643",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.95440486752224,
+          60.19778118227482
+        ]
+      },
+      "properties": {
+        "fid": 15,
+        "Tyyppi": "Varjossa",
+        "Numero": 15,
+        "Huomiot": "Julkisivulla",
+        "Kiinnitystapa": "Varjo, julkisivulla",
+        "Sensori": 6643,
+        "Asennettu_pvm": "2024-05-27"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E106617",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.949683705063027,
+          60.19858337673502
+        ]
+      },
+      "properties": {
+        "fid": 17,
+        "Tyyppi": "Varjossa",
+        "Numero": 17,
+        "Huomiot": "Puussa",
+        "Kiinnitystapa": "Varjo, puu",
+        "Sensori": 6617,
+        "Asennettu_pvm": "2024-05-27"
+      }
+    }
+  ]
+}
