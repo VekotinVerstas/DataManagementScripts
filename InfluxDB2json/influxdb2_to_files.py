@@ -83,7 +83,7 @@ def get_args() -> argparse.Namespace:
     parser.add_argument("--base-url", help="Base URL for the sensor data", default="")
     parser.add_argument("--filename-prefix", help="Prefix for output file names", default="")
     parser.add_argument("--filename", help="Filename for raw data files without extension", default="")
-    parser.add_argument("--latest-geojson", default="-", help="Output filename for main geojson (default stdout)")
+    parser.add_argument("--latest-geojson", help="Output filename for main geojson (default stdout)")
     parser.add_argument("--output-dir", help="Output directory for all files")
     # Output formats for the data (csv, parquet, etc.). Multiple formats can be selected
     fmats = ["csv", "csv.gz", "parquet", "json", "feather", "html", "xlsx", "msgpack", "pickle", "hdf5", "sql"]
@@ -149,6 +149,7 @@ def get_latest_data(args: argparse.Namespace, influx_client: influxdb_client.Inf
       |> filter(fn: (r) => r["dev-id"] =~ /({ids})/)
       |> filter(fn: (r) => r["_field"] =~ /({fields})/)
       |> drop(columns: ["_start", "_stop", "_result"])
+      |> map(fn: (r) => ({{ r with _value: float(v: r._value) }}))
       |> last()
       |> group(columns: ["{args.groupby}"], mode: "by")
       |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")
@@ -369,7 +370,7 @@ def main():
     geojson_content = devs_to_geojson(args, devs)
     if args.latest_geojson == "-":  # print to sys.stdout
         print(json.dumps(geojson_content, indent=1))
-    else:
+    elif args.latest_geojson is not None:
         filename = f"{args.output_dir}/{args.latest_geojson}.geojson"
         atomic_write(filename, geojson_content.encode())
         logging.info(f"Saved the latest data for {len(device_ids)} devices to '{filename}'")
