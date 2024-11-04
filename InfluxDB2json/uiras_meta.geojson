@@ -74,30 +74,6 @@
     },
     {
       "type": "Feature",
-      "id": "70B3D5705000DFF6",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          24.857306,
-          60.200333
-        ]
-      },
-      "properties": {
-        "name": "Munkkiniemen uimaranta",
-        "location": "Laajalahti",
-        "district": "Munkkiniemi (Vanha Munkkiniemi)",
-        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/41601",
-        "site_url": "",
-        "site_title": "",
-        "info": "Mittari on kadonnut uimaportaiden vaihdon yhteydess\u00e4",
-        "valid_from": "2022-05-13T13:00:00Z",
-        "installation depth": -0.3,
-        "installation platform": "steps",
-        "installation method": "static"
-      }
-    },
-    {
-      "type": "Feature",
       "id": "70B3D5705000DFED",
       "geometry": {
         "type": "Point",
