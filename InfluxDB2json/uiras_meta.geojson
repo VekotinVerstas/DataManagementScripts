@@ -158,7 +158,7 @@
         "district": "Ulkosaaret (L\u00e4nsisaaret)",
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/41977",
         "site_url": "",
-        "info": "",
+        "info": "Mittari on siirretty talveksi sisätiloihin ja poistetaan sivulta muutaman päivän kuluttua",
         "valid_from": "2023-06-19T11:30:00Z",
         "installation depth": -0.4,
         "installation platform": "pier",
@@ -387,6 +387,7 @@
         "district": "Espoo (Soukka)",
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/39583",
         "site_url": "",
+        "info": "Mittari on siirretty laituriremontin vuoksi sätiloihin ja poistetaan sivulta muutaman päivän kuluttua",
         "installation depth": -0.2,
         "installation platform": "pier",
         "installation method": "floating"
