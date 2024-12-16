@@ -2,7 +2,7 @@ import argparse
 import datetime
 import logging
 import os
-
+import sys
 import isodate
 import pandas as pd
 from influxdb_client import InfluxDBClient
@@ -28,10 +28,15 @@ def get_args():
     parser.add_argument(
         "--influx-measurement", default=os.getenv("INFLUX_MEASUREMENT"), required=False, help="InfluxDB measurement"
     )
-    parser.add_argument("--device-ids", nargs="+", required=False, help="List of device ids")
+    device_group = parser.add_mutually_exclusive_group()
+    device_group.add_argument("--device-ids", nargs="+", help="List of device ids")
+    device_group.add_argument("--exclude-device-ids", nargs="+", help="List of device ids to exclude")
+    parser.add_argument("--device-id-field-name", default="dev-id", required=False, help="Device id field name")
     parser.add_argument("--start-date", help="Start datetime for data")
     parser.add_argument("--end-date", help="End datetime for data")
-    parser.add_argument("--date", help="Date (UTC) for data (YYYY-MM-DD, yesterday, today)")
+    parser.add_argument(
+        "--date", help="Date (UTC) for data (YYYY-MM-DD, yesterday or 1, today or 0, 10 for 10 days ago)"
+    )
     parser.add_argument("--month", help="Month for data (YYYY-MM)")
     parser.add_argument("--year", help="Year for data (YYYY)")
     parser.add_argument(
@@ -42,7 +47,9 @@ def get_args():
         help="Output format",
     )
     parser.add_argument("--output-dir", help="Output directory")
-    parser.add_argument("--output-file", help="Output filename without extension")
+    output_file_group = parser.add_mutually_exclusive_group()
+    output_file_group.add_argument("--output-file", help="Output filename without extension")
+    output_file_group.add_argument("--output-file-postfix", default="", help="Output filename postfix")
     args = parser.parse_args()
     logging.basicConfig(format="%(asctime)s %(levelname)-8s %(message)s", level=getattr(logging, args.log))
     if args.date:  # start_date and end_date in UTC timezone from date, which is in format YYYY-MM-DD
@@ -50,6 +57,9 @@ def get_args():
             start_date = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=1)
         elif args.date == "today":
             start_date = datetime.datetime.now(datetime.timezone.utc)
+        elif args.date.isdigit():  # Tarkista onko kokonaisluku
+            days = int(args.date)
+            start_date = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=days)
         else:
             start_date = datetime.datetime.strptime(args.date, "%Y-%m-%d").replace(tzinfo=datetime.timezone.utc)
         start_date = start_date.replace(hour=0, minute=0, second=0, microsecond=0)
@@ -94,11 +104,14 @@ def get_all_data(
     args: argparse.Namespace, influx_client: InfluxDBClient, bucket: str, device_ids: list
 ) -> pd.DataFrame:
     """
-    Get all measurement records for all given device ids.
+    Get all measurement records for all given device ids or exclude given device ids.
     """
     if device_ids:
         ids = "|".join(device_ids)
-        id_filter = f'|> filter(fn: (r) => r["dev-id"] =~ /({ids})/)'
+        id_filter = f'|> filter(fn: (r) => r["{args.device_id_field_name}"] =~ /({ids})/)'
+    elif args.exclude_device_ids:
+        exclude_ids = "|".join(args.exclude_device_ids)
+        id_filter = f'|> filter(fn: (r) => r["{args.device_id_field_name}"] !~ /({exclude_ids})/)'
     else:
         id_filter = ""
     # Add range_filter to query using args.start_date and args.end_date
@@ -118,6 +131,11 @@ def get_all_data(
     # combine resulted list of dataframes into one dataframe
     if isinstance(df, list):
         df = pd.concat(df, ignore_index=True)
+    logging.debug(df.columns)
+    logging.debug(df.head())
+    if df.empty:
+        logging.warning("No data found for the given query")
+        sys.exit(0)
     df = df.drop(columns=["result", "table"])  # drop columns not needed
     df = df.set_index("_time").rename_axis("time")  # rename index
     df = df.sort_index()  # sort by time index, flux sort doesn't seem to work
@@ -136,15 +154,16 @@ def main():
     df = get_all_data(args, client, args.influx_bucket, args.device_ids)
     logging.debug(df)
     if args.output_file:
-        filename = args.output_file.rstrip(".") + "."
+        filename = args.output_file.rstrip(".") + args.output_file_postfix + "."
     elif args.date:
-        filename = "{}-{}.".format(args.influx_measurement, df.index[0].strftime("%Y%m%d"))
+        filename = "{}-{}{}.".format(args.influx_measurement, df.index[0].strftime("%Y%m%d"), args.output_file_postfix)
     else:
         # Create filename from measurement name, first date and last date in df and output format
-        filename = "{}-{}-{}.".format(
+        filename = "{}-{}-{}{}.".format(
             args.influx_measurement,
             df.index[0].strftime("%Y%m%dT%H%M%SZ"),
             df.index[-1].strftime("%Y%m%dT%H%M%SZ"),
+            args.output_file_postfix,
         )
     if args.output_dir:
         filename = os.path.join(args.output_dir, filename)
