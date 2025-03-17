@@ -63,7 +63,7 @@ def parse_times(
     end_time: Union[datetime.datetime, None],
     timedelta: Union[str, None],
     round_times: bool = False,
-) -> (datetime.datetime, datetime.datetime, int):
+) -> tuple[datetime.datetime, datetime.datetime, int]:
     """Parse time period's start and time. If start time is not given, use end time minus timedelta."""
     if end_time is None:
         end_time = datetime.datetime.now().astimezone(tz=datetime.timezone.utc)
@@ -321,16 +321,23 @@ class Nuuka2InfluxDB(NuukaClient):
     """
 
     def __init__(self):
+        # Parse InfluxDB arguments first
         self.influx_args = self.parse_influxdb_args()
-        self.influxdb_client = InfluxDBClient(
-            url=self.influx_args.influx_host,
-            org=self.influx_args.influx_org,
-            token=self.influx_args.influx_token,
-            enable_gzip=True,  # TODO: this could be optional
-            timeout=10 * 60 * 1000,
-        )
+        # Initialize InfluxDB client before parent class initialization
+        self.influxdb_client = None
+        if self.influx_args.influx_host:
+            self.influxdb_client = InfluxDBClient(
+                url=self.influx_args.influx_host,
+                org=self.influx_args.influx_org,
+                token=self.influx_args.influx_token,
+                enable_gzip=True,
+                timeout=10 * 60 * 1000,
+            )
+        # Call parent class initialization after InfluxDB setup
         super().__init__()
-        if self.args.get_measurement_info:
+
+        # Handle measurement info saving after parent initialization
+        if self.influx_args.influx_host and self.args.get_measurement_info:
             self.save_measurement_info_to_influxdb()
 
     def parse_influxdb_args(self):
@@ -338,13 +345,13 @@ class Nuuka2InfluxDB(NuukaClient):
         Add InfluxDB related arguments to given parser.
         """
         parser = argparse.ArgumentParser()
-        parser.add_argument("--influx-host", help="InfluxDB host", required=True, default=os.getenv("INFLUX_HOST"))
+        parser.add_argument("--influx-host", help="InfluxDB host", required=False, default=os.getenv("INFLUX_HOST"))
         parser.add_argument(
-            "--influx-org", help="InfluxDB organization", required=True, default=os.getenv("INFLUX_ORG")
+            "--influx-org", help="InfluxDB organization", required=False, default=os.getenv("INFLUX_ORG")
         )
-        parser.add_argument("--influx-token", help="InfluxDB token", required=True, default=os.getenv("INFLUX_TOKEN"))
+        parser.add_argument("--influx-token", help="InfluxDB token", required=False, default=os.getenv("INFLUX_TOKEN"))
         parser.add_argument(
-            "--influx-bucket", help="InfluxDB bucket name", required=True, default=os.getenv("INFLUX_BUCKET")
+            "--influx-bucket", help="InfluxDB bucket name", required=False, default=os.getenv("INFLUX_BUCKET")
         )
         args, unknown = parser.parse_known_args()
         return args
@@ -425,7 +432,7 @@ class Nuuka2InfluxDB(NuukaClient):
         for cached, data in super().get_data():
             if data is None:
                 exit(1)
-            if not cached:
+            if not cached and self.influx_args.influx_host:
                 self.save_to_influxdb(data)
             else:
                 # self.save_to_influxdb(data)
