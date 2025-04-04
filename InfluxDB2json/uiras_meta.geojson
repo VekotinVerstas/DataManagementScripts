@@ -49,31 +49,6 @@
     },
     {
       "type": "Feature",
-      "id": "70B3D5705000E418",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          24.984992,
-          60.194102
-        ]
-      },
-      "properties": {
-        "name": "Sompasauna",
-        "location": "Hermanninranta",
-        "district": "Hermanni",
-        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/54929",
-        "site_url": "https://www.sompasauna.fi/",
-        "site_title": "Sompasauna Ry",
-        "info": "Alhaisen vedenkorkeuden vallitessa  mittari voi mitata v\u00e4lill\u00e4 ilman l\u00e4mp\u00f6tilaa.",
-        "links": {},
-        "valid_from": "2022-05-05T16:00:00Z",
-        "installation depth": -0.39,
-        "installation platform": "steps",
-        "installation method": "static"
-      }
-    },
-    {
-      "type": "Feature",
       "id": "70B3D5705000DFED",
       "geometry": {
         "type": "Point",
@@ -134,7 +109,7 @@
         "district": "Ulkosaaret (L\u00e4nsisaaret)",
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/41977",
         "site_url": "",
-        "info": "Mittari on siirretty talveksi sisätiloihin ja poistetaan sivulta muutaman päivän kuluttua",
+        "info": "Mittari on siirretty talveksi sisätiloihin ja asennetaan keväällä takaisin",
         "valid_from": "2023-06-19T11:30:00Z",
         "installation depth": -0.4,
         "installation platform": "pier",
@@ -349,28 +324,6 @@
     },
     {
       "type": "Feature",
-      "id": "70B3D5705000504F",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          24.691871,
-          60.127797
-        ]
-      },
-      "properties": {
-        "name": "Hanikan uimaranta",
-        "location": "Suinonsalmi",
-        "district": "Espoo (Soukka)",
-        "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/39583",
-        "site_url": "",
-        "info": "Mittari on siirretty laituriremontin vuoksi sätiloihin ja poistetaan sivulta muutaman päivän kuluttua",
-        "installation depth": -0.2,
-        "installation platform": "pier",
-        "installation method": "floating"
-      }
-    },
-    {
-      "type": "Feature",
       "id": "70B3D57050001BA6",
       "geometry": {
         "type": "Point",
@@ -579,6 +532,7 @@
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40993",
         "site_url": "https://www.hel.fi/fi/kulttuuri-ja-vapaa-aika/ulkoilu-puistot-ja-luontokohteet/uimarannat/helsingin-uimarannat/seurasaaren-uimala",
         "valid_from": "2023-07-12T07:10:00Z",
+        "info": "Odottaa huoltoa kevään 2025 aikana.",
         "installation depth": -0.4,
         "installation platform": "pier",
         "installation method": "floating"
@@ -643,7 +597,7 @@
         "district": "Lauttasaari (Myllykallio)",
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/21026",
         "site_url": "",
-        "info": "Alhaisen vedenkorkeuden vallitessa  mittari voi mitata v\u00e4lill\u00e4 ilman l\u00e4mp\u00f6tilaa.",
+        "info": "Odottaa huoltoa kevään 2025 aikana.",
         "valid_from": "2022-08-29T13:30:00Z",
         "installation depth": -0.28,
         "installation platform": "pier",
@@ -667,7 +621,7 @@
         "servicemap_url": "https://palvelukartta.hel.fi/fi/unit/40701",
         "site_url": "",
         "valid_from": "2022-11-18T07:15:00Z",
-        "info": "Alhaisen vedenkorkeuden vallitessa  mittari voi mitata v\u00e4lill\u00e4 ilman l\u00e4mp\u00f6tilaa.",
+        "info": "Mittari odottaa uudelleenasennusta vanhan laiturin purkamisen jälkeen",
         "installation depth": -0.3,
         "installation platform": "steps",
         "installation method": "static"
