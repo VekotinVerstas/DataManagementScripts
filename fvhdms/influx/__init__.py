@@ -12,6 +12,12 @@ def add_influxdb_arguments(parser: argparse.ArgumentParser):
     parser.add_argument("--influxdb-org", default=os.getenv("INFLUXDB_ORG"), help="Organization for the InfluxDB")
     parser.add_argument("--influxdb-bucket", default=os.getenv("INFLUXDB_BUCKET"), help="Bucket for the InfluxDB")
     parser.add_argument("--influxdb-measurement", help="Measurement for the InfluxDB")
+    parser.add_argument(
+        "--influxdb-timeout",
+        type=int,
+        default=1 * 60 * 1000,
+        help="Timeout for InfluxDB operations in milliseconds (default: 60000 = 1 minute)",
+    )
 
 
 def check_influxdb_arguments(args: argparse.Namespace) -> bool:
@@ -37,7 +43,9 @@ def get_influxdb_client(args: argparse.Namespace, range_start="-48h") -> InfluxD
         return None
     try:
         # Create an InfluxDB client
-        client = InfluxDBClient(url=args.influxdb_url, token=args.influxdb_token, org=args.influxdb_org)
+        client = InfluxDBClient(
+            url=args.influxdb_url, token=args.influxdb_token, org=args.influxdb_org, timeout=args.influxdb_timeout
+        )
 
         # Ping the InfluxDB
         if client.ping() is False:
