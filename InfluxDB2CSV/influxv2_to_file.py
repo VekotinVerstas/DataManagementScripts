@@ -2,7 +2,9 @@ import argparse
 import datetime
 import logging
 import os
+import pathlib
 import sys
+
 import isodate
 import pandas as pd
 from influxdb_client import InfluxDBClient
@@ -50,6 +52,11 @@ def get_args():
     output_file_group = parser.add_mutually_exclusive_group()
     output_file_group.add_argument("--output-file", help="Output filename without extension")
     output_file_group.add_argument("--output-file-postfix", default="", help="Output filename postfix")
+    parser.add_argument(
+        "--delete",
+        action="store_true",
+        help="Delete data from InfluxDB after exporting (requires confirmation)",
+    )
     args = parser.parse_args()
     logging.basicConfig(format="%(asctime)s %(levelname)-8s %(message)s", level=getattr(logging, args.log))
     if args.date:  # start_date and end_date in UTC timezone from date, which is in format YYYY-MM-DD
@@ -145,6 +152,145 @@ def get_all_data(
     return df
 
 
+def log_data_statistics(df: pd.DataFrame, logger: logging.Logger):
+    """
+    Log comprehensive statistics about the dataframe to be deleted.
+    """
+    logger.info("=" * 80)
+    logger.info("DATA STATISTICS")
+    logger.info("=" * 80)
+    logger.info(f"Total number of rows: {len(df)}")
+    logger.info(f"Time range: {df.index[0]} to {df.index[-1]}")
+    logger.info(f"Duration: {df.index[-1] - df.index[0]}")
+    logger.info(f"Columns ({len(df.columns)}): {', '.join(df.columns.tolist())}")
+    logger.info("")
+
+    # Data types
+    logger.info("Column data types:")
+    for col, dtype in df.dtypes.items():
+        logger.info(f"  {col}: {dtype}")
+    logger.info("")
+
+    # Memory usage
+    memory_mb = df.memory_usage(deep=True).sum() / 1024 / 1024
+    logger.info(f"Memory usage: {memory_mb:.2f} MB")
+    logger.info("")
+
+    # First 5 rows
+    logger.info("First 5 rows:")
+    logger.info("\n" + df.head(5).to_string())
+    logger.info("")
+
+    # Last 5 rows
+    logger.info("Last 5 rows:")
+    logger.info("\n" + df.tail(5).to_string())
+    logger.info("")
+
+    # Random 5 rows
+    if len(df) > 10:
+        logger.info("Random 5 rows:")
+        logger.info("\n" + df.sample(min(5, len(df))).sort_index().to_string())
+        logger.info("")
+
+    # Basic statistics for numeric columns
+    numeric_cols = df.select_dtypes(include=["number"]).columns
+    if len(numeric_cols) > 0:
+        logger.info("Basic statistics for numeric columns:")
+        logger.info("\n" + df[numeric_cols].describe().to_string())
+        logger.info("")
+
+    logger.info("=" * 80)
+
+
+def delete_data_from_influx(
+    client: InfluxDBClient,
+    args: argparse.Namespace,
+    device_ids: list,
+) -> bool:
+    """
+    Delete data from InfluxDB based on the query parameters.
+    Returns True if deletion was successful, False otherwise.
+
+    Note: InfluxDB delete API does not support OR operator, so we need to
+    delete data for each device ID separately.
+    """
+    try:
+        delete_api = client.delete_api()
+
+        # Check for unsupported operations
+        if args.exclude_device_ids:
+            logging.warning("Delete with --exclude-device-ids is not directly supported by InfluxDB delete API")
+            logging.warning("Please use --device-ids to specify exact devices to delete")
+            return False
+
+        logging.info("=" * 80)
+        logging.info("DELETION OPERATION")
+        logging.info("=" * 80)
+        logging.info(f"Bucket: {args.influx_bucket}")
+        logging.info(f"Measurement: {args.influx_measurement}")
+        logging.info(f"Start time: {args.start_date.isoformat()}")
+        logging.info(f"Stop time: {args.end_date.isoformat()}")
+
+        # Build list of predicates - one for each device or one for all data
+        if device_ids:
+            logging.info(f"Device IDs to delete ({len(device_ids)}): {', '.join(device_ids)}")
+            predicates = []
+            for dev_id in device_ids:
+                predicate = f'_measurement="{args.influx_measurement}" AND "{args.device_id_field_name}"="{dev_id}"'
+                predicates.append((dev_id, predicate))
+        else:
+            logging.info("Deleting ALL devices in the measurement")
+            predicate = f'_measurement="{args.influx_measurement}"'
+            predicates = [(None, predicate)]
+
+        logging.info("=" * 80)
+
+        # Ask for confirmation
+        print("\n" + "!" * 80)
+        print("WARNING: You are about to DELETE data from InfluxDB!")
+        print("!" * 80)
+        print(f"Bucket: {args.influx_bucket}")
+        print(f"Measurement: {args.influx_measurement}")
+        print(f"Time range: {args.start_date} to {args.end_date}")
+        if device_ids:
+            print(f"Device IDs ({len(device_ids)}): {', '.join(device_ids)}")
+        else:
+            print("ALL DEVICES in the measurement will be deleted!")
+        print("!" * 80)
+        confirmation = input("\nType 'DELETE' (in capitals) to confirm deletion: ")
+
+        if confirmation != "DELETE":
+            logging.info("Deletion cancelled by user")
+            return False
+
+        # Perform deletion for each predicate
+        logging.info("Performing deletion...")
+        for dev_id, predicate in predicates:
+            if dev_id:
+                logging.info(f"Deleting data for device: {dev_id}")
+            logging.debug(f"Predicate: {predicate}")
+
+            delete_api.delete(
+                start=args.start_date,
+                stop=args.end_date,
+                predicate=predicate,
+                bucket=args.influx_bucket,
+                org=args.influx_org,
+            )
+
+            if dev_id:
+                logging.info(f"  ✓ Successfully deleted data for device: {dev_id}")
+
+        logging.info("All deletions completed successfully")
+        logging.info("=" * 80)
+        return True
+
+    except Exception as e:
+        logging.error(f"Error during deletion: {e}")
+        logging.error("Some deletions may have succeeded before the error occurred")
+        return False
+
+
 def main():
     args = get_args()
     client = InfluxDBClient(url=args.influx_host, token=args.influx_token, enable_gzip=True, timeout=10 * 60 * 1000)
@@ -159,23 +305,65 @@ def main():
         filename = "{}-{}{}.".format(args.influx_measurement, df.index[0].strftime("%Y%m%d"), args.output_file_postfix)
     else:
         # Create filename from measurement name, first date and last date in df and output format
-        filename = "{}-{}-{}{}.".format(
+        filename = "{}-{}-{}{}".format(
             args.influx_measurement,
             df.index[0].strftime("%Y%m%dT%H%M%SZ"),
             df.index[-1].strftime("%Y%m%dT%H%M%SZ"),
             args.output_file_postfix,
         )
     if args.output_dir:
-        filename = os.path.join(args.output_dir, filename)
+        pathlib.Path(args.output_dir).mkdir(parents=True, exist_ok=True)
+        filename = pathlib.Path(args.output_dir) / filename
+
+    # Setup file logger to save statistics to log file
+    log_filename = f"{filename}log"
+    file_handler = logging.FileHandler(log_filename, mode="w")
+    file_handler.setLevel(logging.INFO)
+    file_handler.setFormatter(logging.Formatter("%(asctime)s %(levelname)-8s %(message)s"))
+
+    # Get root logger and add file handler
+    logger = logging.getLogger()
+    logger.addHandler(file_handler)
+
+    # Log comprehensive statistics
+    logging.info(f"Exporting data to files with base name: {filename}")
+    log_data_statistics(df, logging.getLogger())
+
+    # Export data to files
+    logging.info("Exporting data to file(s)...")
     if "excel" in args.output_format:
-        df.index = df.index.tz_localize(None)  # Remove timezone from index
-        df.to_excel(filename + OUTPUT_FORMATS["excel"])
+        df_excel = df.copy()
+        df_excel.index = df_excel.index.tz_localize(None)  # Remove timezone from index
+        excel_filename = f"{filename}{OUTPUT_FORMATS['excel']}"
+        df_excel.to_excel(excel_filename)
+        logging.info(f"Exported to Excel: {excel_filename}")
     if "parquet" in args.output_format:
-        df.to_parquet(filename + OUTPUT_FORMATS["parquet"])
+        parquet_filename = f"{filename}{OUTPUT_FORMATS['parquet']}"
+        df.to_parquet(parquet_filename)
+        logging.info(f"Exported to Parquet: {parquet_filename}")
     if "csv" in args.output_format:
-        df.to_csv(filename + OUTPUT_FORMATS["csv"], index=True, header=True, date_format="%Y-%m-%dT%H:%M:%S.%fZ")
+        csv_filename = f"{filename}{OUTPUT_FORMATS['csv']}"
+        df.to_csv(csv_filename, index=True, header=True, date_format="%Y-%m-%dT%H:%M:%S.%fZ")
+        logging.info(f"Exported to CSV: {csv_filename}")
     if "csv.gz" in args.output_format:  # gzip compression automatically if filename ends with .gz
-        df.to_csv(filename + OUTPUT_FORMATS["csv.gz"], index=True, header=True, date_format="%Y-%m-%dT%H:%M:%S.%fZ")
+        csv_gz_filename = f"{filename}{OUTPUT_FORMATS['csv.gz']}"
+        df.to_csv(csv_gz_filename, index=True, header=True, date_format="%Y-%m-%dT%H:%M:%S.%fZ")
+        logging.info(f"Exported to CSV.GZ: {csv_gz_filename}")
+
+    logging.info(f"Log file saved to: {log_filename}")
+
+    # Perform deletion if requested
+    if args.delete:
+        logging.info("")
+        deletion_success = delete_data_from_influx(client, args, args.device_ids)
+        if deletion_success:
+            logging.info("Deletion completed successfully")
+        else:
+            logging.warning("Deletion was not performed")
+
+    # Close file handler
+    file_handler.close()
+    logger.removeHandler(file_handler)
 
 
 if __name__ == "__main__":
