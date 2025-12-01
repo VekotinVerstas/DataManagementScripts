@@ -50,7 +50,7 @@ frozenlist==1.4.0
     #   aiosignal
 fvhiot @ https://github.com/ForumViriumHelsinki/FVHIoT-python/archive/refs/tags/v0.3.1.zip
     # via mittaridatapumppu-persister (pyproject.toml)
-h11==0.14.0
+h11==0.16.0
     # via httpcore
 httpcore==0.17.3
     # via httpx
