@@ -1,13 +1,42 @@
 # FMI API client
 
-Python script which makes a request to Ilmatieteenlaitos FMI API and 
+Python script which makes a request to Ilmatieteenlaitos FMI API and
 returns a Pandas DataFrame containing all the data.
 Optionally data can be saved into a file or InfluxDB.
 
-# Usage
+# Installation
 
-Clone DataManagementScripts repository and 
-install `fvhdms` library first.
+## Prerequisites
+
+Clone the DataManagementScripts repository first.
+
+## Setup with uv (recommended)
+
+```bash
+cd FmiAPI
+
+# Create virtual environment and install dependencies
+uv venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Install dependencies
+uv pip install -r requirements.txt
+
+# Install fvhdms in editable mode
+uv pip install -e ../fvhdms
+```
+
+## Alternative: Setup with pip
+
+```bash
+cd FmiAPI
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+pip install -e ../fvhdms
+```
+
+# Usage
 
 ## Request
 
@@ -17,7 +46,7 @@ you can use the command below.
 
 Data is printed to the console and in addition saved
 into a CSV file `test.csv` and into InfluxDB database
-`fmi` and measurement `observations`.    
+`fmi` and measurement `observations`.
 
 ```
 python fmiapi.py \
@@ -33,7 +62,7 @@ python fmiapi.py \
 Result in console:
 ```
                            dev-id   t2m  ws_10min  wg_10min  wd_10min    rh   td  r_1h  ri_10min  snow_aws   p_sea      vis  n_man  wawa
-time                                                                                                                                    
+time
 2020-05-10 08:00:00+00:00  100971  10.3       4.3       7.2     126.0  59.0  2.6   0.0       0.0       0.0  1012.9  50000.0    0.0   0.0
 2020-05-10 08:00:00+00:00  101004  11.6       5.1       7.1     135.0  47.0  0.6   0.0       0.0       0.0  1012.8  38990.0    0.0   0.0
 2020-05-10 08:10:00+00:00  101004  11.8       4.6       6.4     114.0  50.0  1.5   NaN       0.0       0.0  1012.6  39230.0    0.0   0.0
@@ -67,3 +96,32 @@ python fmiapi.py -st 20200510T08:00:00Z -et 20200510T20:00:00Z --storedquery fmi
 24             Helsinki Vuosaari satama  151028  60.208670,25.195900       Automaattinen sääasema  Helsinki
 177  Vantaa Helsinki-Vantaan lentoasema  100968  60.326700,24.956750              Aut,Sää,Aur,Tes    Vantaa
 ```
+
+# Development
+
+## Updating Dependencies
+
+If you need to add or update dependencies:
+
+1. Edit the `dependencies` list in `pyproject.toml`
+2. Regenerate the lock file:
+
+```bash
+uv pip compile pyproject.toml -o requirements.txt
+```
+
+3. Update your virtual environment:
+
+```bash
+uv pip sync requirements.txt
+```
+
+## Project Structure
+
+- `fmiapi.py` - Original FMI API client (legacy)
+- `fmiapi_v2.py` - Modern FMI API client using httpx
+- `fmi_timeseries.py` - TAPSI urban weather data API client
+- `fmi_utils.py` - Shared utility functions
+- `parquet2influxfb.py` - Tool to upload parquet files to InfluxDB
+- `pyproject.toml` - Project metadata and dependencies
+- `requirements.txt` - Lock file (auto-generated, do not edit manually)
