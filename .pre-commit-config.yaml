@@ -3,32 +3,23 @@ exclude: .*migrations\/.*
 repos:
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v6.0.0
     hooks:
       - id: check-yaml
       - id: debug-statements
       - id: end-of-file-fixer
       - id: trailing-whitespace
 
-  - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: 'v0.4.10'
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.7
     hooks:
+      # Run the linter
       - id: ruff
-        args: [ "--line-length", "120" ]
-
-  - repo: https://github.com/psf/black
-    rev: 24.4.2
-    hooks:
-      - id: black
-        args: [ --line-length=120 ]
-
-  - repo: https://github.com/myint/autoflake
-    rev: v2.3.1
-    hooks:
-      - id: autoflake
-        exclude: migrations
+        args: [--fix]
+      # Run the formatter
+      - id: ruff-format
 
   - repo: https://github.com/jazzband/pip-tools
-    rev: 7.4.1
+    rev: v7.5.2
     hooks:
       - id: pip-compile

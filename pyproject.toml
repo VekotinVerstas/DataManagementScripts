@@ -1,43 +1,68 @@
-[tool.black]
+[tool.setuptools]
+py-modules = []
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "DataManagementScripts"
+description = "Various tools to extract, transform and load data"
+readme = "README.md"
+requires-python = ">=3.11"
+dynamic = ["version"]
+
+
+[tool.ruff]
 line-length = 120
-target-version = ['py39', 'py310']
-exclude = '''
-(
-  migrations         # migrations are automatically generated and should we excluded
-  |
-  /(
-      \.eggs         # exclude a few common directories in the
-    | \.git          # root of the project
-    | \.tox
-    | \.venv
-    | venv
-    | _build
-    | buck-out
-    | build
-    | dist
-  )/
-  | foo.py           # also separately exclude a file named foo.py in
-                     # the root of the project
-)
-'''
-# force-exclude is for pre-commit
-force-exclude = '''
-(
-   migrations                     # files in this dir are ignored
-)
-'''
+target-version = "py311"
+exclude = [
+    ".eggs",
+    ".git",
+    ".tox",
+    ".venv",
+    "venv",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "migrations",
+]
 
-[tool.isort]
-line_length = 120
-multi_line_output = 3
-include_trailing_comma = true
-force_grid_wrap = 0
-use_parentheses = true
-ensure_newline_before_comments = true
-skip = ["migrations", "venv"]
+[tool.ruff.lint]
+# Enable a comprehensive set of rules
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "UP",  # pyupgrade - modernize Python code
+    "B",   # flake8-bugbear - find likely bugs
+    "C4",  # flake8-comprehensions - better list/dict comprehensions
+    "SIM", # flake8-simplify - simplify code
+    "TCH", # flake8-type-checking - optimize type checking imports
+]
 
-[tool.autoflake]
-in-place = true
-remove-all-unused-imports =true
-remove-unused-variables = true
-exclude = ["migrations", "venv"]
+ignore = [
+    "E501",   # line too long - handled by formatter
+    "B008",   # do not perform function calls in argument defaults
+    "UP007",  # use X | Y for type annotations (keep Optional for readability)
+]
+
+# Allow autofix for all enabled rules
+fixable = ["ALL"]
+unfixable = []
+
+# Ignore `E402` (import violations) in all `__init__.py` files
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["E402", "F401"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["fvhdms"]
+
+[tool.ruff.format]
+# Use Black-compatible formatting
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
