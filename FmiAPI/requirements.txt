@@ -41,6 +41,8 @@ pandas==2.3.3
     # via
     #   fmi-api-tools (pyproject.toml)
     #   influxdb-client
+pyarrow==22.0.0
+    # via fmi-api-tools (pyproject.toml)
 python-dateutil==2.9.0.post0
     # via
     #   influxdb-client
