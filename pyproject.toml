@@ -9,13 +9,13 @@ build-backend = "setuptools.build_meta"
 name = "DataManagementScripts"
 description = "Various tools to extract, transform and load data"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 dynamic = ["version"]
 
 
 [tool.ruff]
 line-length = 120
-target-version = "py311"
+target-version = "py310"
 exclude = [
     ".eggs",
     ".git",

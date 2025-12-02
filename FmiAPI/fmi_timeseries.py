@@ -3,8 +3,6 @@ Script to fetch data from FMI Timeseries API (TAPSI urban weather stations)
 API documentation: https://opendata.fmi.fi/timeseries
 """
 
-from __future__ import annotations
-
 import argparse
 import datetime
 import json
@@ -13,6 +11,7 @@ from io import StringIO
 
 import httpx
 import pandas as pd
+
 from fmi_utils import (
     add_influxdb_arguments,
     add_time_arguments,
@@ -37,10 +36,8 @@ def get_args() -> argparse.Namespace:
         nargs="+",
         help="Station IDs to fetch data from (e.g. 1402089125 1402089131)",
     )
-    parser.add_argument(
-        "--metadata-geojson",
-        help="GeoJSON file containing station metadata (station IDs will be extracted from Feature.id)",
-    )
+    # GeoJSON file containing station metadata (station IDs will be extracted from Feature.id)
+    parser.add_argument("--metadata-geojson", help="GeoJSON file containing station metadata")
 
     # Time arguments
     add_time_arguments(parser)
@@ -97,7 +94,7 @@ def get_args() -> argparse.Namespace:
 def load_station_ids_from_geojson(geojson_file: str) -> list[str]:
     """Extract station IDs from GeoJSON file Feature.id fields"""
     try:
-        with open(geojson_file, "r") as f:
+        with open(geojson_file) as f:
             geojson_data = json.load(f)
 
         station_ids = []
