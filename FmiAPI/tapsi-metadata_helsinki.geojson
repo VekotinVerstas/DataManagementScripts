@@ -1,0 +1,532 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "1402089094",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.031583,
+          60.195894
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089094",
+        "station_code": "9120"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1402089100",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.052399,
+          60.178327
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089100",
+        "station_code": "9116"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1402089096",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.015907,
+          60.168106
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089096",
+        "station_code": "9130"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1402089088",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.909368,
+          60.161423
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089088",
+        "station_code": "9122"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1402089125",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.879858,
+          60.159673
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089125",
+        "station_code": "9128"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1402089091",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.908936,
+          60.174902
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089091",
+        "station_code": "9129"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1402089095",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.93201,
+          60.185094
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089095",
+        "station_code": "9121"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1402089081",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.116064,
+          60.23679
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089081",
+        "station_code": "9109"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1402089083",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.949783,
+          60.275211
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089083",
+        "station_code": "9118"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1402089090",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.075479,
+          60.209907
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089090",
+        "station_code": "9124"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1402089097",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.149945,
+          60.201706
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089097",
+        "station_code": "9105"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1402089092",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.971294,
+          60.192453
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089092",
+        "station_code": "9114"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1402089077",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.03051,
+          60.227068
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089077",
+        "station_code": "9102"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1402089073",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.014806,
+          60.249208
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089073",
+        "station_code": "9104"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1402089078",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.075207,
+          60.254617
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089078",
+        "station_code": "9108"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1402089089",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.932311,
+          60.167534
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089089",
+        "station_code": "9119"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1402089098",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.875827,
+          60.198277
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089098",
+        "station_code": "9127"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1402089076",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.931395,
+          60.212089
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089076",
+        "station_code": "9101"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1402089082",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.863186,
+          60.221256
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089082",
+        "station_code": "9106"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1402089086",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.909401,
+          60.2341
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089086",
+        "station_code": "9126"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1402089072",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.858984,
+          60.247325
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089072",
+        "station_code": "9125"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1402089079",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.885831,
+          60.254799
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089079",
+        "station_code": "9117"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1402089075",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.850466,
+          60.181098
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089075",
+        "station_code": "9111"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1402089074",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.955316,
+          60.242127
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089074",
+        "station_code": "9103"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1402089084",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.035979,
+          60.279428
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089084",
+        "station_code": "9123"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1402089080",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.210087,
+          60.260711
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089080",
+        "station_code": "9110"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1402089099",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.957691,
+          60.154032
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089099",
+        "station_code": "9115"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1402089093",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.985337,
+          60.214803
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089093",
+        "station_code": "9107"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1402089087",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.949127,
+          60.18856
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089087",
+        "station_code": "9112"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1402089085",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.961356,
+          60.203052
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089085",
+        "station_code": "9113"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "1402089129",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.986356,
+          60.142217
+        ]
+      },
+      "properties": {
+        "project": "TAPSI",
+        "installationDate": "2025-06-01",
+        "station_id": "1402089129",
+        "station_code": "9131"
+      }
+    }
+  ]
+}
