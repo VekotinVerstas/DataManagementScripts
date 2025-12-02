@@ -11,7 +11,6 @@ import logging
 import os
 import pathlib
 import re
-from typing import Union
 
 import isodate
 import pandas as pd
@@ -35,14 +34,14 @@ def convert_to_seconds(s: str) -> int:
     try:
         return int(s[:-1]) * units[s[-1]]
     except KeyError:
-        raise RuntimeError(f"Invalid time period: {s}, use postfixes s, m, h, d, w")
+        raise RuntimeError(f"Invalid time period: {s}, use postfixes s, m, h, d, w") from None
 
 
 def parse_times(
-    start_time: Union[datetime.datetime, None],
-    end_time: Union[datetime.datetime, None],
-    duration: Union[str, None],
-    period: Union[str, None] = None,
+    start_time: datetime.datetime | None,
+    end_time: datetime.datetime | None,
+    duration: str | None,
+    period: str | None = None,
     round_times: bool = False,
 ) -> (datetime.datetime, datetime.datetime, int):
     """Parse time period's start and time. If start time is not given, use end time minus duration."""
@@ -53,6 +52,13 @@ def parse_times(
     # 2024-06: start time is 2024-06-01T00:00:00Z, end time is 2024-06-30T23:59:59Z
     # 2024-06-30: start time is 2024-06-30T00:00:00Z, end time is 2024-06-30T23:59:59Z
     if period is not None:  # Use regex to match YYYY, YYYY-MM, YYYY-MM-DD
+        # Handle special cases for today, yesterday
+        if period == "today":
+            today = datetime.datetime.now().astimezone(tz=datetime.timezone.utc)
+            period = today.strftime("%Y-%m-%d")
+        elif period == "yesterday":
+            yesterday = datetime.datetime.now().astimezone(tz=datetime.timezone.utc) - datetime.timedelta(days=1)
+            period = yesterday.strftime("%Y-%m-%d")
         date_regex = re.compile(r"(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?")
         match = date_regex.match(period)
         if not match:
