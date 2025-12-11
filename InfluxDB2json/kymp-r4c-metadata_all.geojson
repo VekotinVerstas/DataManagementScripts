@@ -1,0 +1,1195 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "24E124136E106618",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.95214986305944,
+          60.19603679151048
+        ]
+      },
+      "properties": {
+        "project": "KYMP",
+        "installationDate": "2024-05-30",
+        "street": "Mäkelänkatu 46",
+        "postalcode": "00510",
+        "city": "Helsinki",
+        "district": "Vallila",
+        "sunExposure": 0.0,
+        "solarShielding": 0,
+        "heightFromGround": 3.18,
+        "mountingType": "metal pipe",
+        "terrain": "flat",
+        "groundCover": "asphalt/100",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": null,
+        "LCZ long": null,
+        "Kuvaus": "rakennuksen seinässä, aurinko hetken kesäaamulla varhain",
+        "fid": 1,
+        "Tyyppi": "Varjossa",
+        "Huomiot": "Vesiputkessa",
+        "Kiinnitystapa": "Putkessa nippusitein",
+        "Sensori": 6618
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E106686",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.954281110891024,
+          60.19476461138742
+        ]
+      },
+      "properties": {
+        "project": "KYMP",
+        "installationDate": "2024-05-27",
+        "street": "Ensi-Kodintie 3",
+        "postalcode": "00510",
+        "city": "Helsinki",
+        "district": "Vallila",
+        "sunExposure": 0.0,
+        "solarShielding": 0,
+        "heightFromGround": 3.0,
+        "mountingType": "tree",
+        "terrain": "flat",
+        "groundCover": "asphalt/80, grass/20",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": null,
+        "LCZ long": null,
+        "Kuvaus": "lehtipuun rungossa, korkea rakennus lounais/länsipuolella",
+        "fid": 2,
+        "Tyyppi": "Varjossa",
+        "Huomiot": "Puussa",
+        "Kiinnitystapa": "Varjo,puussa",
+        "Sensori": 6686
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E106619",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.954472833953627,
+          60.19597458443258
+        ]
+      },
+      "properties": {
+        "project": "KYMP",
+        "installationDate": "2024-06-14",
+        "street": "Hollolantie",
+        "postalcode": "00550",
+        "city": "Helsinki",
+        "district": "Vallila",
+        "sunExposure": 1.0,
+        "solarShielding": 1,
+        "heightFromGround": 2.95,
+        "mountingType": "metal pole",
+        "terrain": "flat",
+        "groundCover": "asphalt/50, stone pavement/50",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": null,
+        "LCZ long": null,
+        "Kuvaus": "asfalttia ja mukulakiviä etelä/länsipuolella, ",
+        "fid": 3,
+        "Tyyppi": "Auringossa",
+        "Huomiot": "Katupylväs",
+        "Kiinnitystapa": "Tolppa",
+        "Sensori": 6619
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E106661",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.95566158371556,
+          60.19641839065333
+        ]
+      },
+      "properties": {
+        "project": "KYMP",
+        "installationDate": "2024-06-16",
+        "street": "Rautalammintie 1",
+        "postalcode": "00550",
+        "city": "Helsinki",
+        "district": "Vallila",
+        "sunExposure": 1.0,
+        "solarShielding": 1,
+        "heightFromGround": 3.0,
+        "mountingType": "metal pole",
+        "terrain": "flat",
+        "groundCover": "grass/50, stone pavement/50",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": null,
+        "LCZ long": null,
+        "Kuvaus": "avoimella kentällä",
+        "fid": 4,
+        "Tyyppi": "Auringossa",
+        "Huomiot": "Tolppa parkkialueella",
+        "Kiinnitystapa": "Tolppa",
+        "Sensori": 6661
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E106635",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.95465791769169,
+          60.19665805740335
+        ]
+      },
+      "properties": {
+        "project": "KYMP",
+        "installationDate": "2024-05-30",
+        "street": "Rautalammintie 1a",
+        "postalcode": "00550",
+        "city": "Helsinki",
+        "district": "Vallila",
+        "sunExposure": 0.0,
+        "solarShielding": 0,
+        "heightFromGround": 2.9,
+        "mountingType": "tree",
+        "terrain": "flat",
+        "groundCover": "asphalt/20, grass/80",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": null,
+        "LCZ long": null,
+        "Kuvaus": "lehtipuun rungossa, korkea rakennus lounais/länsipuolella",
+        "fid": 5,
+        "Tyyppi": "Varjossa",
+        "Huomiot": "Puussa",
+        "Kiinnitystapa": "Varjo, puu",
+        "Sensori": 6635
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E106616",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.953944343215543,
+          60.19628790558516
+        ]
+      },
+      "properties": {
+        "project": "KYMP",
+        "installationDate": "2024-05-30",
+        "street": "Mäkelänkatu 37-43",
+        "postalcode": "00550",
+        "city": "Helsinki",
+        "district": "Vallila",
+        "sunExposure": 0.0,
+        "solarShielding": 0,
+        "heightFromGround": 3.1,
+        "mountingType": "tree",
+        "terrain": "flat",
+        "groundCover": "asphalt/30, grass/70",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": null,
+        "LCZ long": null,
+        "Kuvaus": "lehtipuun rungossa, korkea rakennus lounais/länsipuolella",
+        "fid": 6,
+        "Tyyppi": "Varjossa",
+        "Huomiot": "Puussa",
+        "Kiinnitystapa": "Puu",
+        "Sensori": 6616
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E106637",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.94848480567734,
+          60.19845337489223
+        ]
+      },
+      "properties": {
+        "project": "KYMP",
+        "installationDate": "2024-06-14",
+        "street": "Mäkelänkatu 47",
+        "postalcode": "00550",
+        "city": "Helsinki",
+        "district": "Vallila",
+        "sunExposure": 1.0,
+        "solarShielding": 0,
+        "heightFromGround": 3.15,
+        "mountingType": "metal pipe",
+        "terrain": "flat",
+        "groundCover": "asphalt/100",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": null,
+        "LCZ long": null,
+        "Kuvaus": "rakennus kiinni koillispuolella, asfalttia ja Mäkelänkadun puita suoraan eteläpuolella, avointa länsipuolella",
+        "fid": 9,
+        "Tyyppi": "Auringossa",
+        "Huomiot": "Rännissä",
+        "Kiinnitystapa": "Tolppa",
+        "Sensori": 6637
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E106674",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.949697722407258,
+          60.19760495885829
+        ]
+      },
+      "properties": {
+        "project": "KYMP",
+        "installationDate": "2024-05-30",
+        "street": "Mäkelänkatu 45",
+        "postalcode": "00550",
+        "city": "Helsinki",
+        "district": "Vallila",
+        "sunExposure": 0.0,
+        "solarShielding": 0,
+        "heightFromGround": 2.95,
+        "mountingType": "tree",
+        "terrain": "flat",
+        "groundCover": "asphalt/80, grass/20",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": null,
+        "LCZ long": null,
+        "Kuvaus": "lehtipuun rungossa, korkea rakennus koillis- ja lounaispuolella, raitiovaunukiskot ja ajorata",
+        "fid": 11,
+        "Tyyppi": "Varjossa",
+        "Huomiot": "Säästettävä puu",
+        "Kiinnitystapa": "Varjo, puu suuri",
+        "Sensori": 6674
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E106638",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.952021110782997,
+          60.19691015749769
+        ]
+      },
+      "properties": {
+        "project": "KYMP",
+        "installationDate": "2024-06-14",
+        "street": "Rautalammintie",
+        "postalcode": "00550",
+        "city": "Helsinki",
+        "district": "Vallila",
+        "sunExposure": 1.0,
+        "solarShielding": 1,
+        "heightFromGround": 3.15,
+        "mountingType": "metal pole",
+        "terrain": "flat",
+        "groundCover": "asphalt/50, stone pavement/50",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": null,
+        "LCZ long": null,
+        "Kuvaus": "asfalttia ja mukulakiviä etelä/länsipuolella, ",
+        "fid": 12,
+        "Tyyppi": "Auringossa",
+        "Huomiot": "Valopylväs. Sensorin eka numero puuttuu",
+        "Kiinnitystapa": "Tolppa",
+        "Sensori": 638
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E106636",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.947575305714295,
+          60.197169753763504
+        ]
+      },
+      "properties": {
+        "project": "KYMP",
+        "installationDate": "2024-05-27",
+        "street": "Elimäenkatu 28",
+        "postalcode": "00520",
+        "city": "Helsinki",
+        "district": "Vallila",
+        "sunExposure": 0.0,
+        "solarShielding": 0,
+        "heightFromGround": 2.85,
+        "mountingType": "tree",
+        "terrain": "flat",
+        "groundCover": "asphalt/70, grass/30",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": null,
+        "LCZ long": null,
+        "Kuvaus": "lehtipuun rungossa, korkea rakennus paitsi suoraan etelässä",
+        "fid": 13,
+        "Tyyppi": "Varjossa",
+        "Huomiot": "Puussa",
+        "Kiinnitystapa": "Varjo, puu",
+        "Sensori": 6636
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E106643",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.95440486752224,
+          60.19778118227482
+        ]
+      },
+      "properties": {
+        "project": "KYMP",
+        "installationDate": "2024-05-27",
+        "street": "Karstulantie",
+        "postalcode": "00550",
+        "city": "Helsinki",
+        "district": "Vallila",
+        "sunExposure": 0.0,
+        "solarShielding": 0,
+        "heightFromGround": 2.6,
+        "mountingType": "building",
+        "terrain": "flat",
+        "groundCover": "fine gravel/80, stone pavement/20",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": null,
+        "LCZ long": null,
+        "Kuvaus": "rakennuksen seinällä syvennyksessä, täysin varjossa",
+        "fid": 15,
+        "Tyyppi": "Varjossa",
+        "Huomiot": "Julkisivulla",
+        "Kiinnitystapa": "Varjo, julkisivulla",
+        "Sensori": 6643
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E106617",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.949683705063027,
+          60.19858337673502
+        ]
+      },
+      "properties": {
+        "project": "KYMP",
+        "installationDate": "2024-05-27",
+        "street": "Mäkelänrinne",
+        "postalcode": "00550",
+        "city": "Helsinki",
+        "district": "Vallila",
+        "sunExposure": 0.0,
+        "solarShielding": 0,
+        "heightFromGround": 3.0,
+        "mountingType": "tree",
+        "terrain": "flat",
+        "groundCover": "asphalt/70, grass/30",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": null,
+        "LCZ long": null,
+        "Kuvaus": "lehtipuun rungossa, aurinko paistaa kesällä illalla",
+        "fid": 17,
+        "Tyyppi": "Varjossa",
+        "Huomiot": "Puussa",
+        "Kiinnitystapa": "Varjo, puu",
+        "Sensori": 6617
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146087",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.06572,
+          60.32294
+        ]
+      },
+      "properties": {
+        "project": "R4C",
+        "installationDate": "2024-06-26",
+        "street": "Rautkallionkatu 5",
+        "postalcode": "01360",
+        "city": "Vantaa",
+        "district": "Havukoski",
+        "sunExposure": null,
+        "solarShielding": 1,
+        "heightFromGround": 3.3,
+        "mountingType": "metal pole",
+        "terrain": "flat",
+        "groundCover": "grass/50, stone pavement/50",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": null,
+        "LCZ long": null,
+        "Kuvaus": "nurmikkoa ja puita itäpuolella, matala rakennus eteläpuolella, kivetty pinta länsipuolella",
+        "fid": 1,
+        "Tyyppi": null,
+        "Huomiot": null,
+        "Kiinnitystapa": null,
+        "Sensori": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146128",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.05953654541,
+          60.31962470187571
+        ]
+      },
+      "properties": {
+        "project": "R4C",
+        "installationDate": "2024-06-26",
+        "street": "Karsikkokuja 15",
+        "postalcode": "01360",
+        "city": "Vantaa",
+        "district": "Havukoski",
+        "sunExposure": null,
+        "solarShielding": 1,
+        "heightFromGround": 3.3,
+        "mountingType": "metal pole",
+        "terrain": "flat",
+        "groundCover": "asphalt/100",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": null,
+        "LCZ long": null,
+        "Kuvaus": "asfalttipiha, matala rakennus eteläpuolella",
+        "fid": 2,
+        "Tyyppi": null,
+        "Huomiot": null,
+        "Kiinnitystapa": null,
+        "Sensori": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146155",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.056895458613138,
+          60.32381237386444
+        ]
+      },
+      "properties": {
+        "project": "R4C",
+        "installationDate": "2024-06-26",
+        "street": "Ojalehdonkuja 1",
+        "postalcode": null,
+        "city": "Vantaa",
+        "district": "Koivukylä",
+        "sunExposure": null,
+        "solarShielding": 1,
+        "heightFromGround": 3.3,
+        "mountingType": "metal pole",
+        "terrain": "flat",
+        "groundCover": "stone pavement/500",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": null,
+        "LCZ long": null,
+        "Kuvaus": "kivetty katu, itä-kaakon puolella lehtipuu, pohjoisepuolella kivi- ja lasirakennus",
+        "fid": 3,
+        "Tyyppi": null,
+        "Huomiot": null,
+        "Kiinnitystapa": null,
+        "Sensori": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E140283",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.08559466020529,
+          60.31902912814716
+        ]
+      },
+      "properties": {
+        "project": "R4C",
+        "installationDate": "2024-06-26",
+        "street": "Sahamäenkaari",
+        "postalcode": null,
+        "city": "Vantaa",
+        "district": "Päiväkumpu",
+        "sunExposure": null,
+        "solarShielding": 1,
+        "heightFromGround": 3.3,
+        "mountingType": "metal pole",
+        "terrain": "flat",
+        "groundCover": "fine gravel/50, forest ground/50",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": null,
+        "LCZ long": null,
+        "Kuvaus": "sorapolku, lehtipuiden alla",
+        "fid": 4,
+        "Tyyppi": null,
+        "Huomiot": null,
+        "Kiinnitystapa": null,
+        "Sensori": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146218",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.071710650381757,
+          60.32108766558408
+        ]
+      },
+      "properties": {
+        "project": "R4C",
+        "installationDate": "2024-06-26",
+        "street": "Kellokkaantie",
+        "postalcode": null,
+        "city": "Vantaa",
+        "district": "Havukoski",
+        "sunExposure": null,
+        "solarShielding": 1,
+        "heightFromGround": 3.3,
+        "mountingType": "metal pole",
+        "terrain": "flat",
+        "groundCover": "asphalt/100",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": null,
+        "LCZ long": null,
+        "Kuvaus": "asfalttikatu ympärillä, korkea rakennus pohjoispuolella 50m päässä",
+        "fid": 5,
+        "Tyyppi": null,
+        "Huomiot": null,
+        "Kiinnitystapa": null,
+        "Sensori": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146190",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.058774546806518,
+          60.33326243702411
+        ]
+      },
+      "properties": {
+        "project": "R4C",
+        "installationDate": "2024-06-26",
+        "street": "Sairaalakatu 4",
+        "postalcode": null,
+        "city": "Vantaa",
+        "district": "Asola",
+        "sunExposure": null,
+        "solarShielding": 1,
+        "heightFromGround": 3.3,
+        "mountingType": "metal pole",
+        "terrain": "flat",
+        "groundCover": "asphalt/50, forest ground/50",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": null,
+        "LCZ long": null,
+        "Kuvaus": "asfalttikatu eteläpuolella, metsä pohjoispuolella",
+        "fid": 6,
+        "Tyyppi": null,
+        "Huomiot": null,
+        "Kiinnitystapa": null,
+        "Sensori": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146069",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.05280813096903,
+          60.32773642005459
+        ]
+      },
+      "properties": {
+        "project": "R4C",
+        "installationDate": "2024-06-26",
+        "street": "Kuusitie 11",
+        "postalcode": null,
+        "city": "Vantaa",
+        "district": "Asola",
+        "sunExposure": null,
+        "solarShielding": 1,
+        "heightFromGround": 3.3,
+        "mountingType": "metal pole",
+        "terrain": "flat",
+        "groundCover": "asphalt/50, grass/50",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": null,
+        "LCZ long": null,
+        "Kuvaus": "asfalttikatu eteläpuolella, nurmikkoa ja pensasaita pohjoispuolella",
+        "fid": 7,
+        "Tyyppi": null,
+        "Huomiot": null,
+        "Kiinnitystapa": null,
+        "Sensori": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146083",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.040422169662946,
+          60.3242806019864
+        ]
+      },
+      "properties": {
+        "project": "R4C",
+        "installationDate": "2024-06-26",
+        "street": "Leineläntie 4",
+        "postalcode": null,
+        "city": "Vantaa",
+        "district": "Koivukylä",
+        "sunExposure": null,
+        "solarShielding": 1,
+        "heightFromGround": 3.3,
+        "mountingType": "metal pole",
+        "terrain": "flat",
+        "groundCover": "asphalt/100",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": null,
+        "LCZ long": null,
+        "Kuvaus": "asfalttikatu, korkea rakennus pohjoispuolella",
+        "fid": 8,
+        "Tyyppi": null,
+        "Huomiot": null,
+        "Kiinnitystapa": null,
+        "Sensori": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146118",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.076084591672647,
+          60.32569598999893
+        ]
+      },
+      "properties": {
+        "project": "R4C",
+        "installationDate": "2024-06-26",
+        "street": "Kustaantie",
+        "postalcode": null,
+        "city": "Vantaa",
+        "district": "Rekola",
+        "sunExposure": null,
+        "solarShielding": 1,
+        "heightFromGround": 3.3,
+        "mountingType": "metal pole",
+        "terrain": "flat",
+        "groundCover": "asphalt/70, bare ground/30",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": null,
+        "LCZ long": null,
+        "Kuvaus": "haketta pohjoispuolella(?), asfalttitie eteläpuolella(?)",
+        "fid": 9,
+        "Tyyppi": null,
+        "Huomiot": null,
+        "Kiinnitystapa": null,
+        "Sensori": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146080",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.034850310632546,
+          60.32798317371719
+        ]
+      },
+      "properties": {
+        "project": "R4C",
+        "installationDate": "2024-06-26",
+        "street": "Koivutaival",
+        "postalcode": null,
+        "city": "Vantaa",
+        "district": "Asola",
+        "sunExposure": null,
+        "solarShielding": 1,
+        "heightFromGround": 3.3,
+        "mountingType": "metal pole",
+        "terrain": "flat",
+        "groundCover": "asphalt/30, forest ground/70",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": null,
+        "LCZ long": null,
+        "Kuvaus": "metsä eteläpuolella, alla matalaa kasvillisuutta, kapea asfalttitie pohjoispuolella",
+        "fid": 10,
+        "Tyyppi": null,
+        "Huomiot": null,
+        "Kiinnitystapa": null,
+        "Sensori": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146157",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.050955366758195,
+          60.18089723029303
+        ]
+      },
+      "properties": {
+        "project": "R4C",
+        "installationDate": "2024-06-25",
+        "street": "Yliskyläntie 2",
+        "postalcode": null,
+        "city": "Helsinki",
+        "district": "Laajasalo",
+        "sunExposure": null,
+        "solarShielding": 1,
+        "heightFromGround": 3.5,
+        "mountingType": "metal pole",
+        "terrain": "flat",
+        "groundCover": "bare ground/grass",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": 5,
+        "LCZ long": "5, Open Midrise",
+        "Kuvaus": "rakennus heti itäpuolella, asfalttia etelä/länsipuolella",
+        "fid": 11,
+        "Tyyppi": null,
+        "Huomiot": null,
+        "Kiinnitystapa": null,
+        "Sensori": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146235",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.054461721547142,
+          60.17791332910831
+        ]
+      },
+      "properties": {
+        "project": "R4C",
+        "installationDate": "2024-06-25",
+        "street": "Holmanmoisionpolku 1",
+        "postalcode": null,
+        "city": "Helsinki",
+        "district": "Laajasalo",
+        "sunExposure": null,
+        "solarShielding": 1,
+        "heightFromGround": 3.51,
+        "mountingType": "metal pole",
+        "terrain": "flat",
+        "groundCover": "bare ground/grass",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": 5,
+        "LCZ long": "5, Open Midrise",
+        "Kuvaus": "asfalttia ja nurmikkoa ympärillä, lehtipuu eteläpuolella, lehtipuita ja mäntyjä länsipuolella",
+        "fid": 12,
+        "Tyyppi": null,
+        "Huomiot": null,
+        "Kiinnitystapa": null,
+        "Sensori": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146186",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.03355598732001,
+          60.17338413916632
+        ]
+      },
+      "properties": {
+        "project": "R4C",
+        "installationDate": "2024-06-25",
+        "street": "Jurmonkuja 1",
+        "postalcode": null,
+        "city": "Helsinki",
+        "district": "Laajasalo",
+        "sunExposure": null,
+        "solarShielding": 1,
+        "heightFromGround": 3.27,
+        "mountingType": "metal pole",
+        "terrain": "flat",
+        "groundCover": "asphalt/stone pavement",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": 6,
+        "LCZ long": "6, Open Lowrise",
+        "Kuvaus": "asfalttikatu, matalia rakennuksia pohjoispuolella, korkeita rakennuksia länsi- ja kaakkoispuolella, avoin katu eteläpuolella",
+        "fid": 13,
+        "Tyyppi": null,
+        "Huomiot": null,
+        "Kiinnitystapa": null,
+        "Sensori": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146167",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.01943622180639,
+          60.167472595257465
+        ]
+      },
+      "properties": {
+        "project": "R4C",
+        "installationDate": "2024-06-25",
+        "street": "Pojamankatu 1",
+        "postalcode": null,
+        "city": "Helsinki",
+        "district": "Laajasalo",
+        "sunExposure": null,
+        "solarShielding": 1,
+        "heightFromGround": 3.35,
+        "mountingType": "metal pole",
+        "terrain": "flat",
+        "groundCover": "asphalt pavement",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": "D",
+        "LCZ long": "14, Low Plants",
+        "Kuvaus": "asfalttikatu, rakennukset pohjois- ja eteläpuolella",
+        "fid": 14,
+        "Tyyppi": null,
+        "Huomiot": null,
+        "Kiinnitystapa": null,
+        "Sensori": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E140271",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.038138954219203,
+          60.17019884666942
+        ]
+      },
+      "properties": {
+        "project": "R4C",
+        "installationDate": "2024-06-25",
+        "street": "Rudolfintie 19",
+        "postalcode": null,
+        "city": "Helsinki",
+        "district": "Laajasalo",
+        "sunExposure": null,
+        "solarShielding": 1,
+        "heightFromGround": 3.01,
+        "mountingType": "metal pole",
+        "terrain": "Mild slope raising behind the pole",
+        "groundCover": "grass",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": 6,
+        "LCZ long": "6, Open Lowrise",
+        "Kuvaus": "asfalttikatu itäpuolella, lehtipuita ja matalaa kasvillisuutta länsipuolella",
+        "fid": 15,
+        "Tyyppi": null,
+        "Huomiot": null,
+        "Kiinnitystapa": null,
+        "Sensori": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E140287",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.033164118825763,
+          60.17820925308568
+        ]
+      },
+      "properties": {
+        "project": "R4C",
+        "installationDate": "2024-06-25",
+        "street": "Tuurholmanpolku",
+        "postalcode": null,
+        "city": "Helsinki",
+        "district": "Laajasalo",
+        "sunExposure": null,
+        "solarShielding": 1,
+        "heightFromGround": 2.84,
+        "mountingType": "metal pole",
+        "terrain": "flat",
+        "groundCover": "grass, ground lower than the sand pavement beside",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": "D",
+        "LCZ long": "14, Low Plants",
+        "Kuvaus": "matalaa kasvillisuutta, hieno soratie länsipuolella",
+        "fid": 16,
+        "Tyyppi": null,
+        "Huomiot": null,
+        "Kiinnitystapa": null,
+        "Sensori": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146224",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.051803506562962,
+          60.16760355134523
+        ]
+      },
+      "properties": {
+        "project": "R4C",
+        "installationDate": "2024-06-25",
+        "street": "Sarvastonkaari 1",
+        "postalcode": null,
+        "city": "Helsinki",
+        "district": "Laajasalo",
+        "sunExposure": null,
+        "solarShielding": 1,
+        "heightFromGround": 3.34,
+        "mountingType": "metal pole",
+        "terrain": "flat",
+        "groundCover": "bare ground",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": 6,
+        "LCZ long": "6, Open Lowrise",
+        "Kuvaus": "metsä länsipuolella, asfalttikatu itäpuolella",
+        "fid": 17,
+        "Tyyppi": null,
+        "Huomiot": null,
+        "Kiinnitystapa": null,
+        "Sensori": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146126",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.0811313318558,
+          60.16635041344928
+        ]
+      },
+      "properties": {
+        "project": "R4C",
+        "installationDate": "2024-06-25",
+        "street": "Puuskaniementie 19",
+        "postalcode": null,
+        "city": "Helsinki",
+        "district": "Laajasalo",
+        "sunExposure": null,
+        "solarShielding": 1,
+        "heightFromGround": 3.4,
+        "mountingType": "metal pole",
+        "terrain": "flat",
+        "groundCover": "bare ground/grass",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": "D",
+        "LCZ long": "14, Low Plants",
+        "Kuvaus": "puita pohjois/länsipuolella(?), asfalttikatu itä/eteläpuolella",
+        "fid": 18,
+        "Tyyppi": null,
+        "Huomiot": null,
+        "Kiinnitystapa": null,
+        "Sensori": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146198",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.089740958221043,
+          60.16370815865264
+        ]
+      },
+      "properties": {
+        "project": "R4C",
+        "installationDate": "2024-06-25",
+        "street": "Poikasaartentie 4",
+        "postalcode": null,
+        "city": "Helsinki",
+        "district": "Laajasalo",
+        "sunExposure": 0.1,
+        "solarShielding": 1,
+        "heightFromGround": 3.42,
+        "mountingType": "metal pole",
+        "terrain": "Raising hill behind the pole",
+        "groundCover": "bare forest ground",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": "A",
+        "LCZ long": "11, Dense Trees",
+        "Kuvaus": "metsäinen nouseva mäki eteläpuolella, asfalttitie pohjoispuolella",
+        "fid": 19,
+        "Tyyppi": null,
+        "Huomiot": null,
+        "Kiinnitystapa": null,
+        "Sensori": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E146237",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.068313113651286,
+          60.16354863794643
+        ]
+      },
+      "properties": {
+        "project": "R4C",
+        "installationDate": "2024-06-25",
+        "street": "Kuunaritie 1",
+        "postalcode": null,
+        "city": "Helsinki",
+        "district": "Laajasalo",
+        "sunExposure": null,
+        "solarShielding": 1,
+        "heightFromGround": 3.38,
+        "mountingType": "metal pole",
+        "terrain": "flat",
+        "groundCover": "bare ground/grass",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": "A",
+        "LCZ long": "11, Dense Trees",
+        "Kuvaus": "???",
+        "fid": 20,
+        "Tyyppi": null,
+        "Huomiot": null,
+        "Kiinnitystapa": null,
+        "Sensori": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E106684",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.9713103,
+          60.1924497
+        ]
+      },
+      "properties": {
+        "project": "KYMP",
+        "installationDate": "2025-07-24",
+        "street": "Eläinlääkärinkatu",
+        "postalcode": null,
+        "city": "Helsinki",
+        "district": "Hermanni",
+        "sunExposure": null,
+        "solarShielding": null,
+        "heightFromGround": null,
+        "mountingType": "metal pole",
+        "terrain": null,
+        "groundCover": "asphalt/50, grass/50",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": null,
+        "LCZ long": null,
+        "Kuvaus": null,
+        "fid": null,
+        "Tyyppi": null,
+        "Huomiot": null,
+        "Kiinnitystapa": null,
+        "Sensori": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24E124136E106620",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.01282,
+          60.24586
+        ]
+      },
+      "properties": {
+        "project": "KYMP",
+        "installationDate": "2025-12-11",
+        "street": "Vanha Helsingintie",
+        "postalcode": "00700",
+        "city": "Helsinki",
+        "district": "Malmi",
+        "sunExposure": 0.0,
+        "solarShielding": 0,
+        "heightFromGround": 1.6,
+        "mountingType": "under the wooden bridge",
+        "terrain": "creek bed",
+        "groundCover": "water/50, gravel/20, vegetation/30",
+        "landUse": null,
+        "buildingDensity": null,
+        "LCZ": null,
+        "LCZ long": null,
+        "Kuvaus": "Puisen sillan alla, puron uoman yläpuolella",
+        "fid": 1,
+        "Tyyppi": "Varjossa",
+        "Huomiot": "",
+        "Kiinnitystapa": "Puuruuveilla laudassa",
+        "Sensori": 6620
+      }
+    }
+  ]
+}
