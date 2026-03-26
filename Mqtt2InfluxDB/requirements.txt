@@ -121,7 +121,7 @@ reactivex==4.1.0
     # via
     #   influxdb-client
     #   ruuvitag-sensor
-requests==2.32.5
+requests==2.33.0
     # via
     #   mqtt2influxdb (pyproject.toml)
     #   influxdb
