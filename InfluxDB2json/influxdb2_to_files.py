@@ -12,11 +12,11 @@ import pandas as pd
 from fvhdms.influx import add_influxdb_arguments, get_influxdb_client
 from fvhdms.utils.args import (
     add_log_arguments,
-    setup_logging,
     add_sentry_arguments,
-    setup_sentry,
     add_time_arguments,
     parse_time_arguments,
+    setup_logging,
+    setup_sentry,
 )
 from fvhdms.utils.file import atomic_write, save_dataframe
 
@@ -120,7 +120,7 @@ def get_all_fields(args: argparse.Namespace, influx_client: influxdb_client.Infl
     for table in tables:
         for record in table.records:
             fields.add(record.get_value())
-    return sorted(list(fields))
+    return sorted(fields)
 
 
 def tidy_up_df(args: argparse.Namespace, df: pd.DataFrame) -> pd.DataFrame:
@@ -221,7 +221,7 @@ def df_to_dict(df: pd.DataFrame) -> list:
 
 def get_device_metadata(filename: str) -> dict:
     """Read metadata from a geojson file."""
-    with open(filename, "r") as f:
+    with open(filename) as f:
         meta = json.load(f)
     return meta
 
@@ -252,7 +252,7 @@ def devs_to_geojson(args: argparse.Namespace, devs: dict) -> str:
     Each device is a feature with the latest data as properties.
     """
     features = []
-    for device_id in devs.keys():
+    for device_id in devs:
         dev = devs[device_id]
         get_links(args, dev["properties"], device_id, args.base_url)
         features.append(dev)
@@ -318,20 +318,22 @@ def single_device_data_to_geojson(args: argparse.Namespace, device_id: str, meta
     if df_dev.empty:
         logging.warning(f"Device {device_id} not found in the data")
         return False
-    # Drop dev-id
-    df_dev = df_dev.drop(columns=["dev-id"])
+    # Keep only requested measurement columns. Extra InfluxDB tags such as location
+    # are strings and make resample().mean() fail with an object-dtype TypeError.
+    value_cols = [name for name in args.field_mapping.values() if name in df_dev.columns]
+    df_dev = df_dev[value_cols]
     # Filter latest raw data for the device for args.raw duration
     df_raw = df_dev[df_dev.index > df_dev.index[-1] - isodate.parse_duration(args.raw)]
     # Filter latest 3h data for the device for args.h3 duration
     df_h3 = df_dev[df_dev.index > df_dev.index[-1] - isodate.parse_duration(args.h3)]
     # Resample df_h3 to 3h
-    df_h3 = df_h3.resample("3h").mean()
+    df_h3 = df_h3.resample("3h").mean(numeric_only=True)
     # Round the values
     df_h3 = df_h3.round(args.rounding)
     # Filter latest 1d data for the device for args.d1 duration
     df_d1 = df_dev[df_dev.index > df_dev.index[-1] - isodate.parse_duration(args.d1)]
     # Resample df_d1 to 1d
-    df_d1 = df_d1.resample("1D").mean()
+    df_d1 = df_d1.resample("1D").mean(numeric_only=True)
     # Round the values
     df_d1 = df_d1.round(args.rounding)
     data = {
